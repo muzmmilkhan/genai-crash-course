@@ -533,5 +533,72 @@
       note('There is no single right answer in real life; this checker teaches common reasoning.')); live();
   };
 
+  // ---------- Embeddings: 3D word space ----------
+  W.wordspace = root => {
+    const CAT = { Animals: '#ff9500', Food: '#34c759', Tech: '#007aff', Feelings: '#ff2d92', People: '#af52de', Places: '#30b0c7' };
+    const r = (() => { let s = 11; return () => (s = (s * 1664525 + 1013904223) % 4294967296) / 4294967296; })();
+    const jit = a => a.map(v => v + (r() - .5) * 0.25);
+    const add = (a, b, k = 1) => a.map((v, i) => v + b[i] * k), sub = (a, b) => a.map((v, i) => v - b[i]);
+    const man = [-3.4, -0.6, -3], woman = [-2.4, -1.2, -3.4], royal = [0.3, 1.4, 0.4];
+    const country = { France: [2.4, 2.6, -1.2], Japan: [3.9, 2.2, -2.4], Italy: [2.8, 3.3, -2.7] }, cap = [-0.2, -1.0, 0.9];
+    const W3 = {
+      cat: ['Animals', jit([-3.9, 1.2, 1.4])], dog: ['Animals', jit([-3.4, 0.8, 1.9])], lion: ['Animals', jit([-3.0, 1.6, 0.6])], horse: ['Animals', jit([-4.0, 0.3, 0.7])], fish: ['Animals', jit([-3.3, 0.1, 1.6])],
+      pizza: ['Food', jit([-1.1, -2.9, -0.7])], bread: ['Food', jit([-1.8, -3.1, -1.2])], rice: ['Food', jit([-1.4, -2.4, -1.6])], cheese: ['Food', jit([-0.7, -2.5, -1.2])], apple: ['Food', jit([-2.0, -2.6, -0.5])],
+      computer: ['Tech', jit([3.0, -1.6, 1.8])], laptop: ['Tech', jit([3.5, -1.2, 1.4])], phone: ['Tech', jit([2.8, -1.1, 2.3])], software: ['Tech', jit([3.6, -2.0, 1.0])], internet: ['Tech', jit([2.4, -1.9, 1.2])],
+      happy: ['Feelings', jit([0.2, 3.1, -2.3])], joyful: ['Feelings', jit([0.7, 3.4, -2.6])], sad: ['Feelings', jit([0.0, 2.2, -2.9])], angry: ['Feelings', jit([0.9, 2.6, -2.0])],
+      man: ['People', man], woman: ['People', woman], king: ['People', add(man, royal)], queen: ['People', add(woman, royal)], prince: ['People', add(man, royal, 0.55)], princess: ['People', add(woman, royal, 0.55)],
+      France: ['Places', country.France], Japan: ['Places', country.Japan], Italy: ['Places', country.Italy], Paris: ['Places', add(country.France, cap)], Tokyo: ['Places', add(country.Japan, cap)], Rome: ['Places', add(country.Italy, cap)]
+    };
+    const names = Object.keys(W3), dist = (a, b) => Math.hypot(...W3[a][1].map((v, i) => v - W3[b][1][i]));
+    const nearest = (p, excl, k) => names.filter(n => !excl.includes(n)).map(n => [n, Math.hypot(...W3[n][1].map((v, i) => v - p[i]))]).sort((a, b) => a[1] - b[1]).slice(0, k);
+    const items = []; let scene;
+    const base = () => { items.length = 0; names.forEach(n => items.push({ type: 'pt', id: n, p: W3[n][1], r: 5, color: CAT[W3[n][0]], label: n })); };
+    base();
+    const canvas = h('canvas', { style: 'height:420px;width:100%;display:block;cursor:pointer;touch-action:none' });
+    const panel = h('div', { class: 'apanel' }, 'Click any word in the 3D space.');
+    const legend = h('div', { class: 'chips' }, Object.entries(CAT).map(([k, c]) => h('span', { class: 'chip', style: `background:${c}33;border-color:${c}` }, k)));
+
+    function reset() { base(); panel.replaceChildren('Click any word in the 3D space.'); }
+    function selectWord(n) {
+      base(); const near = nearest(W3[n][1], [n], 3), keep = new Set([n, ...near.map(x => x[0])]);
+      items.forEach(it => { if (it.type === 'pt') { it.dim = !keep.has(it.id); if (it.id === n) { it.r = 9; it.glow = true; it.bold = true; } } });
+      near.forEach(([m]) => items.unshift({ type: 'line', a: W3[n][1], b: W3[m][1], color: '#ff3b30', alpha: .95, w: 2.5 }));
+      panel.replaceChildren(h('b', {}, `Nearest to “${n}”: `), ...near.map(([m, d], i) => h('span', {}, (i ? ' · ' : '') + `${m} (distance ${d.toFixed(1)})`)), h('p', { class: 'wnote' }, 'Words with similar meaning sit close together. That is how a model knows “cat” and “dog” are related.'));
+    }
+    scene = window.VizScene(canvas, () => items, { yaw: .6, pitch: .3, onPick: it => it ? selectWord(it.id) : reset() });
+
+    // distance between two words
+    const opts = () => names.map(n => h('option', {}, n));
+    const a = h('select', { class: 'wi' }, opts()), b = h('select', { class: 'wi' }, opts()); a.value = 'cat'; b.value = 'dog';
+    const dRes = h('div', { class: 'stats big' });
+    function showDist() { const d = dist(a.value, b.value), close = Math.round(100 / (1 + d)); dRes.innerHTML = `Distance <b>${d.toFixed(1)}</b> → closeness <b>${close}%</b> ${d < 1.5 ? '(very related)' : d < 4 ? '(somewhat related)' : '(unrelated)'}`; selectPair(); }
+    function selectPair() { base(); items.forEach(it => { if (it.type === 'pt') { const on = it.id === a.value || it.id === b.value; it.dim = !on; if (on) { it.r = 8; it.glow = true; } } }); items.unshift({ type: 'line', a: W3[a.value][1], b: W3[b.value][1], color: '#007aff', alpha: 1, w: 3 }); }
+    [a, b].forEach(x => x.addEventListener('change', showDist));
+
+    // word arithmetic
+    const x1 = h('select', { class: 'wi' }, opts()), x2 = h('select', { class: 'wi' }, opts()), x3 = h('select', { class: 'wi' }, opts());
+    const aRes = h('div', { class: 'apanel' });
+    function analogy() {
+      const A = W3[x1.value][1], B = W3[x2.value][1], C = W3[x3.value][1], target = add(sub(A, B), C), best = nearest(target, [x1.value, x2.value, x3.value], 1)[0];
+      base(); items.forEach(it => { if (it.type === 'pt') it.dim = ![x1.value, x2.value, x3.value, best[0]].includes(it.id); });
+      items.unshift({ type: 'line', a: W3[x2.value][1], b: A, color: '#ff9500', alpha: 1, w: 2.5 }, { type: 'line', a: C, b: W3[best[0]][1], color: '#ff9500', alpha: 1, w: 2.5 });
+      items.push({ type: 'pt', p: target, r: 7, color: '#ff3b30', label: '? (computed)', glow: true, pulse: true, bold: true });
+      items.forEach(it => { if (it.id === best[0]) { it.r = 9; it.glow = true; it.bold = true; } });
+      aRes.replaceChildren(h('b', {}, `${x1.value} − ${x2.value} + ${x3.value} ≈ `), h('b', { style: 'color:#ff3b30;font-size:18px' }, best[0]), h('span', { class: 'wnote' }, `  (landed ${best[1].toFixed(2)} away from a real word)`),
+        h('p', { class: 'wnote' }, 'The difference between two words is a direction (for example “royal” or “female”). Adding it to another word moves you to a related word.'));
+    }
+    [x1, x2, x3].forEach(x => x.addEventListener('change', analogy));
+    const preset = (p, q, t) => h('button', { class: 'btn', onclick: () => { x1.value = p; x2.value = q; x3.value = t; analogy(); } }, `${p} − ${q} + ${t}`);
+    x1.value = 'king'; x2.value = 'man'; x3.value = 'woman';
+
+    root.append(h('h4', {}, '🌌 Explore: a 3D map of word meanings'),
+      h('p', { class: 'wnote', style: 'margin:0 0 6px' }, 'Drag to rotate · click a word to see its nearest neighbours · click empty space to reset'),
+      h('figure', { class: 'viz3d' }, canvas), legend, panel,
+      h('h4', { style: 'margin-top:18px' }, '📏 How close are two words?'), h('div', { class: 'wrow' }, a, h('span', {}, 'and'), b), dRes,
+      h('h4', { style: 'margin-top:18px' }, '➕ Word arithmetic'), h('div', { class: 'wrow' }, x1, h('span', {}, '−'), x2, h('span', {}, '+'), x3), h('div', { class: 'wrow' }, preset('king', 'man', 'woman'), preset('Paris', 'France', 'Japan'), preset('Rome', 'Italy', 'France')), aRes,
+      note('A teaching model: the layout is hand-built in 3 dimensions. Real embeddings have hundreds or thousands of dimensions and are learned from data, but the ideas (closeness = similar meaning, directions = relationships) are the same.'));
+    showDist(); reset(); analogy(); reset();
+  };
+
   document.addEventListener('DOMContentLoaded', () => document.querySelectorAll('[data-widget]').forEach(r => { const f = W[r.dataset.widget]; if (f) f(r); }));
 })();

@@ -39,8 +39,8 @@
           const r = (it.r || 5) * p.k * 1.4 * pulse;
           draws.push({ z: p.z, f: () => {
             if (it.glow) { const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r * 3); g.addColorStop(0, it.color + '88'); g.addColorStop(1, it.color + '00'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, r * 3, 0, 7); ctx.fill(); }
-            ctx.globalAlpha = Math.max(0.35, Math.min(1, 0.55 + p.k * 0.5 - 0.3)); ctx.fillStyle = it.color; ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 7); ctx.fill(); ctx.globalAlpha = 1;
-            if (it.label) { ctx.fillStyle = tx; ctx.font = (it.bold ? '600 ' : '') + Math.max(10, 12 * p.k * (it.fs || 1.2)) + 'px system-ui'; ctx.textAlign = 'center'; ctx.fillText(it.label, p.x, p.y - r - 5); }
+            it.sx = p.x; it.sy = p.y; ctx.globalAlpha = (it.dim ? 0.3 : 1) * Math.max(0.35, Math.min(1, 0.55 + p.k * 0.5 - 0.3)); ctx.fillStyle = it.color; ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 7); ctx.fill(); ctx.globalAlpha = 1;
+            if (it.label) { ctx.globalAlpha = it.dim ? 0.35 : 1; ctx.fillStyle = tx; ctx.font = (it.bold ? '600 ' : '') + Math.max(10, 12 * p.k * (it.fs || 1.2)) + 'px system-ui'; ctx.textAlign = 'center'; ctx.fillText(it.label, p.x, p.y - r - 5); ctx.globalAlpha = 1; }
           } });
         } else if (it.type === 'text') {
           const p = proj(it.p);
@@ -59,12 +59,23 @@
       draws.sort((a, b) => b.z - a.z).forEach(d => d.f());
       requestAnimationFrame(frame);
     }
-    canvas.addEventListener('pointerdown', e => { drag = [e.clientX, e.clientY]; auto = false; canvas.setPointerCapture(e.pointerId); });
+    let down = null;
+    canvas.addEventListener('pointerdown', e => { drag = [e.clientX, e.clientY]; down = [e.clientX, e.clientY]; auto = false; canvas.setPointerCapture(e.pointerId); });
     canvas.addEventListener('pointermove', e => { if (!drag) return; yaw += (e.clientX - drag[0]) * 0.008; pitch = Math.max(-1.3, Math.min(1.3, pitch + (e.clientY - drag[1]) * 0.008)); drag = [e.clientX, e.clientY]; });
-    canvas.addEventListener('pointerup', () => { drag = null; });
+    canvas.addEventListener('pointerup', e => {
+      drag = null;
+      if (opts.onPick && down && Math.hypot(e.clientX - down[0], e.clientY - down[1]) < 5) {
+        const r = canvas.getBoundingClientRect(), mx = e.clientX - r.left, my = e.clientY - r.top; let best = null, bd = 24;
+        items.forEach(it => { if (it.type === 'pt' && it.id != null && it.sx != null) { const d = Math.hypot(it.sx - mx, it.sy - my); if (d < bd) { bd = d; best = it; } } });
+        opts.onPick(best);
+      }
+      down = null;
+    });
     canvas.addEventListener('dblclick', () => { auto = true; });
     window.addEventListener('resize', resize); resize(); frame();
+    return { items };
   }
+  window.VizScene = Scene;
 
   const PAL = ['#007aff', '#ff9500', '#34c759', '#af52de', '#ff3b30', '#30b0c7'];
 

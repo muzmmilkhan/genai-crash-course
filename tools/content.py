@@ -39,7 +39,10 @@ MODULES = [
    ("Step 2: Embeddings, words as coordinates", [
      ("p","Each token number is turned into a long list of numbers called an embedding. Words with similar meanings get similar numbers, so they sit near each other, like cities on a map."),
      ("p","This is why a search can find \"automobile\" when you type \"car\"."),
-     ("tip","The real space has hundreds or thousands of dimensions. This demo squashes it to 3.")]),
+     ("tip","The real space has hundreds or thousands of dimensions. The next slide squashes it to 3 so you can explore it.")]),
+   ("Embeddings: 3D Word Space", [
+     ("p","Explore a map of word meanings. Related words cluster together: animals with animals, foods with foods. Directions in the space also carry meaning, so you can do arithmetic with words."),
+     ("widget","wordspace")]),
    ("Step 3: Attention, what should I focus on?", [
      ("p","To understand a word, the model looks at the other words around it and decides which ones matter. This is called attention. In \"The animal didn't cross the street because it was too tired\", the word \"it\" refers to the animal, and attention helps the model work that out."),
      ("widget","attention")]),

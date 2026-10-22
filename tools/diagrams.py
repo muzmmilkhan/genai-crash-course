@@ -83,7 +83,6 @@ def prompt_stack_wrap():
 VIZ = {
  ("genai-basics", "How did it learn?"): training_stages(),
  ("llm-how", "Step 1: Tokens"): pipeline_llm(),
- ("llm-how", "Step 2: Embeddings, words as coordinates"): canvas3d("embed", "similar meanings cluster together (simplified to 3 dimensions)"),
  ("llm-how", "Context window: the model's short-term memory"): context_bar(),
  ("prompting", "What is a prompt?"): prompt_stack(),
  ("rag", "Finding the right pieces: vector search"): canvas3d("rag", "retrieval finds the nearest chunks to your question"),
