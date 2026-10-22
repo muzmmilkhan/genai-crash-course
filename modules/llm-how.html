@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How LLMs Work - GenAI Crash Course for Beginners</title>
+<style>:root{--bg:#fff;--bg2:#f5f5f7;--bg3:#e8e8ed;--tx:#1d1d1f;--tx2:#6e6e73;--bd:#d2d2d7;--ac:#5856D6;--side:#1d1d1f;--code:#1d1d1f;--codetx:#f5f5f7}
+[data-theme=dark]{--bg:#1d1d1f;--bg2:#2d2d2f;--bg3:#3d3d3f;--tx:#f5f5f7;--tx2:#a1a1a6;--bd:#424245;--side:#000;--code:#000}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.65;color:var(--tx);background:var(--bg)}
+a{color:var(--ac)}
+.layout{display:flex;min-height:100vh}
+.side{position:fixed;top:0;left:0;width:260px;height:100vh;background:var(--side);color:#fff;padding:24px 0;overflow-y:auto}
+.side h2{font-size:15px;padding:0 24px 12px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:12px}
+.side a{display:block;padding:6px 24px;font-size:13px;color:rgba(255,255,255,.7);text-decoration:none}
+.side a:hover{background:rgba(255,255,255,.1);color:#fff}
+.side a.active,.side a.cur{background:rgba(255,255,255,.15);color:#fff}
+.side .back{color:#fff;font-weight:600;margin-bottom:8px}
+.side .grp{padding:14px 24px 4px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:rgba(255,255,255,.4)}
+main{margin-left:260px;flex:1;max-width:880px;padding:48px 40px 110px}
+.mod-head{border-top:6px solid var(--c);padding-top:20px;margin-bottom:32px}
+.badge{display:inline-block;font-size:12px;font-weight:700;color:#fff;background:var(--c);padding:2px 10px;border-radius:10px;margin-bottom:10px}
+h1{font-size:38px;line-height:1.2;margin-bottom:10px}
+.intro{font-size:18px;color:var(--tx2)}
+section{margin-top:40px;scroll-margin-top:20px}
+h2.st{font-size:24px;margin-bottom:12px}
+p{margin-bottom:14px}
+ul{margin:0 0 14px 22px}li{margin-bottom:6px}
+pre{position:relative;background:var(--code);color:var(--codetx);padding:16px 18px;border-radius:12px;overflow-x:auto;font-size:13px;line-height:1.5;margin-bottom:16px}
+.copy{position:absolute;top:8px;right:8px;font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;cursor:pointer}
+.box{padding:14px 18px;border-radius:12px;border-left:4px solid;margin-bottom:16px;background:var(--bg2)}
+.tip{border-color:#007aff}.warn{border-color:#ff9500}
+table{border-collapse:collapse;width:100%;margin-bottom:16px;font-size:14px}
+th,td{border:1px solid var(--bd);padding:8px 12px;text-align:left;vertical-align:top}th{background:var(--bg2)}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:56px;padding-top:24px;border-top:1px solid var(--bd);flex-wrap:wrap}
+.btn{display:inline-block;padding:10px 20px;border-radius:10px;background:var(--bg3);color:var(--tx);text-decoration:none;font-weight:600;font-size:14px;border:0;cursor:pointer;font-family:inherit}
+.btn.p{background:var(--ac);color:#fff}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.note{margin-top:32px;font-size:12px;color:var(--tx2)}
+.fig{margin:8px 0 20px;background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:12px;overflow-x:auto}
+.fig svg{width:100%;min-width:560px;height:auto}
+.nd{fill:var(--bg);stroke:var(--bd);stroke-width:2}.ar{stroke:var(--tx2);stroke-width:2}
+.t1{fill:var(--tx);font:600 14px system-ui;text-anchor:middle}.t2{fill:var(--tx2);font:12px system-ui;text-anchor:middle}
+.wt{fill:#fff;font:700 13px system-ui;text-anchor:middle}.wt.s{font:11px system-ui;font-weight:500}
+.viz3d{margin:8px 0 20px;background:var(--bg2);border:1px solid var(--bd);border-radius:14px;overflow:hidden}
+.viz3d canvas{width:100%;display:block;cursor:grab;touch-action:none}
+.viz3d figcaption{font-size:12px;color:var(--tx2);padding:8px 14px;border-top:1px solid var(--bd)}
+/* checklists */
+ul.tasks{list-style:none;margin-left:0}ul.tasks label{cursor:pointer}ul.tasks input{margin-right:8px;accent-color:var(--ac)}
+ul.tasks li.done label{color:var(--tx2);text-decoration:line-through}
+/* mini quiz */
+.mq .qq{margin-bottom:22px}.mq h3{font-size:17px;margin-bottom:10px}
+.mq .opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit;cursor:pointer}
+.mq .opt:hover:not(:disabled){border-color:var(--ac)}
+.mq .opt.ok{border-color:#34c759;background:rgba(52,199,89,.14)}.mq .opt.no{border-color:#ff3b30;background:rgba(255,59,48,.14)}
+.mq .exp{font-size:14px;color:var(--tx2);margin-top:4px}.mq .score{font-weight:700;font-size:18px}
+/* slide mode */
+.progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:50;display:none}.progress div{height:100%;width:0;background:var(--c,var(--ac));transition:width .25s}
+.viewtoggle{float:right;padding:6px 12px;font-size:13px}
+.slidebar{display:none}
+body.slides .progress{display:block}
+body.slides section{display:none;margin-top:0;min-height:340px}
+body.slides section.cur{display:block;animation:fi .25s ease}
+body.slides .pager{display:none}body.slides .pager.show{display:flex}
+body.slides .slidebar{display:flex;position:fixed;bottom:0;left:260px;right:0;justify-content:center;align-items:center;gap:20px;padding:12px;background:var(--bg);border-top:1px solid var(--bd);z-index:40}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(max-width:900px){.side{position:static;width:100%;height:auto}.layout{flex-direction:column}main{margin-left:0;padding:24px 20px 110px}body.slides .slidebar{left:0}}
+
+/* widgets */
+.widget{background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:18px;margin:6px 0 16px}
+.widget h4{font-size:17px;margin-bottom:12px}
+.widget label{font-size:13px;color:var(--tx2);display:block;margin:6px 0 4px}
+.widget .wi{width:100%;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit;font-size:14px;margin-bottom:8px}
+.widget .wi:focus,.terminput:focus{outline:2px solid var(--ac);outline-offset:-1px}
+.widget .btn{padding:7px 14px;font-size:13px}
+.wrow{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:8px 0}.wrow label{margin:0;display:inline}
+.wrow input[type=range]{flex:1;min-width:140px;accent-color:var(--ac)}
+.cbxs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px;margin:8px 0 12px}
+.widget .cbx{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--tx);cursor:pointer;margin:0}
+.widget .cbx input{accent-color:var(--ac)}
+.wnote{font-size:12px;color:var(--tx2);margin:12px 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin:10px 0}
+.chip{border:1.5px solid;border-radius:6px;padding:2px 6px;font:13px ui-monospace,Menlo,monospace;white-space:pre}
+.stats{font-size:13px;color:var(--tx2);margin:6px 0}.stats.big{font-size:15px;color:var(--tx);line-height:1.8}
+.bars{margin:10px 0}.brow{display:flex;align-items:center;gap:10px;margin-bottom:6px}.brow.top .bl{font-weight:700}
+.bl{width:90px;font-size:13px;text-align:right;flex-shrink:0}.bl.wide{width:110px}
+.bt{flex:1;height:16px;background:var(--bg3);border-radius:8px;overflow:hidden}.bf{height:100%;border-radius:8px;transition:width .3s}
+.bp{width:56px;font-size:12px;color:var(--tx2)}
+.sampout{font:600 15px ui-monospace,Menlo,monospace;margin:8px 0;min-height:22px}
+pre.plain{background:var(--bg);color:var(--tx);border:1px solid var(--bd);white-space:pre-wrap;margin:8px 0 12px}
+pre.plain .copy{display:none}
+.meter{height:10px;background:var(--bg3);border-radius:5px;overflow:hidden;margin:8px 0 12px}.meter div{height:100%;width:0;transition:width .3s,background .3s}
+.resp{background:var(--bg);border:1px dashed var(--bd);border-radius:10px;padding:12px 14px;white-space:pre-wrap;font-size:14px;position:relative;margin-top:12px;padding-top:26px}
+.resp::before{content:attr(data-label);position:absolute;top:6px;left:12px;font-size:11px;color:var(--tx2);text-transform:uppercase;letter-spacing:.4px}
+.checks{list-style:none;margin:10px 0}.checks li{font-size:14px;margin-bottom:3px;color:var(--tx2)}.checks li.ok{color:var(--tx)}
+.score{font-weight:700;margin:6px 0}
+.alog{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:10px;max-height:300px;overflow-y:auto;margin-top:10px;min-height:60px}
+.astep{display:flex;gap:10px;align-items:baseline;margin-bottom:8px;font-size:14px}
+.astep .tag{color:#fff;font-size:11px;font-weight:700;padding:1px 8px;border-radius:8px;flex-shrink:0;width:64px;text-align:center}
+.astep code{display:block;font-size:12px;background:var(--bg3);padding:2px 8px;border-radius:6px;margin-top:3px}
+.ask{margin:10px 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.term{background:#0d0d0f;color:#d6d6d8;font:13px ui-monospace,Menlo,monospace;border-radius:10px 10px 0 0;padding:12px;height:220px;overflow-y:auto;white-space:pre-wrap}
+.term .cmd{color:#7ee787}.term .err{color:#ffb86c}
+.terminput{width:100%;background:#1a1a1d;color:#fff;border:0;border-top:1px solid #333;border-radius:0 0 10px 10px;padding:10px 12px;font:13px ui-monospace,Menlo,monospace;margin-bottom:8px}
+.strip{position:relative;height:50px;background:var(--bg3);border-radius:8px;margin:12px 0;overflow:hidden}.seg{position:absolute;height:12px;border-radius:6px}
+.chunks{display:grid;gap:6px;max-height:260px;overflow-y:auto}.chunk{background:var(--bg);padding:6px 10px;font-size:13px;border-radius:6px}
+.chart svg{width:100%;height:auto;background:var(--bg);border-radius:10px;border:1px solid var(--bd)}
+.scr{max-height:260px;overflow:auto}
+
+/* architecture diagrams & new widgets */
+.archsvg{width:100%;height:auto;display:block;background:var(--bg);border:1px solid var(--bd);border-radius:12px;margin:8px 0}
+.anode,.ring{cursor:pointer;transition:filter .15s}.anode:hover,.ring:hover{filter:brightness(1.08)}
+.anode.sel rect{stroke-width:4;filter:drop-shadow(0 0 6px rgba(88,86,214,.55))}
+.ring.sel circle{stroke-width:5}
+.anode:focus,.ring:focus{outline:none}.anode:focus rect{stroke-width:4}
+.edge{stroke:var(--tx2);stroke-width:2;opacity:.45;transition:all .25s}.edge.on{stroke:var(--ac);stroke-width:3.5;opacity:1}
+.lane{fill:var(--tx2);font:600 11px system-ui;letter-spacing:.4px}
+.archsvg .t1{font-size:13px}
+.apanel{background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;margin:8px 0;font-size:14px}.apanel p{margin:6px 0 0}
+.astepnote{font-size:13px;font-weight:600;color:var(--ac);min-height:20px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.tab{padding:7px 14px;border-radius:20px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);cursor:pointer;font:inherit;font-size:14px}.tab.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.sent{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 14px}
+.word{padding:6px 10px;border-radius:8px;border:1px solid var(--bd);cursor:pointer;background:var(--bg);transition:background .2s;font-size:15px}.word.me{outline:3px solid var(--ac);background:var(--bg3)!important}
+.hsents{line-height:2}.hs{cursor:pointer;padding:2px 3px;border-radius:4px}.hs:hover{background:var(--bg3)}.hs.flag{background:rgba(255,59,48,.25);text-decoration:underline wavy #ff3b30}
+.fcard{min-height:140px;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;border-radius:16px;background:var(--bg);border:2px solid var(--ac);cursor:pointer;font-size:22px;margin:8px 0;transition:transform .2s}.fcard.flip{background:var(--bg3);font-size:16px}.fcard:hover{transform:translateY(-2px)}
+.gl{display:grid;gap:6px;margin-top:6px}.gi{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:8px 12px;font-size:14px}.gi b{display:block}.gi span{color:var(--tx2)}
+</style>
+<script>document.documentElement.setAttribute('data-theme', localStorage.getItem('genai-resources-theme') || 'light');</script>
+</head><body data-page="llm-how"><div class="progress"><div id="progressBar"></div></div><div class="layout">
+<nav class="side"><h2>GenAI Crash Course</h2><a class="back" href="../index.html">← Home</a><div class="grp">On this page</div><a href='#s0' data-i='0'>The big picture</a><a href='#s1' data-i='1'>Step 1: Tokens</a><a href='#s2' data-i='2'>Step 2: Embeddings, words as coordinates</a><a href='#s3' data-i='3'>Step 3: Attention, what should I focus on?</a><a href='#s4' data-i='4'>Step 4: Choosing the next word</a><a href='#s5' data-i='5'>Context window: the model&#x27;s short-term memory</a><a href='#s6' data-i='6'>Limits to remember</a><a href='#s7' data-i='7'>Check your understanding</a><div class="grp">All pages</div><a href='genai-basics.html'>What is Generative AI?</a><a href='llm-how.html' class="cur">How LLMs Work</a><a href='prompting.html'>Prompting Basics</a><a href='rag.html'>Grounding &amp; RAG</a><a href='agents.html'>AI Agents &amp; Tools</a><a href='app-architecture.html'>Architecture of a GenAI App</a><a href='safety.html'>Safety &amp; Responsible Use</a><a href='lab1-prompt-workshop.html'>Prompt Engineering Workshop</a><a href='lab2-tiny-rag.html'>Build a Tiny RAG Pipeline</a><a href='lab3-design-your-app.html'>Design Your Own GenAI App</a><a href='glossary.html'>Glossary &amp; Flashcards</a></nav>
+<main style="--c:#5856D6">
+<header class="mod-head"><span class="badge">MODULE 2 · Core idea</span><button class='btn viewtoggle' id='viewToggle' type='button'>▦ Slide view</button><h1>How LLMs Work</h1><p class="intro">Look inside a large language model: tokens, embeddings, attention, and how it writes one word at a time.</p></header>
+<section id='s0' data-slide><h2 class='st'>The big picture</h2><p>A large language model (LLM) is a very big pattern-completion machine. Given some text, it predicts what text is most likely to come next, then repeats.</p><p>Below is the architecture of a typical LLM. Click any box to learn what it does, or press the play button to follow your text through the model.</p><div class='widget' data-widget='archdiag' data-arch='llmarch'></div></section><section id='s1' data-slide><h2 class='st'>Step 1: Tokens</h2><figure class='fig'><svg viewBox='0 0 850 190' role='img' aria-label='How an LLM turns text into the next token'><defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto'><path d='M0 0L10 5L0 10z' fill='var(--tx2)'/></marker></defs><rect x='10' y='40' width='120' height='80' rx='12' class='nd' style='stroke:#007aff;fill:color-mix(in srgb,#007aff 12%,var(--bg))'/><text x='70.0' y='74.0' class='t1'>Text</text><text x='70.0' y='90.0' class='t2'>“The cat sat”</text><line x1='130' y1='80' x2='150' y2='80' class='ar' marker-end='url(#ar)'/><rect x='150' y='40' width='120' height='80' rx='12' class='nd' style='stroke:#ff9500;fill:color-mix(in srgb,#ff9500 12%,var(--bg))'/><text x='210.0' y='74.0' class='t1'>Tokens</text><text x='210.0' y='90.0' class='t2'>The | cat | sat</text><line x1='270' y1='80' x2='290' y2='80' class='ar' marker-end='url(#ar)'/><rect x='290' y='40' width='120' height='80' rx='12' class='nd' style='stroke:#34c759;fill:color-mix(in srgb,#34c759 12%,var(--bg))'/><text x='350.0' y='74.0' class='t1'>Embeddings</text><text x='350.0' y='90.0' class='t2'>vectors of</text><text x='350.0' y='103.0' class='t2'>numbers</text><line x1='410' y1='80' x2='430' y2='80' class='ar' marker-end='url(#ar)'/><rect x='430' y='40' width='120' height='80' rx='12' class='nd' style='stroke:#af52de;fill:color-mix(in srgb,#af52de 12%,var(--bg))'/><text x='490.0' y='74.0' class='t1'>Transformer</text><text x='490.0' y='90.0' class='t2'>attention</text><text x='490.0' y='103.0' class='t2'>layers ×N</text><line x1='550' y1='80' x2='570' y2='80' class='ar' marker-end='url(#ar)'/><rect x='570' y='40' width='120' height='80' rx='12' class='nd' style='stroke:#ff2d92;fill:color-mix(in srgb,#ff2d92 12%,var(--bg))'/><text x='630.0' y='74.0' class='t1'>Probabilities</text><text x='630.0' y='90.0' class='t2'>on → 41%</text><text x='630.0' y='103.0' class='t2'>mat → 12%</text><line x1='690' y1='80' x2='710' y2='80' class='ar' marker-end='url(#ar)'/><rect x='710' y='40' width='120' height='80' rx='12' class='nd' style='stroke:#ff3b30;fill:color-mix(in srgb,#ff3b30 12%,var(--bg))'/><text x='770.0' y='74.0' class='t1'>Next token</text><text x='770.0' y='90.0' class='t2'>“on”</text><text x='770.0' y='103.0' class='t2'>(repeat)</text><path d='M790 125 C790 175 70 175 70 125' class='ar' fill='none' marker-end='url(#ar)'/><text x='430' y='172' class='t2'>append the new token and run again until the answer is finished</text></svg></figure><p>The model cannot read letters or words directly. Text is chopped into small pieces called tokens, and each token gets a number.</p><ul><li>A token is often a word or part of a word.</li><li>About 4 characters, or three-quarters of an English word, per token.</li><li>Usage, limits and prices are measured in tokens.</li></ul><div class='widget' data-widget='tokenizer'></div></section><section id='s2' data-slide><h2 class='st'>Step 2: Embeddings, words as coordinates</h2><figure class='viz3d'><canvas data-viz='embed' style='height:400px'></canvas><figcaption>🖱️ Drag to rotate · double-click to auto-rotate · similar meanings cluster together (simplified to 3 dimensions)</figcaption></figure><p>Each token number is turned into a long list of numbers called an embedding. Words with similar meanings get similar numbers, so they sit near each other, like cities on a map.</p><p>This is why a search can find &quot;automobile&quot; when you type &quot;car&quot;.</p><div class='box tip'><strong>💡 Tip:</strong> The real space has hundreds or thousands of dimensions. This demo squashes it to 3.</div></section><section id='s3' data-slide><h2 class='st'>Step 3: Attention, what should I focus on?</h2><p>To understand a word, the model looks at the other words around it and decides which ones matter. This is called attention. In &quot;The animal didn&#x27;t cross the street because it was too tired&quot;, the word &quot;it&quot; refers to the animal, and attention helps the model work that out.</p><div class='widget' data-widget='attention'></div></section><section id='s4' data-slide><h2 class='st'>Step 4: Choosing the next word</h2><p>At the end, the model gives a probability to every possible next token. Then one is picked. A setting called temperature controls how adventurous the pick is.</p><div class='widget' data-widget='sampler'></div></section><section id='s5' data-slide><h2 class='st'>Context window: the model&#x27;s short-term memory</h2><figure class='fig'><svg viewBox='0 0 820 140' role='img' aria-label='Example breakdown of a context window'><defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto'><path d='M0 0L10 5L0 10z' fill='var(--tx2)'/></marker></defs><rect x='20' y='40' width='78.0' height='56' style='fill:#007aff' opacity='.85'/><text x='59.0' y='64' class='wt'>10%</text><text x='59.0' y='82' class='wt s'>Instructions</text><rect x='98.0' y='40' width='234.0' height='56' style='fill:#ff9500' opacity='.85'/><text x='215.0' y='64' class='wt'>30%</text><text x='215.0' y='82' class='wt s'>Conversation</text><rect x='332.0' y='40' width='218.4' height='56' style='fill:#34c759' opacity='.85'/><text x='441.2' y='64' class='wt'>28%</text><text x='441.2' y='82' class='wt s'>Documents</text><rect x='550.4' y='40' width='132.6' height='56' style='fill:#af52de' opacity='.85'/><text x='616.6999999999999' y='64' class='wt'>17%</text><text x='616.6999999999999' y='82' class='wt s'>Tool results</text><rect x='683.0' y='40' width='117.0' height='56' style='fill:#8e8e93' opacity='.85'/><text x='741.5' y='64' class='wt'>15%</text><text x='741.5' y='82' class='wt s'>Free</text><rect x='20' y='40' width='780' height='56' fill='none' stroke='var(--tx2)' rx='4'/><text x='410' y='24' class='t1'>Context window: what the model can see at once (example, illustrative)</text><text x='410' y='125' class='t2'>Everything must fit: your instructions, the chat so far, documents, tool results, and the answer itself</text></svg></figure><p>The model can only consider a limited amount of text at once, called the context window. It includes your prompt, the conversation so far, any documents you add, and the answer it is writing.</p><div class='box warn'><strong>⚠️ Careful:</strong> If something is outside the window, the model cannot see it. In long chats, early details can be forgotten.</div></section><section id='s6' data-slide><h2 class='st'>Limits to remember</h2><ul><li>It predicts likely text. It does not &quot;know&quot; things the way people do.</li><li>It can invent facts (hallucination).</li><li>It only knows what was in its training data, up to a cutoff date, unless you give it fresh information.</li><li>The same question can get slightly different answers.</li></ul></section><section id='s7' data-slide><h2 class='st'>Check your understanding</h2><p>Pick an answer to see the explanation.</p><div class='mq' data-quiz="[{&quot;q&quot;: &quot;What is a token?&quot;, &quot;o&quot;: [&quot;A password&quot;, &quot;A small piece of text the model reads&quot;, &quot;A GPU core&quot;, &quot;A full document&quot;], &quot;c&quot;: 1, &quot;e&quot;: &quot;Models read tokens, often words or word pieces. Limits and prices are counted in tokens.&quot;}, {&quot;q&quot;: &quot;What does attention let a model do?&quot;, &quot;o&quot;: [&quot;Store files&quot;, &quot;Decide which other words matter for understanding a word&quot;, &quot;Speed up the internet&quot;, &quot;Translate to binary&quot;], &quot;c&quot;: 1, &quot;e&quot;: &quot;Attention weighs how relevant each other token is, for example linking \&quot;it\&quot; to \&quot;animal\&quot;.&quot;}, {&quot;q&quot;: &quot;What does a higher temperature do?&quot;, &quot;o&quot;: [&quot;Makes output more varied and creative&quot;, &quot;Makes output more accurate&quot;, &quot;Makes the answer shorter&quot;, &quot;Turns off randomness&quot;], &quot;c&quot;: 0, &quot;e&quot;: &quot;Higher temperature flattens the probabilities, so less likely tokens appear more often.&quot;}]"></div></section>
+<div class="slidebar" id="slidebar"><button class="btn" id="prevSlide" type="button">←</button><span id="slideCount"></span><button class="btn p" id="nextSlide" type="button">→</button></div>
+<div class="pager" id="pager"><a class='btn' href='genai-basics.html'>← What is Generative AI?</a><a class='btn' href='../index.html?module=llm-how'>Related resources</a><a class='btn p' href='prompting.html'>Prompting Basics →</a></div>
+<p class="note">Original educational material based on public documentation and general knowledge. Features and commands change, so confirm details in the official docs.</p>
+</main></div><script src="viz.js"></script><script src="glossary-data.js"></script><script src="slides.js"></script><script src="widgets.js"></script></body></html>

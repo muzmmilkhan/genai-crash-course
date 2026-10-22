@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenAI Crash Course for Beginners</title>
+    <style>
+        /* CSS Variables - Light Theme (Default) */
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f7;
+            --bg-tertiary: #e8e8ed;
+            --bg-sidebar: #1d1d1f;
+            --text-primary: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --text-tertiary: #86868b;
+            --text-inverse: #ffffff;
+            --accent-primary: #5856D6;
+            --accent-hover: #6b69e8;
+            --border-color: #d2d2d7;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --cat-training: #34c759;
+            --cat-docs: #007aff;
+            --cat-tools: #ff9500;
+            --cat-community: #af52de;
+            --cat-video: #ff3b30;
+            --cat-guides: #5ac8fa;
+            --font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --bg-primary: #1d1d1f;
+            --bg-secondary: #2d2d2f;
+            --bg-tertiary: #3d3d3f;
+            --bg-sidebar: #000000;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --text-tertiary: #6e6e73;
+            --text-inverse: #1d1d1f;
+            --border-color: #424245;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+        body { font-family: var(--font-family); font-size: 15px; line-height: 1.5; color: var(--text-primary); background: var(--bg-primary); }
+        a { color: inherit; text-decoration: none; }
+        button { font-family: inherit; font-size: inherit; cursor: pointer; border: none; background: none; }
+        ul { list-style: none; }
+
+        /* Layout */
+        .app-container { display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed; top: 0; left: 0; width: 260px; height: 100vh;
+            background: var(--bg-sidebar); color: #ffffff;
+            display: flex; flex-direction: column; z-index: 100;
+            transition: transform 0.25s ease;
+        }
+        .sidebar-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .logo { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { font-size: 22px; line-height: 1; }
+        .logo-text { font-weight: 600; font-size: 17px; color: rgba(255, 255, 255, 0.9); }
+
+        /* Search */
+        .search-container { padding: 16px 24px; position: relative; }
+        .search-input {
+            width: 100%; padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px; color: #ffffff; font-size: 13px;
+            transition: background 0.15s ease, border-color 0.15s ease;
+        }
+        .search-input::placeholder { color: rgba(255, 255, 255, 0.5); }
+        .search-input:focus { outline: none; background: rgba(255, 255, 255, 0.15); border-color: var(--accent-primary); }
+
+        /* Navigation */
+        .sidebar-nav { flex: 1; overflow-y: auto; padding: 16px 0; }
+        .nav-list { padding: 0 8px; }
+        .nav-item { margin-bottom: 2px; }
+        .nav-link {
+            display: flex; align-items: center; gap: 8px;
+            padding: 8px 16px; border-radius: 6px;
+            color: rgba(255, 255, 255, 0.7); font-size: 13px;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+        .nav-link:hover { background: rgba(255, 255, 255, 0.1); color: #ffffff; }
+        .nav-item.active .nav-link { background: rgba(255, 255, 255, 0.15); color: #ffffff; }
+        .nav-icon { width: 18px; height: 18px; flex-shrink: 0; }
+        .nav-badge {
+            margin-left: auto; font-size: 11px; padding: 2px 6px;
+            background: rgba(255, 255, 255, 0.15); border-radius: 10px; min-width: 20px; text-align: center;
+        }
+        .nav-section { margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-section-title {
+            padding: 8px 24px; font-size: 11px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.5px; color: rgba(255, 255, 255, 0.4);
+        }
+        .category-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dot-color, #6b7280); }
+
+        /* Sidebar Footer */
+        .sidebar-footer { padding: 16px 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; gap: 8px; }
+        .theme-toggle, .home-btn {
+            width: 40px; height: 40px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255, 255, 255, 0.7); transition: background 0.15s ease, color 0.15s ease;
+        }
+        .theme-toggle:hover, .home-btn:hover { background: rgba(255, 255, 255, 0.1); color: #ffffff; }
+        .theme-toggle svg, .home-btn svg { width: 20px; height: 20px; }
+        .theme-toggle .moon-icon { display: none; }
+        [data-theme="dark"] .theme-toggle .sun-icon { display: none; }
+        [data-theme="dark"] .theme-toggle .moon-icon { display: block; }
+
+        /* Main Content */
+        .main-content { flex: 1; margin-left: 260px; min-height: 100vh; display: flex; flex-direction: column; }
+
+        /* Header */
+        .content-header {
+            position: sticky; top: 0; height: 64px; background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 32px; z-index: 50;
+        }
+        .header-left { display: flex; align-items: center; gap: 16px; }
+        .mobile-menu-btn {
+            display: none; width: 40px; height: 40px;
+            align-items: center; justify-content: center;
+            border-radius: 6px; color: var(--text-primary);
+        }
+        .mobile-menu-btn:hover { background: var(--bg-secondary); }
+        .mobile-menu-btn svg { width: 24px; height: 24px; }
+        .page-title { font-size: 21px; font-weight: 600; }
+
+        .view-toggle { display: flex; background: var(--bg-secondary); border-radius: 6px; padding: 3px; }
+        .view-btn {
+            width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+            border-radius: 6px; color: var(--text-tertiary); transition: all 0.15s ease;
+        }
+        .view-btn:hover { color: var(--text-primary); }
+        .view-btn.active { background: var(--bg-primary); color: var(--text-primary); box-shadow: var(--shadow-sm); }
+        .view-btn svg { width: 16px; height: 16px; }
+
+        /* Content Area */
+        .content-area { flex: 1; padding: 32px; }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #5856D6 0%, #9966dd 50%, #d946ef 100%);
+            border-radius: 20px; padding: 48px; margin-bottom: 32px; color: #ffffff;
+        }
+        .hero-content h2 { font-size: 40px; font-weight: 700; margin-bottom: 8px; }
+        .hero-content p { font-size: 17px; opacity: 0.9; margin-bottom: 32px; }
+        .hero-stats { display: flex; gap: 48px; }
+        .stat-item { display: flex; flex-direction: column; }
+        .stat-value { font-size: 28px; font-weight: 700; }
+        .stat-label { font-size: 13px; opacity: 0.7; }
+
+        /* Filter Sections */
+        .filters-wrapper { margin-bottom: 32px; }
+        .filter-section { margin-bottom: 16px; }
+        .filter-label { font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 8px; display: block; }
+        .quick-filters { display: flex; gap: 8px; flex-wrap: wrap; }
+        .filter-chip {
+            padding: 8px 16px; background: var(--bg-secondary); border: 1px solid var(--border-color);
+            border-radius: 20px; font-size: 13px; color: var(--text-secondary); transition: all 0.15s ease;
+        }
+        .filter-chip:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
+        .filter-chip.active { background: var(--accent-primary); border-color: var(--accent-primary); color: white; }
+
+        /* Type badges colors */
+        .type-chip.active[data-filter="html"] { background: #3b82f6; border-color: #3b82f6; }
+        .type-chip.active[data-filter="keynote"] { background: #007aff; border-color: #007aff; }
+        .type-chip.active[data-filter="video"] { background: #ff3b30; border-color: #ff3b30; }
+        .type-chip.active[data-filter="github"] { background: #333; border-color: #333; }
+        .type-chip.active[data-filter="website"] { background: #10b981; border-color: #10b981; }
+        .type-chip.active[data-filter="slack"] { background: #611f69; border-color: #611f69; }
+
+        /* Resources Section */
+        .section-title { font-size: 17px; font-weight: 600; margin-bottom: 24px; color: var(--text-primary); }
+
+        /* Resources Grid */
+        .resources-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+        .resources-grid.list-view { grid-template-columns: 1fr; gap: 8px; }
+
+        /* Resource Card */
+        .resource-card {
+            background: var(--bg-primary); border: 1px solid var(--border-color);
+            border-radius: 14px; overflow: hidden; cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            text-decoration: none; color: inherit; display: block;
+        }
+        .resource-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+
+        .card-thumbnail {
+            aspect-ratio: 16 / 9; background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;
+        }
+        .card-icon { font-size: 48px; }
+        .card-category {
+            position: absolute; top: 8px; left: 8px;
+            padding: 4px 10px; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px);
+            border-radius: 12px; font-size: 11px; font-weight: 500; color: white;
+        }
+        .card-type {
+            position: absolute; bottom: 8px; right: 8px;
+            padding: 3px 8px; border-radius: 6px; font-size: 10px;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: white;
+        }
+        .card-type.html { background: rgba(59, 130, 246, 0.9); }
+        .card-type.keynote { background: rgba(0, 122, 255, 0.9); }
+        .card-type.video { background: rgba(255, 59, 48, 0.9); }
+        .card-type.github { background: rgba(36, 41, 46, 0.9); }
+        .card-type.website { background: rgba(16, 185, 129, 0.9); }
+        .card-type.slack { background: rgba(97, 31, 105, 0.9); }
+
+        .card-duration {
+            position: absolute; bottom: 8px; left: 8px;
+            padding: 3px 8px; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px);
+            border-radius: 6px; font-size: 10px; color: white;
+        }
+
+        .card-body { padding: 16px; }
+        .card-title {
+            font-size: 15px; font-weight: 600; margin-bottom: 4px; color: var(--text-primary);
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .card-description {
+            font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .card-meta { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--text-tertiary); }
+        .card-author { display: flex; align-items: center; gap: 4px; }
+        .card-team { font-size: 11px; color: var(--text-tertiary); opacity: 0.8; }
+        .card-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 8px; }
+        .tag { padding: 2px 8px; background: var(--bg-secondary); border-radius: 8px; font-size: 11px; color: var(--text-secondary); }
+
+        /* List View */
+        .resources-grid.list-view .resource-card { display: flex; flex-direction: row; }
+        .resources-grid.list-view .card-thumbnail { width: 160px; flex-shrink: 0; aspect-ratio: auto; height: 90px; }
+        .resources-grid.list-view .card-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+        /* Empty State */
+        .empty-state { text-align: center; padding: 48px; color: var(--text-tertiary); display: none; }
+        .empty-state svg { width: 64px; height: 64px; margin-bottom: 16px; opacity: 0.5; }
+        .empty-state p { font-size: 17px; }
+
+        /* Loading State */
+        .loading { text-align: center; padding: 48px; color: var(--text-tertiary); }
+        .loading-spinner { width: 32px; height: 32px; border: 3px solid var(--border-color); border-top-color: var(--accent-primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+
+        /* Crash Course view */
+        .course-hero { text-align: center; padding: 40px 24px; background: var(--bg-secondary); border-radius: 20px; margin-bottom: 32px; }
+        .course-hero h2 { font-size: 36px; font-weight: 700; margin-bottom: 8px; }
+        .course-hero p { color: var(--text-secondary); max-width: 640px; margin: 0 auto 24px; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 10px; font-weight: 600; font-size: 14px; transition: opacity .15s ease, transform .15s ease; }
+        .btn:hover:not(:disabled) { transform: translateY(-1px); }
+        .btn:disabled { opacity: .4; cursor: not-allowed; }
+        .btn-primary { background: var(--accent-primary); color: #fff; }
+        .btn-secondary { background: var(--bg-tertiary); color: var(--text-primary); }
+        .btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .intro-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 32px; }
+        .intro-box { padding: 20px; border: 1px solid var(--border-color); border-radius: 14px; background: var(--bg-primary); }
+        .intro-box h3 { margin-bottom: 8px; font-size: 17px; }
+        .intro-box p { color: var(--text-secondary); font-size: 14px; }
+        .quiz-panel { max-width: 720px; margin: 0 auto 32px; }
+        .progress-bar { height: 6px; background: var(--bg-tertiary); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+        .progress-fill { height: 100%; width: 0; background: var(--accent-primary); transition: width .3s ease; }
+        .progress-text { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-tertiary); margin-bottom: 24px; }
+        .question-text { font-size: 22px; margin-bottom: 20px; }
+        .option { display: flex; gap: 12px; align-items: center; padding: 14px 16px; margin-bottom: 10px; border: 1px solid var(--border-color); border-radius: 12px; cursor: pointer; transition: border-color .15s ease, background .15s ease; }
+        .option:hover:not(.disabled) { border-color: var(--accent-primary); }
+        .option.disabled { cursor: default; }
+        .option.correct { border-color: #34c759; background: rgba(52, 199, 89, .12); }
+        .option.incorrect { border-color: #ff3b30; background: rgba(255, 59, 48, .12); }
+        .option-letter { width: 28px; height: 28px; border-radius: 50%; background: var(--bg-tertiary); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0; }
+        .feedback { display: none; padding: 16px; border-radius: 12px; margin-top: 16px; background: var(--bg-secondary); }
+        .feedback.show { display: block; }
+        .feedback-title { font-weight: 600; margin-bottom: 4px; }
+        .quiz-footer { display: flex; justify-content: space-between; margin-top: 24px; }
+        .score-circle { width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 16px; background: var(--accent-primary); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .score-circle b { font-size: 36px; line-height: 1; }
+        .score-circle small { font-size: 11px; opacity: .8; }
+        .results { text-align: center; }
+        .results h2 { margin-bottom: 8px; }
+        .results p { color: var(--text-secondary); margin-bottom: 24px; }
+        .modules-title { font-size: 21px; font-weight: 600; margin-bottom: 4px; }
+        .modules-sub { color: var(--text-secondary); margin-bottom: 20px; }
+        .modules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+        .module-card { display: block; text-align: left; width: 100%; padding: 20px; border: 1px solid var(--border-color); border-top: 4px solid var(--mc, var(--accent-primary)); border-radius: 14px; background: var(--bg-primary); transition: transform .15s ease, box-shadow .15s ease; }
+        .module-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .module-card.recommended { box-shadow: 0 0 0 2px var(--mc); }
+        .module-number { font-size: 12px; font-weight: 700; color: var(--mc); margin-bottom: 4px; }
+        .module-card h3 { font-size: 16px; margin-bottom: 6px; }
+        .module-card p { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; }
+        .module-tag { font-size: 11px; padding: 2px 8px; border-radius: 8px; background: var(--bg-secondary); color: var(--text-secondary); }
+
+
+        .course-search { max-width: 640px; margin: 0 auto 32px; position: relative; }
+        .course-search input { width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 12px; background: var(--bg-primary); color: var(--text-primary); font-size: 15px; }
+        .course-search input:focus { outline: none; border-color: var(--accent-primary); }
+        .search-hits { margin-top: 8px; border: 1px solid var(--border-color); border-radius: 12px; background: var(--bg-primary); overflow: hidden; display: none; }
+        .search-hit { display: block; padding: 10px 16px; border-bottom: 1px solid var(--border-color); }
+        .search-hit:last-child { border-bottom: 0; }
+        .search-hit:hover { background: var(--bg-secondary); }
+        .search-hit b { font-size: 14px; } .search-hit span { display: block; font-size: 12px; color: var(--text-tertiary); }
+        .search-hit mark { background: rgba(88, 86, 214, .25); color: inherit; border-radius: 3px; }
+        .toolkit { margin: 40px 0 8px; }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+            .mobile-menu-btn { display: flex; }
+        }
+        @media (max-width: 768px) {
+            .content-area { padding: 16px; }
+            .hero-section { padding: 24px; }
+            .hero-content h2 { font-size: 28px; }
+            .hero-stats { flex-wrap: wrap; gap: 16px; }
+            .resources-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-tertiary); }
+
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .resource-card { animation: fadeIn 0.3s ease forwards; opacity: 0; }
+        .resource-card:nth-child(1) { animation-delay: 0.02s; }
+        .resource-card:nth-child(2) { animation-delay: 0.04s; }
+        .resource-card:nth-child(3) { animation-delay: 0.06s; }
+        .resource-card:nth-child(4) { animation-delay: 0.08s; }
+        .resource-card:nth-child(5) { animation-delay: 0.1s; }
+        .resource-card:nth-child(6) { animation-delay: 0.12s; }
+        .resource-card:nth-child(7) { animation-delay: 0.14s; }
+        .resource-card:nth-child(8) { animation-delay: 0.16s; }
+        .resource-card:nth-child(9) { animation-delay: 0.18s; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon">✨</span>
+                    <span class="logo-text">Community Resources</span>
+                </div>
+            </div>
+
+            <!-- Search -->
+            <div class="search-container">
+                <input type="search" id="searchInput" class="search-input" placeholder="Search resources..." autocomplete="off">
+            </div>
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item active">
+                        <a href="#" class="nav-link" data-page="course">
+                            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                            </svg>
+                            <span>Crash Course</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="home">
+                            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                            <span>All Resources</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Categories -->
+                <div class="nav-section">
+                    <h3 class="nav-section-title">Categories</h3>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-category="all">
+                                <span class="category-dot" style="--dot-color: #6b7280;"></span>
+                                <span>All</span>
+                                <span class="nav-badge" id="countAll">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-category="training">
+                                <span class="category-dot" style="--dot-color: #34c759;"></span>
+                                <span>Training</span>
+                                <span class="nav-badge" id="countTraining">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-category="docs">
+                                <span class="category-dot" style="--dot-color: #007aff;"></span>
+                                <span>Documentation</span>
+                                <span class="nav-badge" id="countDocs">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-category="tools">
+                                <span class="category-dot" style="--dot-color: #ff9500;"></span>
+                                <span>Tools</span>
+                                <span class="nav-badge" id="countTools">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-category="guides">
+                                <span class="category-dot" style="--dot-color: #5ac8fa;"></span>
+                                <span>Guides</span>
+                                <span class="nav-badge" id="countGuides">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-category="community">
+                                <span class="category-dot" style="--dot-color: #af52de;"></span>
+                                <span>Community</span>
+                                <span class="nav-badge" id="countCommunity">0</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Types -->
+                <div class="nav-section">
+                    <h3 class="nav-section-title">Resource Type</h3>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-type="html">
+                                <span class="category-dot" style="--dot-color: #3b82f6;"></span>
+                                <span>HTML Slides</span>
+                                <span class="nav-badge" id="countHtml">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-type="video">
+                                <span class="category-dot" style="--dot-color: #ff3b30;"></span>
+                                <span>Videos</span>
+                                <span class="nav-badge" id="countVideo">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-type="github">
+                                <span class="category-dot" style="--dot-color: #333;"></span>
+                                <span>GitHub Repos</span>
+                                <span class="nav-badge" id="countGithub">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-type="keynote">
+                                <span class="category-dot" style="--dot-color: #007aff;"></span>
+                                <span>Keynotes</span>
+                                <span class="nav-badge" id="countKeynote">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-type="website">
+                                <span class="category-dot" style="--dot-color: #10b981;"></span>
+                                <span>Websites</span>
+                                <span class="nav-badge" id="countWebsite">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-type="slack">
+                                <span class="category-dot" style="--dot-color: #611f69;"></span>
+                                <span>Slack Channels</span>
+                                <span class="nav-badge" id="countSlack">0</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Sidebar Footer -->
+            <div class="sidebar-footer">
+                <a href="#" class="home-btn" title="Crash Course" id="homeBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                </a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="content-header">
+                <div class="header-left">
+                    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                    <h1 class="page-title" id="pageTitle">GenAI Crash Course for Beginners</h1>
+                </div>
+                <div class="header-right">
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="grid" aria-label="Grid view">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="14" width="7" height="7"></rect>
+                                <rect x="3" y="14" width="7" height="7"></rect>
+                            </svg>
+                        </button>
+                        <button class="view-btn" data-view="list" aria-label="List view">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="8" y1="6" x2="21" y2="6"></line>
+                                <line x1="8" y1="12" x2="21" y2="12"></line>
+                                <line x1="8" y1="18" x2="21" y2="18"></line>
+                                <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                                <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                                <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content-area">
+
+                <!-- Crash Course view -->
+                <div id="courseView">
+                    <section class="course-hero" id="courseStart">
+                        <h2>GenAI Crash Course for Beginners</h2>
+                        <p>No experience needed. Learn how GenAI works through diagrams, simulations and mini-games, then test yourself with a short quiz.</p>
+                        <div class="btn-row">
+                            <button class="btn btn-primary" id="startQuizBtn">📋 Start Quiz →</button>
+                            <button class="btn btn-secondary" id="browseModulesBtn">📚 Browse All Modules →</button>
+                        </div>
+                    </section>
+
+                    <div id="introSection" class="intro-grid">
+                        <div class="intro-box">
+                            <h3>What is Generative AI?</h3>
+                            <p>Generative AI (GenAI) refers to AI systems that can create new content — text, code, images, and more. These models learn patterns from massive datasets and generate human-like outputs.</p>
+                        </div>
+                        <div class="intro-box">
+                            <h3>How will you learn?</h3>
+                            <p>Every module has <strong>clickable architecture diagrams</strong>, <strong>interactive widgets</strong> (tokenizer, RAG search, agent simulator and more), a 3-question check, and optional hands-on labs.</p>
+                        </div>
+                    </div>
+
+                    <section class="quiz-panel" id="quizPanel" style="display:none;">
+                        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+                        <div class="progress-text"><span id="progressText"></span><span id="scoreText"></span></div>
+                        <h2 class="question-text" id="questionText"></h2>
+                        <div id="optionsList"></div>
+                        <div class="feedback" id="feedback">
+                            <div class="feedback-title" id="feedbackTitle"></div>
+                            <div id="feedbackText"></div>
+                        </div>
+                        <div class="quiz-footer">
+                            <button class="btn btn-secondary" id="prevBtn">← Previous</button>
+                            <button class="btn btn-primary" id="nextBtn" disabled>Next →</button>
+                        </div>
+                    </section>
+
+                    <section class="quiz-panel results" id="resultsPanel" style="display:none;">
+                        <div class="score-circle"><b id="finalScore">0</b><small id="finalTotal"></small></div>
+                        <h2 id="resultsTitle"></h2>
+                        <p id="resultsMessage"></p>
+                        <div class="btn-row">
+                            <button class="btn btn-primary" id="retryBtn">Try Again ↻</button>
+                            <button class="btn btn-secondary" id="exploreBtn">Explore Learning Modules →</button>
+                        </div>
+                    </section>
+
+                    <div class="course-search">
+                        <input type="search" id="courseSearch" placeholder="Search all modules and labs (e.g. tokens, RAG, hallucination)..." autocomplete="off" aria-label="Search modules and labs">
+                        <div class="search-hits" id="searchHits"></div>
+                    </div>
+
+                    <section class="toolkit" id="toolkitPanel">
+                        <h3 class="modules-title">Labs &amp; Glossary 🧪</h3>
+                        <p class="modules-sub">Practise with guided labs and learn the key terms.</p>
+                        <div class="modules-grid" id="toolkitGrid"></div>
+                    </section>
+
+                    <section id="modulesPanel" style="margin-top:40px;">
+                        <h3 class="modules-title">Continue Your Learning Journey 🚀</h3>
+                        <p class="modules-sub" id="modulesSub">Pick a module to start learning. Each opens as slides (arrow keys work) with a mini-quiz at the end.</p>
+                        <div class="modules-grid" id="modulesGrid"></div>
+                    </section>
+                </div>
+
+                <div id="resourcesView" style="display:none;">
+                <!-- Hero Section -->
+                <section class="hero-section" id="heroSection">
+                    <div class="hero-content">
+                        <h2>GenAI Community Resources</h2>
+                        <p>Your one-stop hub for GenAI learning materials, tools, and community resources.</p>
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <span class="stat-value" id="totalResources">0</span>
+                                <span class="stat-label">Resources</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">6</span>
+                                <span class="stat-label">Categories</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="totalTeams">0</span>
+                                <span class="stat-label">Teams</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Filters -->
+                <div class="filters-wrapper">
+                    <div class="filter-section">
+                        <span class="filter-label">Category</span>
+                        <div class="quick-filters" id="categoryFilters">
+                            <button class="filter-chip active" data-filter="all">All</button>
+                            <button class="filter-chip" data-filter="training">Training</button>
+                            <button class="filter-chip" data-filter="docs">Documentation</button>
+                            <button class="filter-chip" data-filter="tools">Tools</button>
+                            <button class="filter-chip" data-filter="guides">Guides</button>
+                            <button class="filter-chip" data-filter="community">Community</button>
+                        </div>
+                    </div>
+                    <div class="filter-section">
+                        <span class="filter-label">Type</span>
+                        <div class="quick-filters" id="typeFilters">
+                            <button class="filter-chip type-chip active" data-filter="all">All Types</button>
+                            <button class="filter-chip type-chip" data-filter="html">HTML</button>
+                            <button class="filter-chip type-chip" data-filter="video">Video</button>
+                            <button class="filter-chip type-chip" data-filter="github">GitHub</button>
+                            <button class="filter-chip type-chip" data-filter="keynote">Keynote</button>
+                            <button class="filter-chip type-chip" data-filter="website">Website</button>
+                            <button class="filter-chip type-chip" data-filter="slack">Slack</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resources Grid -->
+                <section class="resources-section">
+                    <h3 class="section-title" id="sectionTitle">All Resources</h3>
+                    <div class="resources-grid" id="resourcesGrid">
+                        <div class="loading">
+                            <div class="loading-spinner"></div>
+                            <p>Loading resources...</p>
+                        </div>
+                    </div>
+                    <div class="empty-state" id="emptyState">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M9 17H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <path d="M15 3h4a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-4"></path>
+                            <path d="M12 12v9"></path>
+                            <path d="m8 17 4-4 4 4"></path>
+                        </svg>
+                        <p>No resources found</p>
+                    </div>
+                </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="modules/search-index.js"></script>
+    <script>
+        // State
+        let RESOURCES = [];
+        let currentCategoryFilter = 'all';
+        let currentTypeFilter = 'all';
+        let currentView = 'grid';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            initTheme();
+            initEventListeners();
+            initCourse();
+            renderToolkit();
+            $('courseSearch').addEventListener('input', runCourseSearch);
+            const deep = new URLSearchParams(location.search).get('module');
+            if (deep && COURSE_MODULES[deep]) { await loadResources(); openModuleResources(deep); return; }
+            await loadResources();
+        });
+
+        // Load resources
+        async function loadResources() {
+            RESOURCES = getEmbeddedResources();
+            updateCounts();
+            renderResources(RESOURCES);
+        }
+
+        // Resource data (public links only; edit freely)
+        function getEmbeddedResources() {
+            const R = (id, title, description, category, type, icon, url, tags, duration, author, team) =>
+                ({ id, title, description, category, type, icon, url, tags, duration, author, team, keywords: [] });
+            return [
+                R(1, "Anthropic Prompt Engineering Guide", "Techniques for writing clear, effective prompts.", "guides", "website", "✍️", "https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview", ["Prompting"], "1-2 hrs", "Anthropic", "Anthropic"),
+                R(2, "OpenAI Prompt Engineering Guide", "Strategies and tactics for getting better results from language models.", "guides", "website", "📗", "https://platform.openai.com/docs/guides/prompt-engineering", ["Prompting"], "1 hr", "OpenAI", "OpenAI"),
+                R(3, "Building Effective Agents", "A guide to simple, composable patterns for LLM agents.", "guides", "website", "🧩", "https://www.anthropic.com/engineering/building-effective-agents", ["Agents", "Patterns"], "20 min", "Anthropic", "Anthropic"),
+                R(4, "Model Context Protocol", "Open standard for connecting AI assistants to tools and data sources.", "docs", "website", "🔌", "https://modelcontextprotocol.io", ["MCP", "Agents"], "Self-paced", "MCP Community", "MCP"),
+                R(5, "Andrej Karpathy: Intro to Large Language Models", "A one-hour talk on how LLMs work.", "training", "video", "📺", "https://www.youtube.com/watch?v=zjkBMFhNj_g", ["LLM", "Fundamentals"], "1 hr", "Andrej Karpathy", "YouTube"),
+                R(6, "3Blue1Brown: Neural Networks", "Beautiful visual explanations of neural networks and transformers.", "training", "video", "🎥", "https://www.youtube.com/@3blue1brown", ["LLM", "Visual"], "Self-paced", "3Blue1Brown", "YouTube"),
+                R(7, "DeepLearning.AI Short Courses", "Short, practical courses on LLMs, agents and RAG.", "training", "website", "🎬", "https://www.deeplearning.ai/short-courses/", ["LLM", "RAG", "Agents"], "1-2 hrs each", "DeepLearning.AI", "DeepLearning.AI"),
+                R(8, "Hugging Face Learn", "Courses on LLMs, agents, diffusion models and more.", "training", "website", "🤗", "https://huggingface.co/learn", ["Open Source", "LLM"], "Self-paced", "Hugging Face", "Hugging Face"),
+                R(9, "Prompt Engineering Guide", "Community-maintained guide covering prompting techniques and papers.", "guides", "website", "🧠", "https://www.promptingguide.ai", ["Prompting", "Research"], "Self-paced", "DAIR.AI", "DAIR.AI"),
+                R(10, "OpenAI Platform Docs", "API reference and guides for building with OpenAI models.", "docs", "website", "📘", "https://platform.openai.com/docs", ["API"], "Self-paced", "OpenAI", "OpenAI"),
+                R(11, "LangChain Documentation", "Framework for building LLM-powered applications and agents.", "tools", "website", "🔗", "https://python.langchain.com/docs/", ["Framework", "RAG", "Agents"], "Self-paced", "LangChain", "LangChain"),
+                R(12, "Awesome MCP Servers", "Curated list of Model Context Protocol servers.", "tools", "github", "🛠️", "https://github.com/punkpeye/awesome-mcp-servers", ["MCP", "Curated"], "Browse", "Community", "Open Source"),
+                R(13, "Awesome Generative AI", "Curated list of generative AI tools, papers and resources.", "community", "github", "🌟", "https://github.com/steven2358/awesome-generative-ai", ["Curated", "GenAI"], "Browse", "Community", "Open Source"),
+                R(14, "GitHub Copilot Docs", "Docs for AI pair programming in your editor and on GitHub.", "docs", "website", "🧑‍💻", "https://docs.github.com/en/copilot", ["Coding"], "Self-paced", "GitHub", "GitHub")
+            ];
+        }
+
+
+        // ---------------- Crash Course ----------------
+        const COURSE_MODULES = {
+            'genai-basics': { page: 'modules/genai-basics.html', n: 1, name: 'What is Generative AI?', desc: 'AI vs ML vs GenAI, what it can create, strengths and limits.', tag: 'Start here', color: '#007aff', search: 'GenAI' },
+            'llm-how': { page: 'modules/llm-how.html', n: 2, name: 'How LLMs Work', desc: 'Tokens, embeddings, attention and next-word prediction with a clickable architecture.', tag: 'Core idea', color: '#5856D6', search: 'LLM' },
+            'prompting': { page: 'modules/prompting.html', n: 3, name: 'Prompting Basics', desc: 'Ask clearly: specificity, context, examples and format.', tag: 'Hands-on', color: '#af52de', search: 'Prompting' },
+            'rag': { page: 'modules/rag.html', n: 4, name: 'Grounding & RAG', desc: 'Make AI answer from your documents with an interactive RAG architecture.', tag: 'Architecture', color: '#30b0c7', search: 'RAG' },
+            'agents': { page: 'modules/agents.html', n: 5, name: 'AI Agents & Tools', desc: 'From chatbots to assistants that plan, use tools and act.', tag: 'Architecture', color: '#ff9500', search: 'Agents' },
+            'app-architecture': { page: 'modules/app-architecture.html', n: 6, name: 'Architecture of a GenAI App', desc: 'Reference architecture, design your own, model choice and cost.', tag: 'Architecture', color: '#34c759', search: 'API' },
+            'safety': { page: 'modules/safety.html', n: 7, name: 'Safety & Responsible Use', desc: 'Hallucinations, privacy, bias and prompt injection.', tag: 'Essential', color: '#ff3b30', search: '' },
+            'references': { n: 8, name: 'References & Resources', desc: 'Courses, docs, videos and community links.', tag: 'Reference', color: '#8e8e93', search: '' }
+        };
+
+        const QUIZ = [
+            { q: "Which best describes generative AI? ✨", o: ["AI that only classifies data", "AI that creates new content like text, images or code", "A type of database", "AI that only works offline"], c: 1, m: 'genai-basics', e: "Generative AI produces new content. Predictive AI mostly classifies or forecasts." },
+            { q: "How do the terms nest? 🎯", o: ["GenAI ⊃ AI ⊃ ML", "AI ⊃ ML ⊃ Deep Learning ⊃ GenAI", "ML ⊃ AI ⊃ GenAI", "They are unrelated"], c: 1, m: 'genai-basics', e: "Think of nested circles: AI contains machine learning, which contains deep learning, which contains GenAI." },
+            { q: "What is a token? 🔤", o: ["A password", "A small piece of text a model reads", "A GPU core", "A full document"], c: 1, m: 'llm-how', e: "Models read tokens, often words or word pieces. Limits and prices are counted in tokens." },
+            { q: "What does attention let a model do? 👀", o: ["Store files", "Decide which other words matter for understanding a word", "Speed up the internet", "Translate to binary"], c: 1, m: 'llm-how', e: "Attention weighs how relevant each other token is, for example linking \"it\" to \"animal\"." },
+            { q: "What does a higher temperature do? 🌡️", o: ["Makes output more varied and creative", "Makes output more accurate", "Shortens the answer", "Turns off randomness"], c: 0, m: 'llm-how', e: "Higher temperature flattens probabilities, so less likely tokens appear more often." },
+            { q: "What is a 'context window'? 🪟", o: ["The chat interface", "The max text a model can consider at once", "A popup", "A time limit"], c: 1, m: 'llm-how', e: "It is the model's working memory: instructions, history, documents and its own answer must fit." },
+            { q: "Which prompt is best? ✍️", o: ["Fix this", "Write something about sales", "Explain this KeyError on line 12 to a beginner in 3 bullets", "Help"], c: 2, m: 'prompting', e: "It states the problem, audience and format." },
+            { q: "What is few-shot prompting? 🎯", o: ["Short questions", "Showing a few examples of the output you want", "Using a small model", "Limiting replies"], c: 1, m: 'prompting', e: "Examples teach the pattern you want." },
+            { q: "What problem does RAG solve? 📚", o: ["Slow internet", "Models not knowing your private or recent information", "Large images", "Electricity use"], c: 1, m: 'rag', e: "RAG retrieves relevant documents and gives them to the model so answers are grounded." },
+            { q: "What is stored in a vector database? 🗄️", o: ["Passwords", "Embeddings of document chunks", "Model weights", "Photos only"], c: 1, m: 'rag', e: "Each chunk is stored as an embedding so similar meanings can be found quickly." },
+            { q: "What makes an agent different from a chatbot? 🤖", o: ["It uses colors", "It plans steps and uses tools to act", "It is always offline", "It never uses an LLM"], c: 1, m: 'agents', e: "Agents loop through think, act and observe using tools." },
+            { q: "What do guardrails do? 🛡️", o: ["Make the app prettier", "Check inputs and outputs for unsafe or off-topic content", "Compress files", "Store vectors"], c: 1, m: 'app-architecture', e: "Guardrails filter and constrain behavior." },
+            { q: "What should you NEVER paste into an unapproved AI tool? 🔒", o: ["Public documentation", "Confidential code or customer data", "A general question", "A made-up example"], c: 1, m: 'safety', e: "Follow your organization's AI policy and use only approved tools for sensitive data." },
+            { q: "What is a hallucination? 🎭", o: ["A slow reply", "A fluent answer that is false or invented", "A server error", "An image filter"], c: 1, m: 'safety', e: "Models can produce convincing but made-up content. Verify what matters." }
+        ];
+
+        let qi = 0, qScore = 0, qAnswered = false, qWrong = new Set();
+        const $ = id => document.getElementById(id);
+        const show = (id, on) => { $(id).style.display = on ? '' : 'none'; };
+
+        function showView(view) {
+            show('courseView', view === 'course');
+            show('resourcesView', view === 'resources');
+        }
+
+        function renderModules() {
+            $('modulesGrid').innerHTML = Object.entries(COURSE_MODULES).map(([key, m]) => `
+                <button class="module-card ${qWrong.has(key) ? 'recommended' : ''}" style="--mc:${m.color}" data-module="${key}">
+                    <div class="module-number">MODULE ${m.n}</div>
+                    <h3>${m.name}</h3>
+                    <p>${m.desc}</p>
+                    <span class="module-tag">${qWrong.has(key) ? 'Recommended' : m.tag}</span>
+                </button>`).join('');
+            $('modulesGrid').querySelectorAll('.module-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const m = COURSE_MODULES[card.dataset.module];
+                    if (m.page) window.location.href = m.page; else openModuleResources(card.dataset.module);
+                });
+            });
+        }
+
+        function openModuleResources(key) {
+            const m = COURSE_MODULES[key];
+            showView('resources');
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            document.querySelector('.nav-link[data-page="home"]').closest('.nav-item').classList.add('active');
+            document.getElementById('heroSection').style.display = 'none';
+            currentCategoryFilter = 'all'; currentTypeFilter = 'all';
+            resetFilterChips();
+            $('pageTitle').textContent = m.name;
+            if (m.search) {
+                $('searchInput').value = m.search;
+                handleSearch({ target: $('searchInput') });
+            } else {
+                $('searchInput').value = '';
+                renderResources(RESOURCES);
+                $('sectionTitle').textContent = 'All Resources';
+            }
+            window.scrollTo(0, 0);
+        }
+
+        function resetCourse() {
+            qi = 0; qScore = 0; qAnswered = false; qWrong = new Set();
+            show('courseStart', true); show('introSection', true);
+            show('quizPanel', false); show('resultsPanel', false);
+            $('modulesSub').textContent = 'Pick a module to start learning.';
+            renderModules();
+        }
+
+        function startQuiz() {
+            qi = 0; qScore = 0; qWrong = new Set();
+            show('courseStart', false); show('introSection', false);
+            show('resultsPanel', false); show('quizPanel', true);
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = QUIZ[qi];
+            qAnswered = false;
+            $('questionText').textContent = q.q;
+            $('progressFill').style.width = `${(qi / QUIZ.length) * 100}%`;
+            $('progressText').textContent = `Question ${qi + 1} of ${QUIZ.length}`;
+            $('scoreText').textContent = `Score: ${qScore}`;
+            $('optionsList').innerHTML = q.o.map((t, i) =>
+                `<div class="option" data-i="${i}"><span class="option-letter">${'ABCD'[i]}</span><span>${t}</span></div>`).join('');
+            $('optionsList').querySelectorAll('.option').forEach(el => el.addEventListener('click', () => selectOption(+el.dataset.i)));
+            $('feedback').classList.remove('show');
+            $('prevBtn').style.visibility = qi > 0 ? 'visible' : 'hidden';
+            $('nextBtn').disabled = true;
+            $('nextBtn').textContent = qi === QUIZ.length - 1 ? 'See Results' : 'Next →';
+        }
+
+        function selectOption(i) {
+            if (qAnswered) return;
+            qAnswered = true;
+            const q = QUIZ[qi], ok = i === q.c;
+            if (ok) qScore++; else qWrong.add(q.m);
+            $('scoreText').textContent = `Score: ${qScore}`;
+            $('optionsList').querySelectorAll('.option').forEach((el, idx) => {
+                el.classList.add('disabled');
+                if (idx === q.c) el.classList.add('correct');
+                else if (idx === i) el.classList.add('incorrect');
+            });
+            $('feedbackTitle').textContent = ok ? '✓ Correct!' : '✗ Incorrect';
+            $('feedbackText').textContent = q.e;
+            $('feedback').classList.add('show');
+            $('nextBtn').disabled = false;
+        }
+
+        function nextQuestion() {
+            if (qi < QUIZ.length - 1) { qi++; loadQuestion(); } else showResults();
+        }
+
+        function prevQuestion() {
+            if (qi > 0) { qi--; loadQuestion(); }
+        }
+
+        function showResults() {
+            const pct = qScore / QUIZ.length;
+            show('quizPanel', false); show('resultsPanel', true);
+            $('finalScore').textContent = qScore;
+            $('finalTotal').textContent = `out of ${QUIZ.length}`;
+            $('resultsTitle').textContent = pct >= 0.85 ? 'Excellent!' : pct >= 0.6 ? 'Great Job!' : 'Good Start!';
+            $('resultsMessage').textContent = qWrong.size
+                ? 'Modules to focus on are highlighted below.'
+                : 'You nailed every topic. Dive into any module to go deeper.';
+            $('modulesSub').textContent = qWrong.size ? 'Highlighted modules are recommended based on your answers.' : 'Pick a module to start learning.';
+            renderModules();
+            $('modulesPanel').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function initCourse() {
+            $('startQuizBtn').addEventListener('click', startQuiz);
+            $('browseModulesBtn').addEventListener('click', () => $('modulesPanel').scrollIntoView({ behavior: 'smooth' }));
+            $('nextBtn').addEventListener('click', nextQuestion);
+            $('prevBtn').addEventListener('click', prevQuestion);
+            $('retryBtn').addEventListener('click', () => { resetCourse(); startQuiz(); });
+            $('exploreBtn').addEventListener('click', () => $('modulesPanel').scrollIntoView({ behavior: 'smooth' }));
+            resetCourse();
+        }
+
+
+        // ---------------- Toolkit + search ----------------
+        const TOOLKIT = [
+            { page: 'modules/glossary.html', n: 'REFERENCE', name: 'Glossary & Flashcards', desc: '27 key terms with flip cards and search.', tag: 'Self-paced', color: '#007aff' },
+            { page: 'modules/lab1-prompt-workshop.html', n: 'LAB 1', name: 'Prompt Engineering Workshop', desc: 'Five exercises that turn weak prompts into strong ones.', tag: '25 min · no install', color: '#af52de' },
+            { page: 'modules/lab2-tiny-rag.html', n: 'LAB 2', name: 'Build a Tiny RAG Pipeline', desc: 'Retrieve, rank and ground a prompt in about 30 lines of Python.', tag: '30 min', color: '#30b0c7' },
+            { page: 'modules/lab3-design-your-app.html', n: 'LAB 3', name: 'Design Your Own GenAI App', desc: 'Choose architecture blocks, estimate cost, and plan guardrails.', tag: '25 min · no install', color: '#34c759' }
+        ];
+
+        function renderToolkit() {
+            $('toolkitGrid').innerHTML = TOOLKIT.map(m => `
+                <a class="module-card" style="--mc:${m.color}" href="${m.page}">
+                    <div class="module-number">${m.n}</div>
+                    <h3>${m.name}</h3>
+                    <p>${m.desc}</p>
+                    <span class="module-tag">${m.tag}</span>
+                </a>`).join('');
+        }
+
+        const escHtml = t => t.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+        function runCourseSearch() {
+            const hits = $('searchHits'), q = $('courseSearch').value.trim().toLowerCase();
+            const idx = window.SEARCH_INDEX || [];
+            if (!q || !idx.length) { hits.style.display = 'none'; return; }
+            const terms = q.split(/\s+/).filter(Boolean);
+            const scored = idx.map(e => {
+                const hay = (e.s + ' ' + e.t).toLowerCase(), title = (e.p + ' ' + e.s).toLowerCase();
+                let sc = 0;
+                for (const t of terms) { if (!hay.includes(t)) return null; sc += (title.includes(t) ? 5 : 0) + hay.split(t).length - 1; }
+                return { e, sc };
+            }).filter(Boolean).sort((a, b) => b.sc - a.sc).slice(0, 8);
+            hits.style.display = 'block';
+            if (!scored.length) { hits.innerHTML = '<div class="search-hit"><b>No results</b></div>'; return; }
+            hits.innerHTML = scored.map(({ e }) => {
+                const lower = e.t.toLowerCase(), pos = Math.max(0, lower.indexOf(terms[0]));
+                let snip = escHtml(e.t.slice(Math.max(0, pos - 40), pos + 110));
+                terms.forEach(t => { snip = snip.replace(new RegExp('(' + t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig'), '<mark>$1</mark>'); });
+                return `<a class="search-hit" href="${e.u}"><b>${escHtml(e.p)} › ${escHtml(e.s)}</b><span>…${snip}…</span></a>`;
+            }).join('');
+        }
+
+        // Theme Management
+        function initTheme() {
+            const savedTheme = localStorage.getItem('genai-resources-theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('genai-resources-theme', newTheme);
+        }
+
+        // Event Listeners
+        function initEventListeners() {
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+            document.getElementById('homeBtn').addEventListener('click', (e) => { e.preventDefault(); handleNavigation(document.querySelector('.nav-link[data-page="course"]')); });
+
+            document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('open');
+            });
+
+            document.addEventListener('click', (e) => {
+                const sidebar = document.getElementById('sidebar');
+                const mobileBtn = document.getElementById('mobileMenuBtn');
+                if (window.innerWidth <= 1024 && !sidebar.contains(e.target) && !mobileBtn.contains(e.target)) {
+                    sidebar.classList.remove('open');
+                }
+            });
+
+            document.getElementById('searchInput').addEventListener('input', handleSearch);
+
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentView = btn.dataset.view;
+                    document.getElementById('resourcesGrid').classList.toggle('list-view', currentView === 'list');
+                });
+            });
+
+            // Category filter chips
+            document.querySelectorAll('#categoryFilters .filter-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    document.querySelectorAll('#categoryFilters .filter-chip').forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    currentCategoryFilter = chip.dataset.filter;
+                    applyFilters();
+                });
+            });
+
+            // Type filter chips
+            document.querySelectorAll('#typeFilters .filter-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    document.querySelectorAll('#typeFilters .filter-chip').forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    currentTypeFilter = chip.dataset.filter;
+                    applyFilters();
+                });
+            });
+
+            // Navigation links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    handleNavigation(link);
+                });
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === '/' && !e.target.closest('input')) {
+                    e.preventDefault();
+                    document.getElementById('searchInput').focus();
+                }
+            });
+        }
+
+        // Search
+        function handleSearch(e) {
+            const query = e.target.value.toLowerCase().trim();
+            if (!query) {
+                applyFilters();
+                return;
+            }
+
+            const results = RESOURCES.filter(r =>
+                r.title.toLowerCase().includes(query) ||
+                r.description.toLowerCase().includes(query) ||
+                r.tags.some(t => t.toLowerCase().includes(query)) ||
+                r.author.toLowerCase().includes(query) ||
+                r.team.toLowerCase().includes(query) ||
+                (r.keywords && r.keywords.some(k => k.toLowerCase().includes(query)))
+            );
+
+            renderResources(results);
+            document.getElementById('sectionTitle').textContent = `Search results for "${query}" (${results.length})`;
+        }
+
+        // Apply filters
+        function applyFilters() {
+            let filtered = RESOURCES;
+
+            if (currentCategoryFilter !== 'all') {
+                filtered = filtered.filter(r => r.category === currentCategoryFilter);
+            }
+
+            if (currentTypeFilter !== 'all') {
+                filtered = filtered.filter(r => r.type === currentTypeFilter);
+            }
+
+            renderResources(filtered);
+            updateSectionTitle();
+        }
+
+        function updateSectionTitle() {
+            let title = 'All Resources';
+            if (currentCategoryFilter !== 'all' && currentTypeFilter !== 'all') {
+                title = `${getCategoryTitle(currentCategoryFilter)} - ${getTypeLabel(currentTypeFilter)}`;
+            } else if (currentCategoryFilter !== 'all') {
+                title = getCategoryTitle(currentCategoryFilter);
+            } else if (currentTypeFilter !== 'all') {
+                title = `${getTypeLabel(currentTypeFilter)} Resources`;
+            }
+            document.getElementById('sectionTitle').textContent = title;
+        }
+
+        function getCategoryTitle(category) {
+            const titles = { all: 'All Resources', training: 'Training', docs: 'Documentation', tools: 'Tools', guides: 'Guides & Tutorials', community: 'Community' };
+            return titles[category] || 'All Resources';
+        }
+
+        function getTypeLabel(type) {
+            const labels = { html: 'HTML Slides', keynote: 'Keynote', video: 'Video', github: 'GitHub', website: 'Website', slack: 'Slack Channels' };
+            return labels[type] || type;
+        }
+
+        // Navigation
+        function handleNavigation(link) {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            link.closest('.nav-item').classList.add('active');
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('searchInput').value = '';
+
+            showView(link.dataset.page === 'course' ? 'course' : 'resources');
+
+            if (link.dataset.page === 'course') {
+                document.getElementById('pageTitle').textContent = 'GenAI Crash Course for Beginners';
+            } else if (link.dataset.page) {
+                document.getElementById('heroSection').style.display = 'block';
+                currentCategoryFilter = 'all';
+                currentTypeFilter = 'all';
+                resetFilterChips();
+                renderResources(RESOURCES);
+                document.getElementById('sectionTitle').textContent = 'All Resources';
+                document.getElementById('pageTitle').textContent = 'GenAI Community Resources';
+            } else if (link.dataset.category) {
+                document.getElementById('heroSection').style.display = 'none';
+                currentCategoryFilter = link.dataset.category;
+                currentTypeFilter = 'all';
+                resetFilterChips();
+                document.querySelector(`#categoryFilters [data-filter="${link.dataset.category}"]`)?.classList.add('active');
+                applyFilters();
+                document.getElementById('pageTitle').textContent = getCategoryTitle(link.dataset.category);
+            } else if (link.dataset.type) {
+                document.getElementById('heroSection').style.display = 'none';
+                currentTypeFilter = link.dataset.type;
+                currentCategoryFilter = 'all';
+                resetFilterChips();
+                document.querySelector(`#typeFilters [data-filter="${link.dataset.type}"]`)?.classList.add('active');
+                applyFilters();
+                document.getElementById('pageTitle').textContent = `${getTypeLabel(link.dataset.type)} Resources`;
+            }
+        }
+
+        function resetFilterChips() {
+            document.querySelectorAll('#categoryFilters .filter-chip').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('#typeFilters .filter-chip').forEach(c => c.classList.remove('active'));
+            document.querySelector('#categoryFilters [data-filter="all"]')?.classList.add('active');
+            document.querySelector('#typeFilters [data-filter="all"]')?.classList.add('active');
+        }
+
+        // Render
+        function renderResources(data) {
+            const grid = document.getElementById('resourcesGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            if (data.length === 0) {
+                grid.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            grid.innerHTML = data.map(r => `
+                <a href="${r.url}" class="resource-card" target="${r.url.startsWith('http') || r.url.startsWith('slack://') ? '_blank' : '_self'}">
+                    <div class="card-thumbnail">
+                        <span class="card-icon">${r.icon}</span>
+                        <span class="card-category" style="background: ${getCategoryColor(r.category)};">
+                            ${capitalizeFirst(r.category)}
+                        </span>
+                        <span class="card-type ${r.type}">${r.type.toUpperCase()}</span>
+                        <span class="card-duration">${r.duration}</span>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">${r.title}</h3>
+                        <p class="card-description">${r.description}</p>
+                        <div class="card-meta">
+                            <span class="card-author">By ${r.author}</span>
+                            <span class="card-team">${r.team}</span>
+                        </div>
+                        <div class="card-tags">
+                            ${r.tags.slice(0, 3).map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        // Update counts
+        function updateCounts() {
+            const setCount = (id, count) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = count;
+            };
+
+            setCount('countAll', RESOURCES.length);
+            setCount('countTraining', RESOURCES.filter(r => r.category === 'training').length);
+            setCount('countDocs', RESOURCES.filter(r => r.category === 'docs').length);
+            setCount('countTools', RESOURCES.filter(r => r.category === 'tools').length);
+            setCount('countGuides', RESOURCES.filter(r => r.category === 'guides').length);
+            setCount('countCommunity', RESOURCES.filter(r => r.category === 'community').length);
+
+            setCount('countHtml', RESOURCES.filter(r => r.type === 'html').length);
+            setCount('countVideo', RESOURCES.filter(r => r.type === 'video').length);
+            setCount('countGithub', RESOURCES.filter(r => r.type === 'github').length);
+            setCount('countKeynote', RESOURCES.filter(r => r.type === 'keynote').length);
+            setCount('countWebsite', RESOURCES.filter(r => r.type === 'website').length);
+            setCount('countSlack', RESOURCES.filter(r => r.type === 'slack').length);
+
+            setCount('totalResources', RESOURCES.length);
+
+            const teams = new Set(RESOURCES.map(r => r.team));
+            setCount('totalTeams', teams.size);
+        }
+
+        // Utilities
+        function getCategoryColor(category) {
+            const colors = { training: '#34c759', docs: '#007aff', tools: '#ff9500', guides: '#5ac8fa', community: '#af52de' };
+            return colors[category] || '#6b7280';
+        }
+
+        function capitalizeFirst(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+    </script>
+</body>
+</html>
