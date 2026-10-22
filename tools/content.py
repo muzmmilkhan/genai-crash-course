@@ -1,6 +1,50 @@
 # Beginner-friendly GenAI crash course. Block types: p, ul, code, tip, warn, table, task, widget ("name" or "archdiag:key").
 MODULES = [
- dict(key="genai-basics", n=1, title="What is Generative AI?", tag="Start here", color="#007aff",
+ dict(key="ai-careers", n=1, title="AI Careers & Interview Prep", tag="Career", color="#ff6b00",
+  intro="Prepare for GenAI interviews and build a portfolio that stands out: why the market wants AI generalists, what to learn, what to avoid, and how interviews have changed.",
+  sections=[
+   ("The shift: from LLM user to AI generalist", [
+     ("p","The job market is moving away from people who only use LLMs toward people who can build and run complete AI products. Roles are growing from AI product engineer to AI system architect, and ultimately to the AI generalist: someone who understands LLMs, product engineering, agentic systems and cloud infrastructure."),
+     ("widget","archdiag:careerarch"),
+     ("tip","Click each step on the ladder, or press the play button to walk up it.")]),
+   ("The AI generalist skill map", [
+     ("p","Ten areas come up again and again in hiring conversations. You do not need to be an expert in all of them, but you should be able to talk about each one with practical examples."),
+     ("widget","archdiag:skillarch"),
+     ("ul",["Productionizing AI systems: cloud infrastructure, cost, scalability and security.","Modern RAG pipelines for large knowledge bases and unstructured data.","Agentic workflows: access control, security and decision-making.","LLMOps: hosting, inference cost and token consumption.","Cloud deployment with AWS, Azure or GCP, plus infrastructure as code such as Terraform.","AI infrastructure: GPUs, TPUs, inference and training costs.","Evaluation and monitoring in production.","AI security and data privacy.","Cost optimization for AI tools and cloud resources.","Multimodal orchestration: coordinating different models for dedicated tasks."])]),
+   ("What to avoid", [
+     ("ul",["Thinking GenAI is just prompt engineering.","Learning framework names (LangChain, AutoGen and others) without ever applying them.","Showing only simple chatbot projects, or copy-pasting existing AI apps."]),
+     ("p","Test your instincts: which of these portfolio projects would impress a hiring team, and which are red flags?"),
+     ("widget","projectspot")]),
+   ("Roles hiring for GenAI", [
+     ("p","GenAI teams hire across several disciplines. Explore what each role focuses on and the kind of question you might be asked."),
+     ("widget","roles"),
+     ("table",[["Role","Focus"],["AI Engineer","LLM applications, RAG, multi-agent systems, fine-tuning"],["Backend Engineer","API security, scaling, async programming, authentication"],["Data Engineer","Embedding pipelines, vector databases, ETL, data warehousing"],["Cloud & Ops Engineer","Cloud platforms, Kubernetes, Docker, CI/CD"],["LLMOps Engineer","Prompt engineering, evaluation, tracing, guardrails, cost tracking"],["AI Product Lead / Engineer","User experience, latency, reliability, failure handling"]])]),
+   ("How interviews have changed", [
+     ("p","Classic interviews focused on data structures and algorithms, SQL and ML theory. GenAI interviews increasingly test whether you understand the technology and can build with it, usually across three rounds."),
+     ("widget","archdiag:interviewarch"),
+     ("table",[["Old style","New style"],["DSA puzzles","AI fundamentals: transformers, tokens, embeddings, RAG"],["SQL drills","Build discussions: architecture, data flow, scaling, cost, security, monitoring"],["ML theory","AI system design and live building"]])]),
+   ("Practise the three rounds", [
+     ("p","Pick a round, read the question, answer out loud, then reveal the outline of what a strong answer covers."),
+     ("widget","qa")]),
+   ("Why cloud knowledge matters", [
+     ("p","AI systems live in the cloud, so you need to know which services do what. Infrastructure-as-code tools such as Terraform can automate setup, but they only help if you understand the components you are creating."),
+     ("widget","cloudmap"),
+     ("code","# Terraform: describe infrastructure as code (illustrative)\nresource \"aws_s3_bucket\" \"rag_documents\" {\n  bucket = \"my-rag-documents\"\n}"),
+     ("tip","Know the concepts first (compute, storage, networking, secrets, monitoring). Then tools like Terraform are just a way to write them down repeatably.")]),
+   ("AI infrastructure and cost basics", [
+     ("table",[["Topic","What to understand"],["GPU / TPU","Specialized chips that run model math in parallel. Scarce and expensive, so utilization matters."],["Inference","Running a trained model to answer requests. Dominant cost for most applications."],["Training / fine-tuning","Much more expensive than inference. Often unnecessary if prompting and RAG are enough."],["Managed vs self-hosted","Managed APIs are simple; self-hosting adds control and operational work."]]),
+     ("p","To practise estimating cost, use the cost simulator in the Architecture of a GenAI App module.")]),
+   ("AI interviewers", [
+     ("p","Some companies now use AI systems to run parts of the interview. They are still evaluating the same things: practical skill and clear thinking."),
+     ("ul",["Answer concretely, with examples from things you built.","Think out loud and explain trade-offs.","Be ready to defend your choices when asked follow-up questions.","Do not rely on memorized definitions. Show reasoning."])]),
+   ("Self-assessment: how ready are you?", [
+     ("p","Rate yourself on each skill area. The radar chart shows your shape, and the tool suggests where to focus next."),
+     ("widget","readiness")]),
+   ("Build your portfolio: next steps", [
+     ("task",["I have at least one project that is clearly my own, not a tutorial copy.","One project is deployed in the cloud with monitoring.","I can explain my architecture, data flow, cost and security choices.","I have written evaluation tests for one of my projects.","I practised the three interview rounds out loud.","I can explain tokens, embeddings, attention and RAG simply."]),
+     ("p","Structured programs and mentoring can help too: the lecture mentions a batch-style program that focuses on tech skills, portfolio building, brand building and interpersonal communication. Whatever route you choose, those four areas are worth working on.")]),
+  ]),
+ dict(key="genai-basics", n=2, title="What is Generative AI?", tag="Foundations", color="#007aff",
   intro="A friendly first look: what GenAI is, how it differs from other AI, what it can create, and where it falls short.",
   sections=[
    ("AI, machine learning and GenAI", [
@@ -25,7 +69,7 @@ MODULES = [
      ("p","Test yourself on the vocabulary. Click a card to flip it."),
      ("widget","flashcards")]),
   ]),
- dict(key="llm-how", n=2, title="How LLMs Work", tag="Core idea", color="#5856D6",
+ dict(key="llm-how", n=3, title="How LLMs Work", tag="Core idea", color="#5856D6",
   intro="Look inside a large language model: tokens, embeddings, attention, and how it writes one word at a time.",
   sections=[
    ("The big picture", [
@@ -55,7 +99,7 @@ MODULES = [
    ("Limits to remember", [
      ("ul",["It predicts likely text. It does not \"know\" things the way people do.","It can invent facts (hallucination).","It only knows what was in its training data, up to a cutoff date, unless you give it fresh information.","The same question can get slightly different answers."])]),
   ]),
- dict(key="prompting", n=3, title="Prompting Basics", tag="Hands-on", color="#af52de",
+ dict(key="prompting", n=4, title="Prompting Basics", tag="Hands-on", color="#af52de",
   intro="Learn to ask clearly. Good prompts are the cheapest way to get better results from any GenAI tool.",
   sections=[
    ("What is a prompt?", [
@@ -80,7 +124,7 @@ MODULES = [
    ("Common mistakes", [
      ("ul",["Asking for too many things at once.","Assuming the AI knows your context.","Not checking the facts in the answer.","Pasting private or confidential data into tools you are not approved to use."])]),
   ]),
- dict(key="rag", n=4, title="Grounding & RAG", tag="Architecture", color="#30b0c7",
+ dict(key="rag", n=5, title="Grounding & RAG", tag="Architecture", color="#30b0c7",
   intro="How to make an AI answer from your own documents instead of guessing, using retrieval-augmented generation (RAG).",
   sections=[
    ("The problem: models guess", [
@@ -101,7 +145,7 @@ MODULES = [
    ("Making RAG better", [
      ("ul",["Split on natural boundaries such as headings and paragraphs.","Combine keyword and meaning-based search (hybrid search).","Ask the model to cite sources and say \"I don't know\" when the answer is missing.","Test with real questions and check that the right chunk is found."])]),
   ]),
- dict(key="agents", n=5, title="AI Agents & Tools", tag="Architecture", color="#ff9500",
+ dict(key="agents", n=6, title="AI Agents & Tools", tag="Architecture", color="#ff9500",
   intro="From chatbots to assistants that can act: how agents plan, use tools and check their own work.",
   sections=[
    ("From chatbot to agent", [
@@ -122,7 +166,7 @@ MODULES = [
    ("Keeping agents safe", [
      ("ul",["Give the least access needed.","Ask a human to approve risky actions such as deleting or paying.","Log what the agent did.","Test on safe data first."])]),
   ]),
- dict(key="app-architecture", n=6, title="Architecture of a GenAI App", tag="Architecture", color="#34c759",
+ dict(key="app-architecture", n=7, title="Architecture of a GenAI App", tag="Architecture", color="#34c759",
   intro="Put the pieces together: the typical building blocks of a real GenAI product, and how to choose, price and measure them.",
   sections=[
    ("A reference architecture", [
@@ -143,7 +187,7 @@ MODULES = [
      ("p","You cannot improve what you do not measure. Build a small test set of realistic questions with known good answers, and re-run it whenever you change the prompt, model or data."),
      ("ul",["Check accuracy, helpfulness, tone and safety.","Log real usage (without storing sensitive data you do not need).","Get user feedback with a simple thumbs up or down."])]),
   ]),
- dict(key="safety", n=7, title="Safety & Responsible Use", tag="Essential", color="#ff3b30",
+ dict(key="safety", n=8, title="Safety & Responsible Use", tag="Essential", color="#ff3b30",
   intro="Use GenAI confidently and carefully: hallucinations, privacy, bias, prompt injection and good habits.",
   sections=[
    ("Hallucinations: confident but wrong", [

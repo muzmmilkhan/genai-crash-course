@@ -600,5 +600,168 @@
     showDist(); reset(); analogy(); reset();
   };
 
+  // ---------- Careers & interview prep ----------
+  ARCH.careerarch = {
+    w: 790, h: 330, hint: 'How the market has shifted.',
+    nodes: [
+      { id: 'n1', x: 10, y: 250, w: 170, h: 62, t: 'LLM user\n(prompts & chat)', c: '#8e8e93', d: 'Uses chatbots and writes prompts. A useful starting point, but no longer enough on its own to stand out for GenAI roles.' },
+      { id: 'n2', x: 205, y: 172, w: 170, h: 62, t: 'AI product\nengineer', c: '#007aff', d: 'Builds real features with LLMs: RAG, tool calling, good UX, handling latency, reliability and failures.' },
+      { id: 'n3', x: 400, y: 94, w: 170, h: 62, t: 'AI system\narchitect', c: '#af52de', d: 'Designs whole systems: data flow, scaling, cost, security, evaluation and monitoring, and how agents and models fit together.' },
+      { id: 'n4', x: 595, y: 14, w: 185, h: 62, t: 'AI generalist', c: '#34c759', d: 'Understands LLMs, product engineering, agentic systems and cloud infrastructure well enough to take an idea from prototype to production.' }
+    ],
+    edges: [['n1', 'n2'], ['n2', 'n3'], ['n3', 'n4']],
+    flow: [['n1', 'Most people start here.'], ['n2', 'Add product engineering: ship features that work reliably.'], ['n3', 'Add system design: scale, cost, security, monitoring.'], ['n4', 'Combine it all, including cloud and agentic systems.']]
+  };
+  ARCH.skillarch = {
+    w: 790, h: 330, hint: 'Ten areas to prepare.',
+    lanes: [{ y: 78, h: 242, label: 'ESSENTIAL PREPARATION TOPICS' }],
+    nodes: [
+      { id: 'gen', x: 10, y: 8, w: 770, h: 52, t: 'AI generalist: LLMs + product engineering + agentic systems + cloud', c: '#34c759', d: 'The goal: broad, practical skill across the full stack of a GenAI product, with depth in a few areas.' },
+      { id: 'prod', x: 10, y: 108, w: 140, h: 62, t: 'Productionizing\nAI systems', c: '#007aff', d: 'The whole "Ops" side: cloud infrastructure, cost, scalability and security. A demo is not a product.' },
+      { id: 'rag', x: 168, y: 108, w: 140, h: 62, t: 'Modern RAG\npipelines', c: '#30b0c7', d: 'Optimized retrieval for large knowledge bases and unstructured data: chunking, hybrid search, reranking, access control.' },
+      { id: 'agent', x: 326, y: 108, w: 140, h: 62, t: 'Agentic\nworkflows', c: '#ff9500', d: 'Different kinds of agents, with focus on access control, security and how decisions are made and approved.' },
+      { id: 'llmops', x: 484, y: 108, w: 140, h: 62, t: 'LLMOps', c: '#af52de', d: 'Hosting, inference costs, token consumption, prompt versions, tracing and guardrails.' },
+      { id: 'multi', x: 642, y: 108, w: 138, h: 62, t: 'Multimodal\norchestration', c: '#ff2d92', d: 'Coordinating different models (text, vision, speech) so each handles the task it is best at.' },
+      { id: 'cloud', x: 10, y: 222, w: 140, h: 62, t: 'Cloud\ndeployment', c: '#5856D6', d: 'AWS, Azure or GCP services plus infrastructure-as-code such as Terraform for repeatable deployments.' },
+      { id: 'infra', x: 168, y: 222, w: 140, h: 62, t: 'AI\ninfrastructure', c: '#8e8e93', d: 'GPU and TPU basics, model inference and training costs, and when to use managed versus self-hosted models.' },
+      { id: 'eval', x: 326, y: 222, w: 140, h: 62, t: 'Evaluation &\nmonitoring', c: '#34c759', d: 'Test sets, quality metrics and production monitoring so you notice when answers get worse.' },
+      { id: 'sec', x: 484, y: 222, w: 140, h: 62, t: 'AI security\n& privacy', c: '#ff3b30', d: 'Prompt injection, data leakage, access control and protecting personal and confidential data.' },
+      { id: 'cost', x: 642, y: 222, w: 138, h: 62, t: 'Cost\noptimization', c: '#ff9f0a', d: 'Model routing, caching, shorter prompts and right-sizing infrastructure to cut spend without hurting quality.' }
+    ],
+    edges: [['gen', 'prod'], ['gen', 'rag'], ['gen', 'agent'], ['gen', 'llmops'], ['gen', 'multi']],
+    flow: [['gen', 'A generalist covers the full picture.'], ['prod', '1. Productionizing'], ['rag', '2. Modern RAG'], ['agent', '3. Agentic workflows'], ['llmops', '4. LLMOps'], ['multi', '5. Multimodal orchestration'], ['cloud', '6. Cloud deployment'], ['infra', '7. AI infrastructure'], ['eval', '8. Evaluation & monitoring'], ['sec', '9. AI security'], ['cost', '10. Cost optimization']]
+  };
+  ARCH.interviewarch = {
+    w: 790, h: 330, hint: 'The modern GenAI interview.',
+    nodes: [
+      { id: 'old', x: 10, y: 8, w: 770, h: 46, t: 'Old style: DSA · SQL · ML theory (becoming less relevant for GenAI roles)', c: '#8e8e93', d: 'Classic algorithm puzzles, SQL drills and pure ML theory still appear sometimes, but GenAI hiring is shifting toward practical building skills.' },
+      { id: 'r1', x: 10, y: 100, w: 230, h: 76, t: 'Round 1\nAI fundamentals', c: '#007aff', d: 'Can you explain how modern AI works? Expect transformer architecture, tokens, embeddings and RAG.' },
+      { id: 'r2', x: 280, y: 100, w: 230, h: 76, t: 'Round 2\nBuild discussion', c: '#af52de', d: 'Walk through something you built: architecture, data flow, scaling, cost, security, optimization and monitoring.' },
+      { id: 'r3', x: 550, y: 100, w: 230, h: 76, t: 'Round 3\nSystem design & build', c: '#34c759', d: 'Real-time problem solving: design (and sometimes build) an AI system live while explaining your trade-offs.' },
+      { id: 's1', x: 10, y: 226, w: 230, h: 66, t: 'Transformers · tokens ·\nembeddings · RAG', c: '#007aff', d: 'Study the How LLMs Work and RAG modules, then practise explaining each concept out loud in plain language.' },
+      { id: 's2', x: 280, y: 226, w: 230, h: 66, t: 'Architecture · data flow ·\nscaling · cost · security', c: '#af52de', d: 'Prepare a 5-minute walkthrough of a real project: why you chose each component, what it costs and how you monitor it.' },
+      { id: 's3', x: 550, y: 226, w: 230, h: 66, t: 'Clarify · design ·\ntrade-offs · iterate', c: '#34c759', d: 'Practise with a timer. Start by asking requirement questions, sketch the architecture, then discuss failure modes, cost and evaluation.' }
+    ],
+    edges: [['old', 'r1'], ['r1', 'r2'], ['r2', 'r3'], ['r1', 's1'], ['r2', 's2'], ['r3', 's3']],
+    flow: [['old', 'The old interview mix is fading.'], ['r1', 'Round 1 tests fundamentals.'], ['s1', 'Prepare: fundamentals you can explain simply.'], ['r2', 'Round 2 explores what you have built.'], ['s2', 'Prepare: a clear project walkthrough.'], ['r3', 'Round 3 is live design and building.'], ['s3', 'Prepare: timed practice with trade-offs.']]
+  };
+
+  W.roles = root => {
+    const R = [
+      ['🧠 AI Engineer', 'LLM applications, RAG, multi-agent systems and fine-tuning.', ['Prompting & evaluation', 'RAG', 'Agents', 'Fine-tuning basics'], 'How would you build a RAG assistant over our internal documents?'],
+      ['🔧 Backend Engineer', 'API security, scaling, asynchronous programming and authentication.', ['REST/gRPC APIs', 'Async I/O', 'Auth & rate limiting', 'Queues & caching'], 'How would you serve a slow LLM endpoint to thousands of users without timeouts?'],
+      ['🗄️ Data Engineer', 'Embedding pipelines, vector databases, ETL and data warehousing.', ['ETL / ELT', 'Vector databases', 'Embedding pipelines', 'Warehouses'], 'How do you keep a vector index fresh when source documents change daily?'],
+      ['☁️ Cloud & Ops Engineer', 'Cloud platforms, Kubernetes, Docker and CI/CD.', ['AWS / Azure / GCP', 'Docker & Kubernetes', 'CI/CD', 'Infrastructure as code'], 'Walk me through deploying a containerized AI service with zero-downtime updates.'],
+      ['📊 LLMOps Engineer', 'Prompt engineering, evaluation, tracing, guardrails and cost tracking.', ['Evals & test sets', 'Tracing', 'Guardrails', 'Cost dashboards'], 'How do you detect that a prompt change made answers worse?'],
+      ['🎯 AI Product Lead / Engineer', 'User experience, latency, reliability and failure handling.', ['UX for AI', 'Latency budgets', 'Reliability', 'Failure handling'], 'What should the app do when the model is slow, wrong, or unavailable?']
+    ];
+    const tabs = h('div', { class: 'tabs' }), body = h('div', { class: 'apanel' });
+    function pick(i) {
+      [...tabs.children].forEach((t, j) => t.classList.toggle('on', i === j)); const r = R[i];
+      body.replaceChildren(h('p', {}, h('b', {}, 'Focus: '), r[1]), h('div', { class: 'chips' }, r[2].map(t => h('span', { class: 'chip', style: 'background:#5856D633;border-color:#5856D6' }, t))), h('p', {}, h('b', {}, 'Sample interview question: '), h('em', {}, '"' + r[3] + '"')));
+    }
+    R.forEach((r, i) => tabs.append(h('button', { class: 'tab', onclick: () => pick(i) }, r[0])));
+    root.append(h('h4', {}, '👥 Explore: roles that hire for GenAI'), tabs, body); pick(0);
+  };
+
+  W.projectspot = root => {
+    const C = [
+      ['A chatbot built by following a tutorial step by step, with nothing changed.', true, 'Red flag. Hiring teams see this constantly. Change the problem, data and design so the work is clearly yours.'],
+      ['A RAG app over thousands of PDFs with hybrid search, reranking and a quality evaluation report.', false, 'Strong. It shows retrieval depth and measurement.'],
+      ['"I know LangChain and AutoGen" with no project that uses them.', true, 'Red flag. Knowing a framework name is not the same as building with it. Show something working.'],
+      ['An agent with role-based access, approval steps and audit logs, with a short write-up of the risks.', false, 'Strong. It covers access control, security and decision-making.'],
+      ['A clever prompt library presented as the whole project.', true, 'Weak. GenAI is more than prompt engineering. Pair prompts with system design.'],
+      ['A deployed service on a cloud provider defined with Terraform, with CI/CD, monitoring and a cost dashboard.', false, 'Strong. It proves you can productionize, not just prototype.'],
+      ['A copy-pasted open-source AI app with a new logo.', true, 'Red flag. Interviewers will ask how it works, and copied work falls apart under questions.']
+    ];
+    let i = 0, score = 0;
+    const card = h('div', { class: 'apanel' }), fb = h('div', { class: 'apanel', style: 'display:none' });
+    function show() {
+      fb.style.display = 'none';
+      if (i >= C.length) { card.replaceChildren(h('b', {}, `Finished! Score: ${score} / ${C.length}`), h('p', {}, 'Strong portfolios show depth, measurement and production thinking.'), h('button', { class: 'btn p', onclick: () => { i = 0; score = 0; show(); } }, 'Play again')); return; }
+      card.replaceChildren(h('small', {}, `Project ${i + 1} of ${C.length}`), h('p', { style: 'font-size:16px;margin:8px 0 12px' }, C[i][0]), h('div', { class: 'wrow' }, h('button', { class: 'btn', onclick: () => ans(false) }, '💪 Strong project'), h('button', { class: 'btn', onclick: () => ans(true) }, '🚩 Red flag')));
+    }
+    function ans(flag) { const ok = flag === C[i][1]; if (ok) score++; fb.style.display = 'block'; fb.replaceChildren(h('b', {}, ok ? '✅ Correct. ' : '❌ Not quite. '), C[i][2], h('div', { class: 'wrow' }, h('button', { class: 'btn p', onclick: () => { i++; show(); } }, 'Next →'))); card.querySelectorAll('button').forEach(b => b.disabled = true); }
+    root.append(h('h4', {}, '🚩 Try it: strong project or red flag?'), card, fb); show();
+  };
+
+  W.qa = root => {
+    const R = {
+      'Round 1: Fundamentals': [
+        ['Explain tokens and why they matter.', ['Text is split into pieces (words or sub-words) that map to IDs.', 'Limits, latency and price are measured in tokens.', 'Different languages and code use different numbers of tokens.']],
+        ['What is an embedding, and how is it used in RAG?', ['A vector that represents meaning; similar meanings are close together.', 'Chunks and questions are embedded with the same model.', 'The nearest chunks to the question are retrieved by similarity search.']],
+        ['What does self-attention do?', ['Lets each token weigh which other tokens matter.', 'Resolves references such as "it" and captures long-range context.', 'Several attention heads capture different relationships in parallel.']],
+        ['RAG or fine-tuning: how do you choose?', ['RAG for fresh, private or citable knowledge that changes.', 'Fine-tuning for style, format or behavior, or to specialize a smaller model.', 'They can be combined; start with prompting and RAG because they are cheaper to iterate.']],
+        ['How do you reduce hallucinations?', ['Ground answers in retrieved sources and require citations.', 'Allow "I don\'t know" and constrain the prompt to the context.', 'Use evaluation sets, validators and human review for high-stakes output.']]
+      ],
+      'Round 2: Build discussion': [
+        ['Design a RAG system over 5 million documents. Walk me through the data flow.', ['Ingestion: parse, clean, chunk, embed, store with metadata.', 'Retrieval: approximate nearest neighbor index, hybrid search, reranking, metadata filters.', 'Access control per document, caching, incremental re-indexing.', 'Evaluation set, monitoring, cost and latency budgets.']],
+        ['How would you cut LLM costs by 50%?', ['Route easy requests to smaller models.', 'Cache repeated requests and shared prompt prefixes.', 'Trim prompts and history, limit output length, batch offline work.', 'Measure quality before and after every change.']],
+        ['How do you secure an agent that can use internal tools?', ['Least-privilege, scoped credentials per tool.', 'Human approval for risky actions; sandbox execution.', 'Input and output guardrails and prompt-injection defenses.', 'Audit logs and alerts on unusual behavior.']]
+      ],
+      'Round 3: System design': [
+        ['Design a support copilot used by 10,000 agents.', ['Clarify: users, latency target, data sources, accuracy needs.', 'Architecture: gateway, orchestrator, retrieval, LLM, guardrails, feedback loop.', 'Scale and cost: caching, model routing, rate limits, autoscaling.', 'Quality: offline evals, online metrics, human-in-the-loop, rollout plan.']],
+        ['Design an agent that processes invoices end to end.', ['Break the workflow into steps and decide which need a model.', 'Structured extraction with validation against business rules.', 'Approval thresholds, audit trail and exception handling.', 'Monitoring accuracy, throughput and cost per invoice.']]
+      ]
+    };
+    const tabs = h('div', { class: 'tabs' }), body = h('div', {});
+    function pick(k) {
+      [...tabs.children].forEach(t => t.classList.toggle('on', t.textContent === k));
+      body.replaceChildren(...R[k].map(([q, a]) => { const ans = h('ul', { style: 'display:none;margin:8px 0 0 20px' }, a.map(x => h('li', {}, x))); return h('div', { class: 'apanel' }, h('b', {}, q), h('div', { class: 'wrow' }, h('button', { class: 'btn', onclick: e => { const open = ans.style.display === 'none'; ans.style.display = open ? 'block' : 'none'; e.target.textContent = open ? 'Hide answer outline' : 'Show answer outline'; } }, 'Show answer outline')), ans); }));
+    }
+    Object.keys(R).forEach(k => tabs.append(h('button', { class: 'tab', onclick: () => pick(k) }, k)));
+    root.append(h('h4', {}, '🎤 Practise: answer out loud first, then reveal'), tabs, body, note('These outlines are what a strong answer typically covers, not scripts. Use your own words and your own project examples.')); pick(Object.keys(R)[0]);
+  };
+
+  W.cloudmap = root => {
+    const T = [
+      ['Run a containerized API', 'AWS ECS / Fargate', 'Azure Container Apps', 'Google Cloud Run'],
+      ['Kubernetes', 'Amazon EKS', 'Azure AKS', 'Google GKE'],
+      ['Managed foundation models', 'Amazon Bedrock', 'Azure OpenAI / AI Foundry', 'Vertex AI'],
+      ['Object storage for documents', 'Amazon S3', 'Azure Blob Storage', 'Cloud Storage'],
+      ['Vector / semantic search', 'OpenSearch or Aurora with pgvector', 'Azure AI Search', 'Vertex AI Vector Search or AlloyDB'],
+      ['Secrets', 'AWS Secrets Manager', 'Azure Key Vault', 'Secret Manager'],
+      ['Monitoring & logs', 'CloudWatch', 'Azure Monitor', 'Cloud Monitoring & Logging'],
+      ['Infrastructure as code', 'Terraform (or CloudFormation)', 'Terraform (or Bicep)', 'Terraform (or Deployment Manager)']
+    ];
+    const sel = h('select', { class: 'wi' }, T.map(t => h('option', {}, t[0]))), out = h('div', { class: 'bars' });
+    const colors = ['#ff9900', '#0078d4', '#34a853'];
+    function draw() { const t = T[sel.selectedIndex]; out.replaceChildren(...['AWS', 'Azure', 'Google Cloud'].map((n, i) => h('div', { class: 'apanel', style: `border-left:5px solid ${colors[i]}` }, h('small', {}, n), h('div', {}, h('b', {}, t[i + 1]))))); }
+    sel.addEventListener('change', draw);
+    root.append(h('h4', {}, '☁️ Explore: the same need on three clouds'), h('label', {}, 'What do you need?'), sel, out, note('Service names change over time, so confirm in each provider\'s docs. The point: concepts transfer between clouds.')); draw();
+  };
+
+  W.readiness = root => {
+    const TOP = [
+      ['Productionizing AI', 'Deploy a small LLM service end to end with logging and error handling.'],
+      ['Modern RAG', 'Build RAG with hybrid search, reranking and an evaluation set (see Lab 2).'],
+      ['Agentic workflows', 'Build an agent with two tools, an approval step and audit logs.'],
+      ['LLMOps', 'Add tracing and prompt versioning to one of your projects.'],
+      ['Cloud deployment', 'Deploy a container to a cloud service and describe it with Terraform.'],
+      ['AI infrastructure', 'Learn GPU vs TPU basics and compare managed vs self-hosted inference costs.'],
+      ['Evaluation & monitoring', 'Write a 20-question test set and track scores across prompt changes.'],
+      ['AI security', 'Test your app against prompt injection and document the defenses.'],
+      ['Cost optimization', 'Measure cost per request and try routing and caching to reduce it.'],
+      ['Multimodal orchestration', 'Chain a speech or vision model with an LLM in one workflow.']
+    ];
+    const LEVELS = ['Never heard of it', 'I know the idea', 'I have built something', 'Production-ready'];
+    const vals = TOP.map(() => 0), NS = 'http://www.w3.org/2000/svg';
+    const radar = document.createElementNS(NS, 'svg'); radar.setAttribute('viewBox', '0 0 360 320'); radar.setAttribute('class', 'archsvg'); radar.style.maxWidth = '420px';
+    const out = h('div', { class: 'apanel' }), score = h('div', { class: 'stats big' });
+    const rows = TOP.map(([n], i) => h('div', { class: 'wrow', style: 'justify-content:space-between' }, h('label', { style: 'min-width:170px;color:var(--tx)' }, n), (() => { const s = h('select', { class: 'wi', style: 'max-width:210px;margin:0' }, LEVELS.map(l => h('option', {}, l))); s.addEventListener('change', () => { vals[i] = s.selectedIndex; draw(); }); return s; })()));
+    function draw() {
+      const cx = 180, cy = 160, R = 110, n = TOP.length; let s = '';
+      [1, 2, 3].forEach(l => s += `<polygon points="${TOP.map((_, i) => { const a = i / n * 2 * Math.PI - Math.PI / 2; return (cx + Math.cos(a) * R * l / 3) + ',' + (cy + Math.sin(a) * R * l / 3); }).join(' ')}" fill="none" stroke="var(--bd)"/>`);
+      TOP.forEach((t, i) => { const a = i / n * 2 * Math.PI - Math.PI / 2; s += `<line x1="${cx}" y1="${cy}" x2="${cx + Math.cos(a) * R}" y2="${cy + Math.sin(a) * R}" stroke="var(--bd)"/><text x="${cx + Math.cos(a) * (R + 22)}" y="${cy + Math.sin(a) * (R + 18) + 4}" class="t2" style="font-size:10px">${t[0].split(' ')[0]}</text>`; });
+      s += `<polygon points="${TOP.map((_, i) => { const a = i / n * 2 * Math.PI - Math.PI / 2, r = R * vals[i] / 3; return (cx + Math.cos(a) * r) + ',' + (cy + Math.sin(a) * r); }).join(' ')}" fill="rgba(88,86,214,.3)" stroke="#5856D6" stroke-width="2.5"/>`;
+      radar.innerHTML = s;
+      const total = vals.reduce((a, b) => a + b, 0), pct = Math.round(total / (TOP.length * 3) * 100);
+      score.innerHTML = `Readiness: <b>${pct}%</b> · ${pct < 25 ? 'Just starting. Pick one topic and build something small.' : pct < 60 ? 'Good foundation. Turn knowledge into projects.' : 'Strong. Polish your portfolio and practise explaining trade-offs.'}`;
+      const weak = TOP.map((t, i) => [vals[i], t]).sort((a, b) => a[0] - b[0]).slice(0, 3);
+      out.replaceChildren(h('b', {}, 'Focus next on:'), ...weak.map(([, t]) => h('p', {}, h('b', {}, t[0] + ': '), t[1])));
+    }
+    root.append(h('h4', {}, '📡 Self-assessment: how ready are you?'), ...rows, radar, score, out, note('Be honest: the chart is for you. Revisit it every few weeks.')); draw();
+  };
+
   document.addEventListener('DOMContentLoaded', () => document.querySelectorAll('[data-widget]').forEach(r => { const f = W[r.dataset.widget]; if (f) f(r); }));
 })();

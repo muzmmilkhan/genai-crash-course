@@ -748,17 +748,20 @@
 
         // ---------------- Crash Course ----------------
         const COURSE_MODULES = {
-            'genai-basics': { page: 'modules/genai-basics.html', n: 1, name: 'What is Generative AI?', desc: 'AI vs ML vs GenAI, what it can create, strengths and limits.', tag: 'Start here', color: '#007aff', search: 'GenAI' },
-            'llm-how': { page: 'modules/llm-how.html', n: 2, name: 'How LLMs Work', desc: 'Tokens, embeddings, attention and next-word prediction with a clickable architecture.', tag: 'Core idea', color: '#5856D6', search: 'LLM' },
-            'prompting': { page: 'modules/prompting.html', n: 3, name: 'Prompting Basics', desc: 'Ask clearly: specificity, context, examples and format.', tag: 'Hands-on', color: '#af52de', search: 'Prompting' },
-            'rag': { page: 'modules/rag.html', n: 4, name: 'Grounding & RAG', desc: 'Make AI answer from your documents with an interactive RAG architecture.', tag: 'Architecture', color: '#30b0c7', search: 'RAG' },
-            'agents': { page: 'modules/agents.html', n: 5, name: 'AI Agents & Tools', desc: 'From chatbots to assistants that plan, use tools and act.', tag: 'Architecture', color: '#ff9500', search: 'Agents' },
-            'app-architecture': { page: 'modules/app-architecture.html', n: 6, name: 'Architecture of a GenAI App', desc: 'Reference architecture, design your own, model choice and cost.', tag: 'Architecture', color: '#34c759', search: 'API' },
-            'safety': { page: 'modules/safety.html', n: 7, name: 'Safety & Responsible Use', desc: 'Hallucinations, privacy, bias and prompt injection.', tag: 'Essential', color: '#ff3b30', search: '' },
-            'references': { n: 8, name: 'References & Resources', desc: 'Courses, docs, videos and community links.', tag: 'Reference', color: '#8e8e93', search: '' }
+            'ai-careers': { page: 'modules/ai-careers.html', n: 1, name: 'AI Careers & Interview Prep', desc: 'The AI generalist shift, skills to learn, portfolio red flags and the new interview rounds.', tag: 'Career', color: '#ff6b00', search: '' },
+            'genai-basics': { page: 'modules/genai-basics.html', n: 2, name: 'What is Generative AI?', desc: 'AI vs ML vs GenAI, what it can create, strengths and limits.', tag: 'Foundations', color: '#007aff', search: 'GenAI' },
+            'llm-how': { page: 'modules/llm-how.html', n: 3, name: 'How LLMs Work', desc: 'Tokens, embeddings, attention and next-word prediction with a clickable architecture.', tag: 'Core idea', color: '#5856D6', search: 'LLM' },
+            'prompting': { page: 'modules/prompting.html', n: 4, name: 'Prompting Basics', desc: 'Ask clearly: specificity, context, examples and format.', tag: 'Hands-on', color: '#af52de', search: 'Prompting' },
+            'rag': { page: 'modules/rag.html', n: 5, name: 'Grounding & RAG', desc: 'Make AI answer from your documents with an interactive RAG architecture.', tag: 'Architecture', color: '#30b0c7', search: 'RAG' },
+            'agents': { page: 'modules/agents.html', n: 6, name: 'AI Agents & Tools', desc: 'From chatbots to assistants that plan, use tools and act.', tag: 'Architecture', color: '#ff9500', search: 'Agents' },
+            'app-architecture': { page: 'modules/app-architecture.html', n: 7, name: 'Architecture of a GenAI App', desc: 'Reference architecture, design your own, model choice and cost.', tag: 'Architecture', color: '#34c759', search: 'API' },
+            'safety': { page: 'modules/safety.html', n: 8, name: 'Safety & Responsible Use', desc: 'Hallucinations, privacy, bias and prompt injection.', tag: 'Essential', color: '#ff3b30', search: '' },
+            'references': { n: 9, name: 'References & Resources', desc: 'Courses, docs, videos and community links.', tag: 'Reference', color: '#8e8e93', search: '' }
         };
 
         const QUIZ = [
+            { q: "What is an AI generalist? 🧭", o: ["Someone who only writes prompts", "Someone who understands LLMs, product engineering, agents and cloud", "Someone who only trains models", "Someone who only builds chatbots"], c: 1, m: 'ai-careers', e: "The market is moving from LLM users to people who can build and run complete AI systems." },
+            { q: "Which portfolio project is a red flag? 🚩", o: ["RAG app with an evaluation report", "Deployed service with monitoring", "Tutorial chatbot copied unchanged", "Agent with access control"], c: 2, m: 'ai-careers', e: "Copied tutorial projects show little. Build something that is clearly yours." },
             { q: "Which best describes generative AI? ✨", o: ["AI that only classifies data", "AI that creates new content like text, images or code", "A type of database", "AI that only works offline"], c: 1, m: 'genai-basics', e: "Generative AI produces new content. Predictive AI mostly classifies or forecasts." },
             { q: "How do the terms nest? 🎯", o: ["GenAI ⊃ AI ⊃ ML", "AI ⊃ ML ⊃ Deep Learning ⊃ GenAI", "ML ⊃ AI ⊃ GenAI", "They are unrelated"], c: 1, m: 'genai-basics', e: "Think of nested circles: AI contains machine learning, which contains deep learning, which contains GenAI." },
             { q: "What is a token? 🔤", o: ["A password", "A small piece of text a model reads", "A GPU core", "A full document"], c: 1, m: 'llm-how', e: "Models read tokens, often words or word pieces. Limits and prices are counted in tokens." },

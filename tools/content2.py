@@ -1,5 +1,10 @@
 
 QUIZZES = {
+ "ai-careers": [
+  ("Which best describes an AI generalist?", ["Someone who only writes prompts", "Someone who understands LLMs, product engineering, agentic systems and cloud infrastructure", "Someone who only trains models", "Someone who only builds chatbots"], 1, "The market is moving from LLM users toward people who can build and run complete AI systems."),
+  ("Which project is the weakest portfolio piece?", ["A RAG app with an evaluation report", "A deployed service with monitoring and cost tracking", "A tutorial chatbot copied with no changes", "An agent with access control and audit logs"], 2, "Copied tutorial projects show little. Interviewers probe how things work."),
+  ("What does Round 2 of a modern GenAI interview usually explore?", ["Only algorithm puzzles", "Architecture, data flow, scaling, cost, security and monitoring of things you built", "Only SQL", "Only theory proofs"], 1, "Build discussions test whether you can reason about real systems."),
+ ],
  "genai-basics": [
   ("Which best describes generative AI?", ["AI that only classifies data", "AI that creates new content such as text, images or code", "AI that stores databases", "AI that only works offline"], 1, "Generative AI produces new content. Predictive AI mostly classifies or forecasts."),
   ("Which statement about GenAI output is wisest?", ["It is always correct", "It is a helpful draft that should be checked", "It never makes mistakes with numbers", "It only needs checking for images"], 1, "GenAI can sound confident while being wrong, so verify anything important."),
