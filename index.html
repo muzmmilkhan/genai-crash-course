@@ -760,6 +760,7 @@
         };
 
         const QUIZ = [
+            { q: "Which guardrail layer scans the AI's answer for PII leaks and toxic content? 🧾", o: ["Policy", "Input", "Output", "Monitoring"], c: 2, m: 'app-architecture', e: "The output layer checks the answer before the user sees it. Policy decides what is allowed, input checks prompts, monitoring logs everything." },
             { q: "What is an AI generalist? 🧭", o: ["Someone who only writes prompts", "Someone who understands LLMs, product engineering, agents and cloud", "Someone who only trains models", "Someone who only builds chatbots"], c: 1, m: 'ai-careers', e: "The market is moving from LLM users to people who can build and run complete AI systems." },
             { q: "Which portfolio project is a red flag? 🚩", o: ["RAG app with an evaluation report", "Deployed service with monitoring", "Tutorial chatbot copied unchanged", "Agent with access control"], c: 2, m: 'ai-careers', e: "Copied tutorial projects show little. Build something that is clearly yours." },
             { q: "Which best describes generative AI? ✨", o: ["AI that only classifies data", "AI that creates new content like text, images or code", "A type of database", "AI that only works offline"], c: 1, m: 'genai-basics', e: "Generative AI produces new content. Predictive AI mostly classifies or forecasts." },

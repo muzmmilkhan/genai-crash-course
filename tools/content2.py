@@ -31,6 +31,9 @@ QUIZZES = {
   ("A safe agent design includes...", ["Full access to everything", "Least privilege and human approval for risky actions", "No logging", "Hidden actions"], 1, "Limit access, keep humans in control, and log actions."),
  ],
  "app-architecture": [
+  ("How many layers of guardrails does the lecture describe?", ["Two", "Three", "Six", "Ten"], 2, "Policy, input, instruction, execution, output and monitoring."),
+  ("Which layer makes sure a payment tool cannot be used without the right privileges?", ["Policy only", "Execution layer", "Output layer", "Monitoring layer"], 1, "The execution layer checks privileges and approvals on tool calls."),
+  ("What is the main job of the monitoring layer?", ["Block every prompt", "Log and watch behavior so you can investigate and improve", "Write the system prompt", "Speed up the model"], 1, "Monitoring detects and records; it does not prevent by itself."),
   ("Why does a long chat cost more per turn?", ["Tokens expire", "The whole history is re-sent each turn", "The model is tired", "Output is free"], 1, "Context grows, and it is re-processed on every turn."),
   ("What is the job of guardrails?", ["Make the app prettier", "Check inputs and outputs for unsafe or off-topic content", "Compress files", "Store vectors"], 1, "Guardrails filter and constrain behavior."),
   ("How should you pick a model?", ["Always the biggest", "Match quality, speed and cost to the task and test it", "Whichever is newest", "Random"], 1, "Test on your own examples and move to a cheaper model if quality holds."),
