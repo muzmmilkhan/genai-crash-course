@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build a Portfolio That Gets You Calls - GenAI Interview and Portfolio Mastery (Zero to Offer)</title>
+<style>:root{--bg:#fff;--bg2:#f5f5f7;--bg3:#e8e8ed;--tx:#1d1d1f;--tx2:#6e6e73;--bd:#d2d2d7;--ac:#5856D6;--side:#1d1d1f;--code:#1d1d1f;--codetx:#f5f5f7}
+[data-theme=dark]{--bg:#1d1d1f;--bg2:#2d2d2f;--bg3:#3d3d3f;--tx:#f5f5f7;--tx2:#a1a1a6;--bd:#424245;--side:#000;--code:#000}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.65;color:var(--tx);background:var(--bg)}
+a{color:var(--ac)}
+.layout{display:flex;min-height:100vh}
+.side{position:fixed;top:0;left:0;width:260px;height:100vh;background:var(--side);color:#fff;padding:24px 0;overflow-y:auto}
+.side h2{font-size:15px;padding:0 24px 12px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:12px}
+.side a{display:block;padding:6px 24px;font-size:13px;color:rgba(255,255,255,.7);text-decoration:none}
+.side a:hover{background:rgba(255,255,255,.1);color:#fff}
+.side a.active,.side a.cur{background:rgba(255,255,255,.15);color:#fff}
+.side .back{color:#fff;font-weight:600;margin-bottom:8px}
+.side .grp{padding:14px 24px 4px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:rgba(255,255,255,.4)}
+main{margin-left:260px;flex:1;max-width:880px;padding:48px 40px 110px}
+.mod-head{border-top:6px solid var(--c);padding-top:20px;margin-bottom:32px}
+.badge{display:inline-block;font-size:12px;font-weight:700;color:#fff;background:var(--c);padding:2px 10px;border-radius:10px;margin-bottom:10px}
+h1{font-size:38px;line-height:1.2;margin-bottom:10px}
+.intro{font-size:18px;color:var(--tx2)}
+section{margin-top:40px;scroll-margin-top:20px}
+h2.st{font-size:24px;margin-bottom:12px}
+p{margin-bottom:14px}
+ul{margin:0 0 14px 22px}li{margin-bottom:6px}
+pre{position:relative;background:var(--code);color:var(--codetx);padding:16px 18px;border-radius:12px;overflow-x:auto;font-size:13px;line-height:1.5;margin-bottom:16px}
+.copy{position:absolute;top:8px;right:8px;font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;cursor:pointer}
+.box{padding:14px 18px;border-radius:12px;border-left:4px solid;margin-bottom:16px;background:var(--bg2)}
+.tip{border-color:#007aff}.warn{border-color:#ff9500}
+table{border-collapse:collapse;width:100%;margin-bottom:16px;font-size:14px}
+th,td{border:1px solid var(--bd);padding:8px 12px;text-align:left;vertical-align:top}th{background:var(--bg2)}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:56px;padding-top:24px;border-top:1px solid var(--bd);flex-wrap:wrap}
+.btn{display:inline-block;padding:10px 20px;border-radius:10px;background:var(--bg3);color:var(--tx);text-decoration:none;font-weight:600;font-size:14px;border:0;cursor:pointer;font-family:inherit}
+.btn.p{background:var(--ac);color:#fff}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.note{margin-top:32px;font-size:12px;color:var(--tx2)}
+.fig{margin:8px 0 20px;background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:12px;overflow-x:auto}
+.fig svg{width:100%;min-width:560px;height:auto}
+.nd{fill:var(--bg);stroke:var(--bd);stroke-width:2}.ar{stroke:var(--tx2);stroke-width:2}
+.t1{fill:var(--tx);font:600 14px system-ui;text-anchor:middle}.t2{fill:var(--tx2);font:12px system-ui;text-anchor:middle}
+.wt{fill:#fff;font:700 13px system-ui;text-anchor:middle}.wt.s{font:11px system-ui;font-weight:500}
+.viz3d{margin:8px 0 20px;background:var(--bg2);border:1px solid var(--bd);border-radius:14px;overflow:hidden}
+.viz3d canvas{width:100%;display:block;cursor:grab;touch-action:none}
+.viz3d figcaption{font-size:12px;color:var(--tx2);padding:8px 14px;border-top:1px solid var(--bd)}
+/* checklists */
+ul.tasks{list-style:none;margin-left:0}ul.tasks label{cursor:pointer}ul.tasks input{margin-right:8px;accent-color:var(--ac)}
+ul.tasks li.done label{color:var(--tx2);text-decoration:line-through}
+/* mini quiz */
+.mq .qq{margin-bottom:22px}.mq h3{font-size:17px;margin-bottom:10px}
+.mq .opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit;cursor:pointer}
+.mq .opt:hover:not(:disabled){border-color:var(--ac)}
+.mq .opt.ok{border-color:#34c759;background:rgba(52,199,89,.14)}.mq .opt.no{border-color:#ff3b30;background:rgba(255,59,48,.14)}
+.mq .exp{font-size:14px;color:var(--tx2);margin-top:4px}.mq .score{font-weight:700;font-size:18px}
+/* slide mode */
+.progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:50;display:none}.progress div{height:100%;width:0;background:var(--c,var(--ac));transition:width .25s}
+.viewtoggle{float:right;padding:6px 12px;font-size:13px}
+.slidebar{display:none}
+body.slides .progress{display:block}
+body.slides section{display:none;margin-top:0;min-height:340px}
+body.slides section.cur{display:block;animation:fi .25s ease}
+body.slides .pager{display:none}body.slides .pager.show{display:flex}
+body.slides .slidebar{display:flex;position:fixed;bottom:0;left:260px;right:0;justify-content:center;align-items:center;gap:20px;padding:12px;background:var(--bg);border-top:1px solid var(--bd);z-index:40}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(max-width:900px){.side{position:static;width:100%;height:auto}.layout{flex-direction:column}main{margin-left:0;padding:24px 20px 110px}body.slides .slidebar{left:0}}
+
+/* widgets */
+.widget{background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:18px;margin:6px 0 16px}
+.widget h4{font-size:17px;margin-bottom:12px}
+.widget label{font-size:13px;color:var(--tx2);display:block;margin:6px 0 4px}
+.widget .wi{width:100%;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit;font-size:14px;margin-bottom:8px}
+.widget .wi:focus,.terminput:focus{outline:2px solid var(--ac);outline-offset:-1px}
+.widget .btn{padding:7px 14px;font-size:13px}
+.wrow{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:8px 0}.wrow label{margin:0;display:inline}
+.wrow input[type=range]{flex:1;min-width:140px;accent-color:var(--ac)}
+.cbxs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px;margin:8px 0 12px}
+.widget .cbx{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--tx);cursor:pointer;margin:0}
+.widget .cbx input{accent-color:var(--ac)}
+.wnote{font-size:12px;color:var(--tx2);margin:12px 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin:10px 0}
+.chip{border:1.5px solid;border-radius:6px;padding:2px 6px;font:13px ui-monospace,Menlo,monospace;white-space:pre}
+.stats{font-size:13px;color:var(--tx2);margin:6px 0}.stats.big{font-size:15px;color:var(--tx);line-height:1.8}
+.bars{margin:10px 0}.brow{display:flex;align-items:center;gap:10px;margin-bottom:6px}.brow.top .bl{font-weight:700}
+.bl{width:90px;font-size:13px;text-align:right;flex-shrink:0}.bl.wide{width:110px}
+.bt{flex:1;height:16px;background:var(--bg3);border-radius:8px;overflow:hidden}.bf{height:100%;border-radius:8px;transition:width .3s}
+.bp{width:56px;font-size:12px;color:var(--tx2)}
+.sampout{font:600 15px ui-monospace,Menlo,monospace;margin:8px 0;min-height:22px}
+pre.plain{background:var(--bg);color:var(--tx);border:1px solid var(--bd);white-space:pre-wrap;margin:8px 0 12px}
+pre.plain .copy{display:none}
+.meter{height:10px;background:var(--bg3);border-radius:5px;overflow:hidden;margin:8px 0 12px}.meter div{height:100%;width:0;transition:width .3s,background .3s}
+.resp{background:var(--bg);border:1px dashed var(--bd);border-radius:10px;padding:12px 14px;white-space:pre-wrap;font-size:14px;position:relative;margin-top:12px;padding-top:26px}
+.resp::before{content:attr(data-label);position:absolute;top:6px;left:12px;font-size:11px;color:var(--tx2);text-transform:uppercase;letter-spacing:.4px}
+.checks{list-style:none;margin:10px 0}.checks li{font-size:14px;margin-bottom:3px;color:var(--tx2)}.checks li.ok{color:var(--tx)}
+.score{font-weight:700;margin:6px 0}
+.alog{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:10px;max-height:300px;overflow-y:auto;margin-top:10px;min-height:60px}
+.astep{display:flex;gap:10px;align-items:baseline;margin-bottom:8px;font-size:14px}
+.astep .tag{color:#fff;font-size:11px;font-weight:700;padding:1px 8px;border-radius:8px;flex-shrink:0;width:64px;text-align:center}
+.astep code{display:block;font-size:12px;background:var(--bg3);padding:2px 8px;border-radius:6px;margin-top:3px}
+.ask{margin:10px 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.term{background:#0d0d0f;color:#d6d6d8;font:13px ui-monospace,Menlo,monospace;border-radius:10px 10px 0 0;padding:12px;height:220px;overflow-y:auto;white-space:pre-wrap}
+.term .cmd{color:#7ee787}.term .err{color:#ffb86c}
+.terminput{width:100%;background:#1a1a1d;color:#fff;border:0;border-top:1px solid #333;border-radius:0 0 10px 10px;padding:10px 12px;font:13px ui-monospace,Menlo,monospace;margin-bottom:8px}
+.strip{position:relative;height:50px;background:var(--bg3);border-radius:8px;margin:12px 0;overflow:hidden}.seg{position:absolute;height:12px;border-radius:6px}
+.chunks{display:grid;gap:6px;max-height:260px;overflow-y:auto}.chunk{background:var(--bg);padding:6px 10px;font-size:13px;border-radius:6px}
+.chart svg{width:100%;height:auto;background:var(--bg);border-radius:10px;border:1px solid var(--bd)}
+.scr{max-height:260px;overflow:auto}
+
+/* architecture diagrams & new widgets */
+.archsvg{width:100%;height:auto;display:block;background:var(--bg);border:1px solid var(--bd);border-radius:12px;margin:8px 0}
+.anode,.ring{cursor:pointer;transition:filter .15s}.anode:hover,.ring:hover{filter:brightness(1.08)}
+.anode.sel rect{stroke-width:4;filter:drop-shadow(0 0 6px rgba(88,86,214,.55))}
+.ring.sel circle{stroke-width:5}
+.anode:focus,.ring:focus{outline:none}.anode:focus rect{stroke-width:4}
+.edge{stroke:var(--tx2);stroke-width:2;opacity:.45;transition:all .25s}.edge.on{stroke:var(--ac);stroke-width:3.5;opacity:1}
+.lane{fill:var(--tx2);font:600 11px system-ui;letter-spacing:.4px}
+.archsvg .t1{font-size:13px}
+.apanel{background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;margin:8px 0;font-size:14px}.apanel p{margin:6px 0 0}
+.astepnote{font-size:13px;font-weight:600;color:var(--ac);min-height:20px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.tab{padding:7px 14px;border-radius:20px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);cursor:pointer;font:inherit;font-size:14px}.tab.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.sent{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 14px}
+.word{padding:6px 10px;border-radius:8px;border:1px solid var(--bd);cursor:pointer;background:var(--bg);transition:background .2s;font-size:15px}.word.me{outline:3px solid var(--ac);background:var(--bg3)!important}
+.hsents{line-height:2}.hs{cursor:pointer;padding:2px 3px;border-radius:4px}.hs:hover{background:var(--bg3)}.hs.flag{background:rgba(255,59,48,.25);text-decoration:underline wavy #ff3b30}
+.fcard{min-height:140px;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;border-radius:16px;background:var(--bg);border:2px solid var(--ac);cursor:pointer;font-size:22px;margin:8px 0;transition:transform .2s}.fcard.flip{background:var(--bg3);font-size:16px}.fcard:hover{transform:translateY(-2px)}
+.gl{display:grid;gap:6px;margin-top:6px}.gi{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:8px 12px;font-size:14px}.gi b{display:block}.gi span{color:var(--tx2)}
+
+/* guardrails */
+.gstrip{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin:12px 0}
+.gl{border:2px solid;border-radius:12px;padding:8px;text-align:center;background:var(--bg);display:flex;flex-direction:column;font-size:13px;transition:all .25s}
+.gl small{color:var(--tx2)}.gl.block{background:rgba(255,59,48,.18)}.gl.pass{background:rgba(52,199,89,.14)}.gl.log{background:rgba(142,142,147,.2)}.gl.off{opacity:.4;border-style:dashed}
+.glog{max-height:280px;overflow-y:auto;margin:8px 0}.grow{display:flex;gap:10px;align-items:baseline;font-size:13px;padding:6px 0;border-bottom:1px solid var(--bd);flex-wrap:wrap}
+.grow .tag{color:#fff;font-size:11px;font-weight:700;padding:1px 8px;border-radius:8px}
+</style>
+<script>document.documentElement.setAttribute('data-theme', localStorage.getItem('genai-resources-theme') || 'light');</script>
+</head><body data-page="module-1-portfolio"><div class="progress"><div id="progressBar"></div></div><div class="layout">
+<nav class="side"><h2>Interview &amp; Portfolio Mastery</h2><a class="back" href="index.html">← Course home</a><a class="back" href="../index.html">← Crash course</a><div class="grp">On this page</div><a href='#s0' data-i='0'>Why a portfolio beats a resume alone</a><a href='#s1' data-i='1'>The 30-second window</a><a href='#s2' data-i='2'>Common resume mistakes</a><a href='#s3' data-i='3'>Resume building principles</a><a href='#s4' data-i='4'>Use AI to refine your resume</a><a href='#s5' data-i='5'>Multiple versions and A/B testing</a><a href='#s6' data-i='6'>Your online presence</a><a href='#s7' data-i='7'>YouTube as a differentiator</a><a href='#s8' data-i='8'>Your portfolio launch checklist</a><a href='#s9' data-i='9'>Check your understanding</a><div class="grp">Modules</div><a href='module-1-portfolio.html' class="cur">Module 1: Build a Portfolio That Gets You Calls</a></nav>
+<main style="--c:#ff6b00">
+<header class="mod-head"><span class="badge">MODULE 1 · Portfolio</span><button class="btn viewtoggle" id="viewToggle" type="button">▦ Slide view</button><h1>Build a Portfolio That Gets You Calls</h1><p class="intro">Why a portfolio, not just a resume, earns you the interview, and how to build one that holds a recruiter&#x27;s attention in the first 30 seconds.</p></header>
+<section id='s0' data-slide><h2 class='st'>Why a portfolio beats a resume alone</h2><p>When a recruiter has never heard of you, your portfolio is the source of truth about who you are. It backs up every claim on your resume with something they can click, read or watch.</p><ul><li>Prepare it before you start applying, not after the first rejection.</li><li>A well-crafted portfolio separates you from candidates with similar resumes.</li><li>It gives recruiters a reason to spend more than a glance on your application.</li></ul><div class='box tip'><strong>💡 Tip:</strong> Think of the resume as the trailer and the portfolio as the film. The trailer only has to earn the click.</div></section><section id='s1' data-slide><h2 class='st'>The 30-second window</h2><p>Recruiters typically spend around 30 seconds on a first pass over a resume. Your only goal in that window is to leave a lasting impression and make them want to spend more time on your application.</p><p>Try it: you get 30 seconds with a sample resume. Spot what would make a recruiter stop reading.</p><div class='widget' data-widget='scan30'></div><p>What recruiters check in that first pass: your tagline, your most recent role, measurable outcomes, and links that prove you are active.</p></section><section id='s2' data-slide><h2 class='st'>Common resume mistakes</h2><ul><li>Listing too many projects, especially small or insignificant ones. Pick the few that matter.</li><li>Not being outcome-driven. Describe the result and impact, not just the task.</li><li>Going over two pages. One page is preferred, two is the maximum.</li></ul><table><tr><th>Weak bullet</th><th>Outcome-driven bullet</th></tr><tr><td>Worked on a chatbot for support</td><td>Built a support chatbot that deflected 35% of tickets and cut first-response time from 4 hours to 5 minutes</td></tr><tr><td>Responsible for the data pipeline</td><td>Rebuilt the ingestion pipeline, reducing nightly processing from 6 hours to 45 minutes</td></tr><tr><td>Used Python and SQL</td><td>Automated weekly reporting in Python and SQL, saving the team 10 hours a week</td></tr></table><div class='box warn'><strong>⚠️ Careful:</strong> If you are not getting interview calls, the resume is most likely the problem, not your skills or experience. The resume&#x27;s only job is to convince someone to call you.</div></section><section id='s3' data-slide><h2 class='st'>Resume building principles</h2><ul><li>Start from a ready-made template (Microsoft Word or an online resume builder). Do not spend days on design.</li><li>Add a one-line tagline that sums up your expertise.</li><li>Tailor your skills to the role: technical, leadership or business.</li><li>Focus on recent, relevant experience, roughly the last 2 to 3 years.</li><li>Highlight achievements and outcomes for each role.</li><li>Include education, certifications and other credentials.</li></ul><pre><code>Example tagline:
+GenAI engineer who ships production RAG and agent systems, from prototype to monitored deployment.</code></pre><p>Score your own resume against these principles:</p><div class='widget' data-widget='scorecard'></div></section><section id='s4' data-slide><h2 class='st'>Use AI to refine your resume</h2><p>ChatGPT, Claude and similar tools are good at tightening language, fixing formatting and tailoring a resume to a job description. You stay in charge of the facts: never let a model invent experience or numbers.</p><pre><code>You are an expert technical recruiter. Here is my resume and a job description.
+
+1. Rewrite each bullet to lead with the outcome and include a metric where one is already stated.
+2. Suggest a one-line tagline for this role.
+3. List skills in the job description that my resume does not show.
+4. Do NOT invent any experience, tools or numbers. Ask me if something is missing.
+
+RESUME:
+[paste]
+
+JOB DESCRIPTION:
+[paste]</code></pre><div class='box tip'><strong>💡 Tip:</strong> Run the same resume through several prompts and compare. Different job descriptions deserve different prompts.</div></section><section id='s5' data-slide><h2 class='st'>Multiple versions and A/B testing</h2><p>One resume rarely fits every role. Keep 4 to 5 versions, each aimed at a specific kind of job, for example technical lead, architect, manager or AI engineer.</p><p>Then treat it like an experiment: send each version to a similar number of roles and track which one produces interview calls.</p><div class='widget' data-widget='abtest'></div><div class='box warn'><strong>⚠️ Careful:</strong> Change one thing at a time, and use enough applications per version before drawing conclusions. A handful of applications is noise, not evidence.</div></section><section id='s6' data-slide><h2 class='st'>Your online presence</h2><p>Recruiters rarely stop at the resume. They look for evidence that matches it, usually in this order.</p><table><tr><th>Channel</th><th>What recruiters look for</th><th>Make it strong</th></tr><tr><td>LinkedIn</td><td>Checked first to verify qualifications, experience and activity</td><td>Match it to your resume, add a clear headline, post or comment regularly</td></tr><tr><td>GitHub (tech roles)</td><td>Frequent commits and contributions to valuable projects</td><td>Pin your best repos, write real READMEs, commit consistently</td></tr><tr><td>Personal website</td><td>Projects, skills and experience in more detail</td><td>Host on Vercel for easy deployment, link it at the top of your resume</td></tr><tr><td>YouTube</td><td>Communication skills, presentation style and personality</td><td>Short walkthroughs of your projects are enough</td></tr></table><div class='box tip'><strong>💡 Tip:</strong> Staying active matters as much as having the profiles. Update them regularly and keep contributing so they never look abandoned.</div></section><section id='s7' data-slide><h2 class='st'>YouTube as a differentiator</h2><p>Few candidates publish videos, so a short one stands out. It lets a recruiter hear how you explain ideas and what you are like to work with, which a resume cannot show.</p><ul><li>Keep videos short: a 3 to 5 minute project demo is enough.</li><li>Cover what the project does, how you built it, and what the result was.</li><li>Link the videos from your resume, LinkedIn and portfolio site.</li><li>Do not wait for perfect production. Clear and honest beats polished.</li></ul></section><section id='s8' data-slide><h2 class='st'>Your portfolio launch checklist</h2><p>Work through this before you send a single application. Your progress is saved in this browser.</p><ul class='tasks'><li><label><input type='checkbox'> Resume is one page (two at most) with a one-line tagline</label></li><li><label><input type='checkbox'> Every recent role has outcome-driven bullets</label></li><li><label><input type='checkbox'> Resume tailored to the role, with 4 to 5 versions saved</label></li><li><label><input type='checkbox'> LinkedIn matches the resume and is up to date</label></li><li><label><input type='checkbox'> GitHub has pinned repos with clear READMEs</label></li><li><label><input type='checkbox'> Personal website is live on Vercel</label></li><li><label><input type='checkbox'> At least one short project video is published</label></li><li><label><input type='checkbox'> Links to all of the above are at the top of the resume</label></li></ul><p>Key takeaway: a strong portfolio built around outcomes, an active online presence and clear communication is what turns applications into interview calls.</p></section><section id='s9' data-slide><h2 class='st'>Check your understanding</h2><p>Pick an answer to see the explanation.</p><div class='mq' data-quiz="[{&quot;q&quot;: &quot;How long do recruiters typically spend on a first look at a resume?&quot;, &quot;o&quot;: [&quot;About 30 seconds&quot;, &quot;About 10 minutes&quot;, &quot;About 5 seconds&quot;, &quot;As long as it takes to read every page&quot;], &quot;c&quot;: 0, &quot;e&quot;: &quot;The first pass is short, so the top of your resume must make them want to read on.&quot;}, {&quot;q&quot;: &quot;Which bullet is outcome-driven?&quot;, &quot;o&quot;: [&quot;Worked on a chatbot&quot;, &quot;Responsible for support tooling&quot;, &quot;Built a chatbot that deflected 35% of support tickets&quot;, &quot;Used Python daily&quot;], &quot;c&quot;: 2, &quot;e&quot;: &quot;Outcomes state the result and its impact, ideally with a metric.&quot;}, {&quot;q&quot;: &quot;What is the preferred resume length?&quot;, &quot;o&quot;: [&quot;Three pages&quot;, &quot;One page, two at most&quot;, &quot;Five pages with all projects&quot;, &quot;Length does not matter&quot;], &quot;c&quot;: 1, &quot;e&quot;: &quot;One page is preferred and two is the maximum.&quot;}, {&quot;q&quot;: &quot;You are getting no interview calls. What is the most likely cause?&quot;, &quot;o&quot;: [&quot;Your skills are too weak&quot;, &quot;The resume&quot;, &quot;Too many LinkedIn followers&quot;, &quot;Applying on a weekday&quot;], &quot;c&quot;: 1, &quot;e&quot;: &quot;If calls are not coming, the resume is likely the problem, so revise and test it.&quot;}, {&quot;q&quot;: &quot;How do you find out which resume version works best?&quot;, &quot;o&quot;: [&quot;Ask a friend&quot;, &quot;Use only the longest version&quot;, &quot;A/B test several versions and track interview calls&quot;, &quot;Pick one at random&quot;], &quot;c&quot;: 2, &quot;e&quot;: &quot;Send tailored versions to similar roles and compare how many calls each generates.&quot;}, {&quot;q&quot;: &quot;Why add a YouTube video to your portfolio?&quot;, &quot;o&quot;: [&quot;It replaces the resume&quot;, &quot;It shows communication skills and personality&quot;, &quot;It guarantees an interview&quot;, &quot;Recruiters require it&quot;], &quot;c&quot;: 1, &quot;e&quot;: &quot;Video lets recruiters assess how you explain ideas, which sets you apart.&quot;}]"></div></section>
+<div class="slidebar" id="slidebar"><button class="btn" id="prevSlide" type="button">←</button><span id="slideCount"></span><button class="btn p" id="nextSlide" type="button">→</button></div>
+<div class="pager" id="pager"><a class='btn' href='index.html'>← Course home</a><a class='btn p' href='index.html'>Back to course home</a></div>
+</main></div><script src="../modules/slides.js"></script><script src="course.js"></script></body></html>
