@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From Idea to Deployment - AI Product Engineering</title>
+<style>:root{--bg:#fff;--bg2:#f5f5f7;--bg3:#e8e8ed;--tx:#1d1d1f;--tx2:#6e6e73;--bd:#d2d2d7;--ac:#5856D6;--side:#1d1d1f;--code:#1d1d1f;--codetx:#f5f5f7}
+[data-theme=dark]{--bg:#1d1d1f;--bg2:#2d2d2f;--bg3:#3d3d3f;--tx:#f5f5f7;--tx2:#a1a1a6;--bd:#424245;--side:#000;--code:#000}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.65;color:var(--tx);background:var(--bg)}
+a{color:var(--ac)}
+.layout{display:flex;min-height:100vh}
+.side{position:fixed;top:0;left:0;width:260px;height:100vh;background:var(--side);color:#fff;padding:24px 0;overflow-y:auto}
+.side h2{font-size:15px;padding:0 24px 12px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:12px}
+.side a{display:block;padding:6px 24px;font-size:13px;color:rgba(255,255,255,.7);text-decoration:none}
+.side a:hover{background:rgba(255,255,255,.1);color:#fff}
+.side a.active,.side a.cur{background:rgba(255,255,255,.15);color:#fff}
+.side .back{color:#fff;font-weight:600;margin-bottom:8px}
+.side .grp{padding:14px 24px 4px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:rgba(255,255,255,.4)}
+main{margin-left:260px;flex:1;max-width:880px;padding:48px 40px 110px}
+.mod-head{border-top:6px solid var(--c);padding-top:20px;margin-bottom:32px}
+.badge{display:inline-block;font-size:12px;font-weight:700;color:#fff;background:var(--c);padding:2px 10px;border-radius:10px;margin-bottom:10px}
+h1{font-size:38px;line-height:1.2;margin-bottom:10px}
+.intro{font-size:18px;color:var(--tx2)}
+section{margin-top:40px;scroll-margin-top:20px}
+h2.st{font-size:24px;margin-bottom:12px}
+p{margin-bottom:14px}
+ul{margin:0 0 14px 22px}li{margin-bottom:6px}
+pre{position:relative;background:var(--code);color:var(--codetx);padding:16px 18px;border-radius:12px;overflow-x:auto;font-size:13px;line-height:1.5;margin-bottom:16px}
+.copy{position:absolute;top:8px;right:8px;font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;cursor:pointer}
+.box{padding:14px 18px;border-radius:12px;border-left:4px solid;margin-bottom:16px;background:var(--bg2)}
+.tip{border-color:#007aff}.warn{border-color:#ff9500}
+table{border-collapse:collapse;width:100%;margin-bottom:16px;font-size:14px}
+th,td{border:1px solid var(--bd);padding:8px 12px;text-align:left;vertical-align:top}th{background:var(--bg2)}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:56px;padding-top:24px;border-top:1px solid var(--bd);flex-wrap:wrap}
+.btn{display:inline-block;padding:10px 20px;border-radius:10px;background:var(--bg3);color:var(--tx);text-decoration:none;font-weight:600;font-size:14px;border:0;cursor:pointer;font-family:inherit}
+.btn.p{background:var(--ac);color:#fff}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.note{margin-top:32px;font-size:12px;color:var(--tx2)}
+.fig{margin:8px 0 20px;background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:12px;overflow-x:auto}
+.fig svg{width:100%;min-width:560px;height:auto}
+.nd{fill:var(--bg);stroke:var(--bd);stroke-width:2}.ar{stroke:var(--tx2);stroke-width:2}
+.t1{fill:var(--tx);font:600 14px system-ui;text-anchor:middle}.t2{fill:var(--tx2);font:12px system-ui;text-anchor:middle}
+.wt{fill:#fff;font:700 13px system-ui;text-anchor:middle}.wt.s{font:11px system-ui;font-weight:500}
+.viz3d{margin:8px 0 20px;background:var(--bg2);border:1px solid var(--bd);border-radius:14px;overflow:hidden}
+.viz3d canvas{width:100%;display:block;cursor:grab;touch-action:none}
+.viz3d figcaption{font-size:12px;color:var(--tx2);padding:8px 14px;border-top:1px solid var(--bd)}
+/* checklists */
+ul.tasks{list-style:none;margin-left:0}ul.tasks label{cursor:pointer}ul.tasks input{margin-right:8px;accent-color:var(--ac)}
+ul.tasks li.done label{color:var(--tx2);text-decoration:line-through}
+/* mini quiz */
+.mq .qq{margin-bottom:22px}.mq h3{font-size:17px;margin-bottom:10px}
+.mq .opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit;cursor:pointer}
+.mq .opt:hover:not(:disabled){border-color:var(--ac)}
+.mq .opt.ok{border-color:#34c759;background:rgba(52,199,89,.14)}.mq .opt.no{border-color:#ff3b30;background:rgba(255,59,48,.14)}
+.mq .exp{font-size:14px;color:var(--tx2);margin-top:4px}.mq .score{font-weight:700;font-size:18px}
+/* slide mode */
+.progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:50;display:none}.progress div{height:100%;width:0;background:var(--c,var(--ac));transition:width .25s}
+.viewtoggle{float:right;padding:6px 12px;font-size:13px}
+.slidebar{display:none}
+body.slides .progress{display:block}
+body.slides section{display:none;margin-top:0;min-height:340px}
+body.slides section.cur{display:block;animation:fi .25s ease}
+body.slides .pager{display:none}body.slides .pager.show{display:flex}
+body.slides .slidebar{display:flex;position:fixed;bottom:0;left:260px;right:0;justify-content:center;align-items:center;gap:20px;padding:12px;background:var(--bg);border-top:1px solid var(--bd);z-index:40}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(max-width:900px){.side{position:static;width:100%;height:auto}.layout{flex-direction:column}main{margin-left:0;padding:24px 20px 110px}body.slides .slidebar{left:0}}
+
+/* widgets */
+.widget{background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:18px;margin:6px 0 16px}
+.widget h4{font-size:17px;margin-bottom:12px}
+.widget label{font-size:13px;color:var(--tx2);display:block;margin:6px 0 4px}
+.widget .wi{width:100%;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit;font-size:14px;margin-bottom:8px}
+.widget .wi:focus,.terminput:focus{outline:2px solid var(--ac);outline-offset:-1px}
+.widget .btn{padding:7px 14px;font-size:13px}
+.wrow{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:8px 0}.wrow label{margin:0;display:inline}
+.wrow input[type=range]{flex:1;min-width:140px;accent-color:var(--ac)}
+.cbxs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px;margin:8px 0 12px}
+.widget .cbx{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--tx);cursor:pointer;margin:0}
+.widget .cbx input{accent-color:var(--ac)}
+.wnote{font-size:12px;color:var(--tx2);margin:12px 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin:10px 0}
+.chip{border:1.5px solid;border-radius:6px;padding:2px 6px;font:13px ui-monospace,Menlo,monospace;white-space:pre}
+.stats{font-size:13px;color:var(--tx2);margin:6px 0}.stats.big{font-size:15px;color:var(--tx);line-height:1.8}
+.bars{margin:10px 0}.brow{display:flex;align-items:center;gap:10px;margin-bottom:6px}.brow.top .bl{font-weight:700}
+.bl{width:90px;font-size:13px;text-align:right;flex-shrink:0}.bl.wide{width:110px}
+.bt{flex:1;height:16px;background:var(--bg3);border-radius:8px;overflow:hidden}.bf{height:100%;border-radius:8px;transition:width .3s}
+.bp{width:56px;font-size:12px;color:var(--tx2)}
+.sampout{font:600 15px ui-monospace,Menlo,monospace;margin:8px 0;min-height:22px}
+pre.plain{background:var(--bg);color:var(--tx);border:1px solid var(--bd);white-space:pre-wrap;margin:8px 0 12px}
+pre.plain .copy{display:none}
+.meter{height:10px;background:var(--bg3);border-radius:5px;overflow:hidden;margin:8px 0 12px}.meter div{height:100%;width:0;transition:width .3s,background .3s}
+.resp{background:var(--bg);border:1px dashed var(--bd);border-radius:10px;padding:12px 14px;white-space:pre-wrap;font-size:14px;position:relative;margin-top:12px;padding-top:26px}
+.resp::before{content:attr(data-label);position:absolute;top:6px;left:12px;font-size:11px;color:var(--tx2);text-transform:uppercase;letter-spacing:.4px}
+.checks{list-style:none;margin:10px 0}.checks li{font-size:14px;margin-bottom:3px;color:var(--tx2)}.checks li.ok{color:var(--tx)}
+.score{font-weight:700;margin:6px 0}
+.alog{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:10px;max-height:300px;overflow-y:auto;margin-top:10px;min-height:60px}
+.astep{display:flex;gap:10px;align-items:baseline;margin-bottom:8px;font-size:14px}
+.astep .tag{color:#fff;font-size:11px;font-weight:700;padding:1px 8px;border-radius:8px;flex-shrink:0;width:64px;text-align:center}
+.astep code{display:block;font-size:12px;background:var(--bg3);padding:2px 8px;border-radius:6px;margin-top:3px}
+.ask{margin:10px 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.term{background:#0d0d0f;color:#d6d6d8;font:13px ui-monospace,Menlo,monospace;border-radius:10px 10px 0 0;padding:12px;height:220px;overflow-y:auto;white-space:pre-wrap}
+.term .cmd{color:#7ee787}.term .err{color:#ffb86c}
+.terminput{width:100%;background:#1a1a1d;color:#fff;border:0;border-top:1px solid #333;border-radius:0 0 10px 10px;padding:10px 12px;font:13px ui-monospace,Menlo,monospace;margin-bottom:8px}
+.strip{position:relative;height:50px;background:var(--bg3);border-radius:8px;margin:12px 0;overflow:hidden}.seg{position:absolute;height:12px;border-radius:6px}
+.chunks{display:grid;gap:6px;max-height:260px;overflow-y:auto}.chunk{background:var(--bg);padding:6px 10px;font-size:13px;border-radius:6px}
+.chart svg{width:100%;height:auto;background:var(--bg);border-radius:10px;border:1px solid var(--bd)}
+.scr{max-height:260px;overflow:auto}
+
+/* architecture diagrams & new widgets */
+.archsvg{width:100%;height:auto;display:block;background:var(--bg);border:1px solid var(--bd);border-radius:12px;margin:8px 0}
+.anode,.ring{cursor:pointer;transition:filter .15s}.anode:hover,.ring:hover{filter:brightness(1.08)}
+.anode.sel rect{stroke-width:4;filter:drop-shadow(0 0 6px rgba(88,86,214,.55))}
+.ring.sel circle{stroke-width:5}
+.anode:focus,.ring:focus{outline:none}.anode:focus rect{stroke-width:4}
+.edge{stroke:var(--tx2);stroke-width:2;opacity:.45;transition:all .25s}.edge.on{stroke:var(--ac);stroke-width:3.5;opacity:1}
+.lane{fill:var(--tx2);font:600 11px system-ui;letter-spacing:.4px}
+.archsvg .t1{font-size:13px}
+.apanel{background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;margin:8px 0;font-size:14px}.apanel p{margin:6px 0 0}
+.astepnote{font-size:13px;font-weight:600;color:var(--ac);min-height:20px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.tab{padding:7px 14px;border-radius:20px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);cursor:pointer;font:inherit;font-size:14px}.tab.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.sent{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 14px}
+.word{padding:6px 10px;border-radius:8px;border:1px solid var(--bd);cursor:pointer;background:var(--bg);transition:background .2s;font-size:15px}.word.me{outline:3px solid var(--ac);background:var(--bg3)!important}
+.hsents{line-height:2}.hs{cursor:pointer;padding:2px 3px;border-radius:4px}.hs:hover{background:var(--bg3)}.hs.flag{background:rgba(255,59,48,.25);text-decoration:underline wavy #ff3b30}
+.fcard{min-height:140px;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;border-radius:16px;background:var(--bg);border:2px solid var(--ac);cursor:pointer;font-size:22px;margin:8px 0;transition:transform .2s}.fcard.flip{background:var(--bg3);font-size:16px}.fcard:hover{transform:translateY(-2px)}
+.gl{display:grid;gap:6px;margin-top:6px}.gi{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:8px 12px;font-size:14px}.gi b{display:block}.gi span{color:var(--tx2)}
+
+/* guardrails */
+.gstrip{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin:12px 0}
+.gl{border:2px solid;border-radius:12px;padding:8px;text-align:center;background:var(--bg);display:flex;flex-direction:column;font-size:13px;transition:all .25s}
+.gl small{color:var(--tx2)}.gl.block{background:rgba(255,59,48,.18)}.gl.pass{background:rgba(52,199,89,.14)}.gl.log{background:rgba(142,142,147,.2)}.gl.off{opacity:.4;border-style:dashed}
+.glog{max-height:280px;overflow-y:auto;margin:8px 0}.grow{display:flex;gap:10px;align-items:baseline;font-size:13px;padding:6px 0;border-bottom:1px solid var(--bd);flex-wrap:wrap}
+.grow .tag{color:#fff;font-size:11px;font-weight:700;padding:1px 8px;border-radius:8px}
+</style>
+<script>document.documentElement.setAttribute('data-theme', localStorage.getItem('genai-resources-theme') || 'light');</script>
+</head><body data-page="module-7-process"><div class="progress"><div id="progressBar"></div></div><div class="layout">
+<nav class="side"><h2>AI Product Engineering</h2><a class="back" href="index.html">← Course home</a><a class="back" href="../index.html">← Crash course</a><div class="grp">On this page</div><a href='#s0' data-i='0'>The development lifecycle</a><a href='#s1' data-i='1'>Requirements: BRD and PRD</a><a href='#s2' data-i='2'>Design: HLD and LLD</a><a href='#s3' data-i='3'>Plan, sketch and build</a><a href='#s4' data-i='4'>Test, fix and deploy</a><a href='#s5' data-i='5'>Try it: put the stages in order</a><a href='#s6' data-i='6'>Check your understanding</a><div class="grp">Modules</div><a href='module-1-anatomy.html'>Module 1: Anatomy of a Modern System</a><a href='module-2-version-control.html'>Module 2: Version Control with Git and GitHub</a><a href='module-3-data.html'>Module 3: Databases and Caching</a><a href='module-4-storage-delivery.html'>Module 4: File Storage, CDNs and Notifications</a><a href='module-5-security.html'>Module 5: Authentication, Security and Secrets</a><a href='module-6-monitoring-payments.html'>Module 6: Monitoring, Logging and Payments</a><a href='module-7-process.html' class="cur">Module 7: From Idea to Deployment</a><a href='module-8-ai-coding.html'>Module 8: Building with AI Coding Tools</a><a href='module-9-marketing.html'>Module 9: Marketing, Monetization and Entrepreneurship</a></nav>
+<main style="--c:#30b0c7">
+<header class="mod-head"><span class="badge">MODULE 7 · Process</span><button class="btn viewtoggle" id="viewToggle" type="button">▦ Slide view</button><h1>From Idea to Deployment</h1><p class="intro">Teams follow a repeatable process to turn an idea into a shipped product. Learn the documents, the stages and the order they come in.</p></header>
+<section id='s0' data-slide><h2 class='st'>The development lifecycle</h2><p>Skipping early stages saves hours and costs weeks. Each stage reduces a different kind of risk.</p><table><tr><th>Stage</th><th>Output</th><th>Question it answers</th></tr><tr><td>BRD</td><td>Business requirements document</td><td>Why are we building this, and what business result do we want?</td></tr><tr><td>PRD</td><td>Product requirements document</td><td>What should the product do, for whom?</td></tr><tr><td>HLD</td><td>High-level design</td><td>What are the major components and how do they connect?</td></tr><tr><td>LLD</td><td>Low-level design</td><td>How does each component work: APIs, schemas, classes?</td></tr><tr><td>Sprint planning</td><td>Prioritized work for a short cycle</td><td>What do we build next?</td></tr><tr><td>Wireframes</td><td>Screen sketches</td><td>What will the user see and do?</td></tr><tr><td>Architecture</td><td>Chosen stack and structure</td><td>Which tools and services will we use?</td></tr><tr><td>Coding</td><td>Working software</td><td>Does it do what the design says?</td></tr><tr><td>Testing</td><td>Verified behavior</td><td>Does it work, and does it keep working?</td></tr><tr><td>Fixing</td><td>Resolved defects</td><td>What broke and why?</td></tr><tr><td>Deployment</td><td>Live product</td><td>Can real users reach it safely?</td></tr></table></section><section id='s1' data-slide><h2 class='st'>Requirements: BRD and PRD</h2><ul><li>BRD: the business goal, target market, success metrics and constraints. Written for stakeholders.</li><li>PRD: user stories, features, acceptance criteria and priorities. Written for the team.</li></ul><pre><code>User story:
+As a support agent, I want suggested answers drawn from our help docs,
+so that I can reply faster.
+
+Acceptance criteria:
+- Suggestions appear within 3 seconds
+- Each suggestion cites its source document
+- Agent can accept, edit or dismiss</code></pre><div class='box tip'><strong>💡 Tip:</strong> Write measurable success criteria early, such as reduce average reply time by 30%. They also become your test for whether the AI feature is good enough.</div></section><section id='s2' data-slide><h2 class='st'>Design: HLD and LLD</h2><p>HLD is the map: services, data stores, external APIs and how data flows. LLD zooms into each piece.</p><ul><li>HLD: a diagram of components, plus key choices such as SQL vs NoSQL and hosted vs self-run.</li><li>LLD: API endpoints and payloads, database tables, prompt templates, error handling.</li><li>Record important decisions and their reasons so they can be revisited.</li></ul></section><section id='s3' data-slide><h2 class='st'>Plan, sketch and build</h2><ul><li>Sprint planning: slice work into small pieces that ship in one to two weeks.</li><li>Wireframes: low-fidelity screens in Figma or on paper, tested with a few real users before coding.</li><li>Build the thinnest end-to-end slice first, then widen it.</li></ul></section><section id='s4' data-slide><h2 class='st'>Test, fix and deploy</h2><ul><li>Unit tests for logic, integration tests for services, and evaluation sets for AI outputs.</li><li>Fix defects in order of user impact, and add a test for each bug.</li><li>Deploy through CI/CD, with staging first, small rollouts and an easy rollback.</li><li>After launch, watch the monitoring dashboards and feed what you learn into the next sprint.</li></ul><div class='box warn'><strong>⚠️ Careful:</strong> A demo is not a product. Production needs auth, limits, monitoring, backups and a rollback plan.</div></section><section id='s5' data-slide><h2 class='st'>Try it: put the stages in order</h2><p>Reorder the stages into the sequence a team would normally follow.</p><div class='widget' data-widget='sdlcorder'></div></section><section id='s6' data-slide><h2 class='st'>Check your understanding</h2><p>Pick an answer to see the explanation.</p><div class='mq' data-quiz="[{&quot;q&quot;: &quot;Which document explains the business reason for a project?&quot;, &quot;o&quot;: [&quot;BRD&quot;, &quot;LLD&quot;, &quot;Unit test&quot;, &quot;Changelog&quot;], &quot;c&quot;: 0, &quot;e&quot;: &quot;The BRD captures business goals and success measures.&quot;}, {&quot;q&quot;: &quot;What does the HLD describe?&quot;, &quot;o&quot;: [&quot;Major components and how they connect&quot;, &quot;Every variable name&quot;, &quot;Marketing plans&quot;, &quot;Test results&quot;], &quot;c&quot;: 0, &quot;e&quot;: &quot;High-level design is the system map.&quot;}, {&quot;q&quot;: &quot;What should accompany each bug fix?&quot;, &quot;o&quot;: [&quot;A test that would have caught it&quot;, &quot;A new framework&quot;, &quot;A meeting&quot;, &quot;Nothing&quot;], &quot;c&quot;: 0, &quot;e&quot;: &quot;A regression test keeps it from returning.&quot;}, {&quot;q&quot;: &quot;Which stage comes first?&quot;, &quot;o&quot;: [&quot;Deployment&quot;, &quot;Business requirements&quot;, &quot;Testing&quot;, &quot;Coding&quot;], &quot;c&quot;: 1, &quot;e&quot;: &quot;Requirements come before design and code.&quot;}]"></div></section>
+<div class="slidebar" id="slidebar"><button class="btn" id="prevSlide" type="button">←</button><span id="slideCount"></span><button class="btn p" id="nextSlide" type="button">→</button></div>
+<div class="pager" id="pager"><a class='btn' href='module-6-monitoring-payments.html'>← Monitoring, Logging and Payments</a><a class='btn p' href='module-8-ai-coding.html'>Building with AI Coding Tools →</a></div>
+</main></div><script src="../modules/slides.js"></script><script src="course.js"></script></body></html>

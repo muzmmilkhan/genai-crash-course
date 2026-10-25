@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monitoring, Logging and Payments - AI Product Engineering</title>
+<style>:root{--bg:#fff;--bg2:#f5f5f7;--bg3:#e8e8ed;--tx:#1d1d1f;--tx2:#6e6e73;--bd:#d2d2d7;--ac:#5856D6;--side:#1d1d1f;--code:#1d1d1f;--codetx:#f5f5f7}
+[data-theme=dark]{--bg:#1d1d1f;--bg2:#2d2d2f;--bg3:#3d3d3f;--tx:#f5f5f7;--tx2:#a1a1a6;--bd:#424245;--side:#000;--code:#000}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.65;color:var(--tx);background:var(--bg)}
+a{color:var(--ac)}
+.layout{display:flex;min-height:100vh}
+.side{position:fixed;top:0;left:0;width:260px;height:100vh;background:var(--side);color:#fff;padding:24px 0;overflow-y:auto}
+.side h2{font-size:15px;padding:0 24px 12px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:12px}
+.side a{display:block;padding:6px 24px;font-size:13px;color:rgba(255,255,255,.7);text-decoration:none}
+.side a:hover{background:rgba(255,255,255,.1);color:#fff}
+.side a.active,.side a.cur{background:rgba(255,255,255,.15);color:#fff}
+.side .back{color:#fff;font-weight:600;margin-bottom:8px}
+.side .grp{padding:14px 24px 4px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:rgba(255,255,255,.4)}
+main{margin-left:260px;flex:1;max-width:880px;padding:48px 40px 110px}
+.mod-head{border-top:6px solid var(--c);padding-top:20px;margin-bottom:32px}
+.badge{display:inline-block;font-size:12px;font-weight:700;color:#fff;background:var(--c);padding:2px 10px;border-radius:10px;margin-bottom:10px}
+h1{font-size:38px;line-height:1.2;margin-bottom:10px}
+.intro{font-size:18px;color:var(--tx2)}
+section{margin-top:40px;scroll-margin-top:20px}
+h2.st{font-size:24px;margin-bottom:12px}
+p{margin-bottom:14px}
+ul{margin:0 0 14px 22px}li{margin-bottom:6px}
+pre{position:relative;background:var(--code);color:var(--codetx);padding:16px 18px;border-radius:12px;overflow-x:auto;font-size:13px;line-height:1.5;margin-bottom:16px}
+.copy{position:absolute;top:8px;right:8px;font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;cursor:pointer}
+.box{padding:14px 18px;border-radius:12px;border-left:4px solid;margin-bottom:16px;background:var(--bg2)}
+.tip{border-color:#007aff}.warn{border-color:#ff9500}
+table{border-collapse:collapse;width:100%;margin-bottom:16px;font-size:14px}
+th,td{border:1px solid var(--bd);padding:8px 12px;text-align:left;vertical-align:top}th{background:var(--bg2)}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:56px;padding-top:24px;border-top:1px solid var(--bd);flex-wrap:wrap}
+.btn{display:inline-block;padding:10px 20px;border-radius:10px;background:var(--bg3);color:var(--tx);text-decoration:none;font-weight:600;font-size:14px;border:0;cursor:pointer;font-family:inherit}
+.btn.p{background:var(--ac);color:#fff}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.note{margin-top:32px;font-size:12px;color:var(--tx2)}
+.fig{margin:8px 0 20px;background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:12px;overflow-x:auto}
+.fig svg{width:100%;min-width:560px;height:auto}
+.nd{fill:var(--bg);stroke:var(--bd);stroke-width:2}.ar{stroke:var(--tx2);stroke-width:2}
+.t1{fill:var(--tx);font:600 14px system-ui;text-anchor:middle}.t2{fill:var(--tx2);font:12px system-ui;text-anchor:middle}
+.wt{fill:#fff;font:700 13px system-ui;text-anchor:middle}.wt.s{font:11px system-ui;font-weight:500}
+.viz3d{margin:8px 0 20px;background:var(--bg2);border:1px solid var(--bd);border-radius:14px;overflow:hidden}
+.viz3d canvas{width:100%;display:block;cursor:grab;touch-action:none}
+.viz3d figcaption{font-size:12px;color:var(--tx2);padding:8px 14px;border-top:1px solid var(--bd)}
+/* checklists */
+ul.tasks{list-style:none;margin-left:0}ul.tasks label{cursor:pointer}ul.tasks input{margin-right:8px;accent-color:var(--ac)}
+ul.tasks li.done label{color:var(--tx2);text-decoration:line-through}
+/* mini quiz */
+.mq .qq{margin-bottom:22px}.mq h3{font-size:17px;margin-bottom:10px}
+.mq .opt{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit;cursor:pointer}
+.mq .opt:hover:not(:disabled){border-color:var(--ac)}
+.mq .opt.ok{border-color:#34c759;background:rgba(52,199,89,.14)}.mq .opt.no{border-color:#ff3b30;background:rgba(255,59,48,.14)}
+.mq .exp{font-size:14px;color:var(--tx2);margin-top:4px}.mq .score{font-weight:700;font-size:18px}
+/* slide mode */
+.progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:50;display:none}.progress div{height:100%;width:0;background:var(--c,var(--ac));transition:width .25s}
+.viewtoggle{float:right;padding:6px 12px;font-size:13px}
+.slidebar{display:none}
+body.slides .progress{display:block}
+body.slides section{display:none;margin-top:0;min-height:340px}
+body.slides section.cur{display:block;animation:fi .25s ease}
+body.slides .pager{display:none}body.slides .pager.show{display:flex}
+body.slides .slidebar{display:flex;position:fixed;bottom:0;left:260px;right:0;justify-content:center;align-items:center;gap:20px;padding:12px;background:var(--bg);border-top:1px solid var(--bd);z-index:40}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(max-width:900px){.side{position:static;width:100%;height:auto}.layout{flex-direction:column}main{margin-left:0;padding:24px 20px 110px}body.slides .slidebar{left:0}}
+
+/* widgets */
+.widget{background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:18px;margin:6px 0 16px}
+.widget h4{font-size:17px;margin-bottom:12px}
+.widget label{font-size:13px;color:var(--tx2);display:block;margin:6px 0 4px}
+.widget .wi{width:100%;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit;font-size:14px;margin-bottom:8px}
+.widget .wi:focus,.terminput:focus{outline:2px solid var(--ac);outline-offset:-1px}
+.widget .btn{padding:7px 14px;font-size:13px}
+.wrow{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:8px 0}.wrow label{margin:0;display:inline}
+.wrow input[type=range]{flex:1;min-width:140px;accent-color:var(--ac)}
+.cbxs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px;margin:8px 0 12px}
+.widget .cbx{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--tx);cursor:pointer;margin:0}
+.widget .cbx input{accent-color:var(--ac)}
+.wnote{font-size:12px;color:var(--tx2);margin:12px 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin:10px 0}
+.chip{border:1.5px solid;border-radius:6px;padding:2px 6px;font:13px ui-monospace,Menlo,monospace;white-space:pre}
+.stats{font-size:13px;color:var(--tx2);margin:6px 0}.stats.big{font-size:15px;color:var(--tx);line-height:1.8}
+.bars{margin:10px 0}.brow{display:flex;align-items:center;gap:10px;margin-bottom:6px}.brow.top .bl{font-weight:700}
+.bl{width:90px;font-size:13px;text-align:right;flex-shrink:0}.bl.wide{width:110px}
+.bt{flex:1;height:16px;background:var(--bg3);border-radius:8px;overflow:hidden}.bf{height:100%;border-radius:8px;transition:width .3s}
+.bp{width:56px;font-size:12px;color:var(--tx2)}
+.sampout{font:600 15px ui-monospace,Menlo,monospace;margin:8px 0;min-height:22px}
+pre.plain{background:var(--bg);color:var(--tx);border:1px solid var(--bd);white-space:pre-wrap;margin:8px 0 12px}
+pre.plain .copy{display:none}
+.meter{height:10px;background:var(--bg3);border-radius:5px;overflow:hidden;margin:8px 0 12px}.meter div{height:100%;width:0;transition:width .3s,background .3s}
+.resp{background:var(--bg);border:1px dashed var(--bd);border-radius:10px;padding:12px 14px;white-space:pre-wrap;font-size:14px;position:relative;margin-top:12px;padding-top:26px}
+.resp::before{content:attr(data-label);position:absolute;top:6px;left:12px;font-size:11px;color:var(--tx2);text-transform:uppercase;letter-spacing:.4px}
+.checks{list-style:none;margin:10px 0}.checks li{font-size:14px;margin-bottom:3px;color:var(--tx2)}.checks li.ok{color:var(--tx)}
+.score{font-weight:700;margin:6px 0}
+.alog{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:10px;max-height:300px;overflow-y:auto;margin-top:10px;min-height:60px}
+.astep{display:flex;gap:10px;align-items:baseline;margin-bottom:8px;font-size:14px}
+.astep .tag{color:#fff;font-size:11px;font-weight:700;padding:1px 8px;border-radius:8px;flex-shrink:0;width:64px;text-align:center}
+.astep code{display:block;font-size:12px;background:var(--bg3);padding:2px 8px;border-radius:6px;margin-top:3px}
+.ask{margin:10px 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.term{background:#0d0d0f;color:#d6d6d8;font:13px ui-monospace,Menlo,monospace;border-radius:10px 10px 0 0;padding:12px;height:220px;overflow-y:auto;white-space:pre-wrap}
+.term .cmd{color:#7ee787}.term .err{color:#ffb86c}
+.terminput{width:100%;background:#1a1a1d;color:#fff;border:0;border-top:1px solid #333;border-radius:0 0 10px 10px;padding:10px 12px;font:13px ui-monospace,Menlo,monospace;margin-bottom:8px}
+.strip{position:relative;height:50px;background:var(--bg3);border-radius:8px;margin:12px 0;overflow:hidden}.seg{position:absolute;height:12px;border-radius:6px}
+.chunks{display:grid;gap:6px;max-height:260px;overflow-y:auto}.chunk{background:var(--bg);padding:6px 10px;font-size:13px;border-radius:6px}
+.chart svg{width:100%;height:auto;background:var(--bg);border-radius:10px;border:1px solid var(--bd)}
+.scr{max-height:260px;overflow:auto}
+
+/* architecture diagrams & new widgets */
+.archsvg{width:100%;height:auto;display:block;background:var(--bg);border:1px solid var(--bd);border-radius:12px;margin:8px 0}
+.anode,.ring{cursor:pointer;transition:filter .15s}.anode:hover,.ring:hover{filter:brightness(1.08)}
+.anode.sel rect{stroke-width:4;filter:drop-shadow(0 0 6px rgba(88,86,214,.55))}
+.ring.sel circle{stroke-width:5}
+.anode:focus,.ring:focus{outline:none}.anode:focus rect{stroke-width:4}
+.edge{stroke:var(--tx2);stroke-width:2;opacity:.45;transition:all .25s}.edge.on{stroke:var(--ac);stroke-width:3.5;opacity:1}
+.lane{fill:var(--tx2);font:600 11px system-ui;letter-spacing:.4px}
+.archsvg .t1{font-size:13px}
+.apanel{background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;margin:8px 0;font-size:14px}.apanel p{margin:6px 0 0}
+.astepnote{font-size:13px;font-weight:600;color:var(--ac);min-height:20px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.tab{padding:7px 14px;border-radius:20px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);cursor:pointer;font:inherit;font-size:14px}.tab.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.sent{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 14px}
+.word{padding:6px 10px;border-radius:8px;border:1px solid var(--bd);cursor:pointer;background:var(--bg);transition:background .2s;font-size:15px}.word.me{outline:3px solid var(--ac);background:var(--bg3)!important}
+.hsents{line-height:2}.hs{cursor:pointer;padding:2px 3px;border-radius:4px}.hs:hover{background:var(--bg3)}.hs.flag{background:rgba(255,59,48,.25);text-decoration:underline wavy #ff3b30}
+.fcard{min-height:140px;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;border-radius:16px;background:var(--bg);border:2px solid var(--ac);cursor:pointer;font-size:22px;margin:8px 0;transition:transform .2s}.fcard.flip{background:var(--bg3);font-size:16px}.fcard:hover{transform:translateY(-2px)}
+.gl{display:grid;gap:6px;margin-top:6px}.gi{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:8px 12px;font-size:14px}.gi b{display:block}.gi span{color:var(--tx2)}
+
+/* guardrails */
+.gstrip{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin:12px 0}
+.gl{border:2px solid;border-radius:12px;padding:8px;text-align:center;background:var(--bg);display:flex;flex-direction:column;font-size:13px;transition:all .25s}
+.gl small{color:var(--tx2)}.gl.block{background:rgba(255,59,48,.18)}.gl.pass{background:rgba(52,199,89,.14)}.gl.log{background:rgba(142,142,147,.2)}.gl.off{opacity:.4;border-style:dashed}
+.glog{max-height:280px;overflow-y:auto;margin:8px 0}.grow{display:flex;gap:10px;align-items:baseline;font-size:13px;padding:6px 0;border-bottom:1px solid var(--bd);flex-wrap:wrap}
+.grow .tag{color:#fff;font-size:11px;font-weight:700;padding:1px 8px;border-radius:8px}
+</style>
+<script>document.documentElement.setAttribute('data-theme', localStorage.getItem('genai-resources-theme') || 'light');</script>
+</head><body data-page="module-6-monitoring-payments"><div class="progress"><div id="progressBar"></div></div><div class="layout">
+<nav class="side"><h2>AI Product Engineering</h2><a class="back" href="index.html">← Course home</a><a class="back" href="../index.html">← Crash course</a><div class="grp">On this page</div><a href='#s0' data-i='0'>Logs, metrics and alerts</a><a href='#s1' data-i='1'>The tools</a><a href='#s2' data-i='2'>What to watch in an AI product</a><a href='#s3' data-i='3'>Payment gateways</a><a href='#s4' data-i='4'>Pricing AI products</a><a href='#s5' data-i='5'>Checklist</a><a href='#s6' data-i='6'>Check your understanding</a><div class="grp">Modules</div><a href='module-1-anatomy.html'>Module 1: Anatomy of a Modern System</a><a href='module-2-version-control.html'>Module 2: Version Control with Git and GitHub</a><a href='module-3-data.html'>Module 3: Databases and Caching</a><a href='module-4-storage-delivery.html'>Module 4: File Storage, CDNs and Notifications</a><a href='module-5-security.html'>Module 5: Authentication, Security and Secrets</a><a href='module-6-monitoring-payments.html' class="cur">Module 6: Monitoring, Logging and Payments</a><a href='module-7-process.html'>Module 7: From Idea to Deployment</a><a href='module-8-ai-coding.html'>Module 8: Building with AI Coding Tools</a><a href='module-9-marketing.html'>Module 9: Marketing, Monetization and Entrepreneurship</a></nav>
+<main style="--c:#5ac8fa">
+<header class="mod-head"><span class="badge">MODULE 6 · Operate</span><button class="btn viewtoggle" id="viewToggle" type="button">▦ Slide view</button><h1>Monitoring, Logging and Payments</h1><p class="intro">See what your system is doing in production, and add payments so your product can earn money.</p></header>
+<section id='s0' data-slide><h2 class='st'>Logs, metrics and alerts</h2><p>Once real users arrive, you cannot watch the code run. Monitoring tells you something is wrong, and logs tell you why.</p><table><tr><th>Signal</th><th>Question it answers</th><th>Example</th></tr><tr><td>Logs</td><td>What happened?</td><td>Error stack trace, a request line</td></tr><tr><td>Metrics</td><td>How is it doing over time?</td><td>Requests per second, p95 latency, error rate</td></tr><tr><td>Alerts</td><td>Do I need to act now?</td><td>Error rate above 2% for 5 minutes</td></tr></table></section><section id='s1' data-slide><h2 class='st'>The tools</h2><table><tr><th>Tool</th><th>Role</th></tr><tr><td>Prometheus</td><td>Collects and stores metrics</td></tr><tr><td>Grafana</td><td>Dashboards and alerting on top of metrics and logs</td></tr><tr><td>ELK stack</td><td>Elasticsearch, Logstash and Kibana: collect, search and visualize logs</td></tr></table><div class='box tip'><strong>💡 Tip:</strong> Log in a structured format (JSON) with a request ID, so one user&#x27;s journey can be traced across services.</div></section><section id='s2' data-slide><h2 class='st'>What to watch in an AI product</h2><ul><li>Latency of model calls, and time to first token if you stream.</li><li>Token usage and cost per user and per feature.</li><li>Error and timeout rates from the model provider.</li><li>Quality signals: thumbs up or down, fallback rate, retrieval hit rate.</li><li>Cache hit rate, since it directly cuts cost.</li></ul><div class='box warn'><strong>⚠️ Careful:</strong> Do not log sensitive user data or full prompts without a clear reason and a retention limit.</div></section><section id='s3' data-slide><h2 class='st'>Payment gateways</h2><p>A payment gateway handles cards and other methods, compliance and fraud checks so you never store card numbers yourself.</p><table><tr><th>Gateway</th><th>Typical fit</th></tr><tr><td>Stripe</td><td>Global products, subscriptions, strong developer experience</td></tr><tr><td>Razorpay</td><td>Products selling in India, with UPI and local methods</td></tr></table><ul><li>Use hosted checkout where possible.</li><li>Rely on webhooks to confirm payment, not the browser redirect.</li><li>Verify webhook signatures and make handlers idempotent.</li><li>Model plans, usage limits and invoices in your database.</li></ul><pre><code># webhook handler sketch
+event = verify_signature(request.body, request.headers[&quot;signature&quot;])
+if event.type == &quot;payment.succeeded&quot;:
+    activate_plan(event.customer_id)   # safe to run twice</code></pre></section><section id='s4' data-slide><h2 class='st'>Pricing AI products</h2><p>Model calls cost money on every use, so pricing must cover that cost.</p><ul><li>Estimate cost per active user, then price with a healthy margin.</li><li>Offer a free tier with hard limits.</li><li>Meter usage (credits, tokens or actions) for heavy features.</li></ul></section><section id='s5' data-slide><h2 class='st'>Checklist</h2><ul class='tasks'><li><label><input type='checkbox'> I have dashboards for latency, errors and cost</label></li><li><label><input type='checkbox'> An alert fires when errors spike</label></li><li><label><input type='checkbox'> I processed a test payment in the gateway&#x27;s sandbox</label></li><li><label><input type='checkbox'> Webhooks are signature-verified and idempotent</label></li></ul></section><section id='s6' data-slide><h2 class='st'>Check your understanding</h2><p>Pick an answer to see the explanation.</p><div class='mq' data-quiz="[{&quot;q&quot;: &quot;Which tool pair is commonly used for metrics and dashboards?&quot;, &quot;o&quot;: [&quot;Prometheus and Grafana&quot;, &quot;Git and GitHub&quot;, &quot;Stripe and Razorpay&quot;, &quot;Redis and Memcached&quot;], &quot;c&quot;: 0, &quot;e&quot;: &quot;Prometheus collects metrics and Grafana visualizes them.&quot;}, {&quot;q&quot;: &quot;How should you confirm a payment succeeded?&quot;, &quot;o&quot;: [&quot;The browser redirect&quot;, &quot;A signed webhook from the gateway&quot;, &quot;The user&#x27;s word&quot;, &quot;A cached value&quot;], &quot;c&quot;: 1, &quot;e&quot;: &quot;Webhooks are authoritative. Verify the signature.&quot;}, {&quot;q&quot;: &quot;Why should webhook handlers be idempotent?&quot;, &quot;o&quot;: [&quot;Events can be delivered more than once&quot;, &quot;It speeds them up&quot;, &quot;To avoid logging&quot;, &quot;It is optional for payments&quot;], &quot;c&quot;: 0, &quot;e&quot;: &quot;Retries mean the same event may arrive twice.&quot;}, {&quot;q&quot;: &quot;Which is an AI-specific metric worth tracking?&quot;, &quot;o&quot;: [&quot;Token usage and cost&quot;, &quot;Font size&quot;, &quot;Number of branches&quot;, &quot;CSS file count&quot;], &quot;c&quot;: 0, &quot;e&quot;: &quot;Cost per request is a first-class concern.&quot;}]"></div></section>
+<div class="slidebar" id="slidebar"><button class="btn" id="prevSlide" type="button">←</button><span id="slideCount"></span><button class="btn p" id="nextSlide" type="button">→</button></div>
+<div class="pager" id="pager"><a class='btn' href='module-5-security.html'>← Authentication, Security and Secrets</a><a class='btn p' href='module-7-process.html'>From Idea to Deployment →</a></div>
+</main></div><script src="../modules/slides.js"></script><script src="course.js"></script></body></html>
