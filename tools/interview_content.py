@@ -51,6 +51,11 @@ MODULES = [
   ]),
 ]
 
+MODULES.append(dict(key="module-2-genai-qa", n=2, title="GenAI Interview Q&A Bank", tag="Q&A", color="#5856D6", custom=True,
+  blurb="70 questions across 6 phases · what interviewers want to know · model answers · interactive 2D/3D visuals",
+  intro="70 real interview questions from foundations to fine-tuning. For each one you see what the interviewer is really testing, a model answer you can say out loud, the deeper detail that survives follow-ups, and an interactive visual where a picture beats a paragraph.",
+  sections=[]))
+
 QUIZ = {
  "module-1-portfolio": [
   ("How long do recruiters typically spend on a first look at a resume?", ["About 30 seconds", "About 10 minutes", "About 5 seconds", "As long as it takes to read every page"], 0, "The first pass is short, so the top of your resume must make them want to read on."),

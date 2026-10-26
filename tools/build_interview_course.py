@@ -49,7 +49,7 @@ def render(m, prev, nxt):
 
 def landing():
     cards = "".join(
-        f"<a class='card' href='{m['key']}.html' style='--c:{m['color']}'><span class='badge'>MODULE {m['n']} · {e(m['tag'])}</span><h3>{e(m['title'])}</h3><p>{e(m['intro'])}</p><small>{len(m['sections'])} sections · interactive · quiz</small></a>"
+        f"<a class='card' href='{m['key']}.html' style='--c:{m['color']}'><span class='badge'>MODULE {m['n']} · {e(m['tag'])}</span><h3>{e(m['title'])}</h3><p>{e(m['intro'])}</p><small>{m.get('blurb') or str(len(m['sections'])) + ' sections · interactive · quiz'}</small></a>"
         for m in MODULES)
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -70,6 +70,7 @@ main{{margin-left:0;max-width:880px;margin:0 auto}}
 
 os.makedirs(OUT, exist_ok=True)
 for i, m in enumerate(MODULES):
+    if m.get("custom"): continue  # built by build_qa_module.py
     open(os.path.join(OUT, m["key"] + ".html"), "w").write(render(m, MODULES[i-1] if i else None, MODULES[i+1] if i < len(MODULES) - 1 else None))
 open(os.path.join(OUT, "index.html"), "w").write(landing())
 print("built", len(MODULES), "module(s) + landing page")
