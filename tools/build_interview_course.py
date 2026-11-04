@@ -18,6 +18,7 @@ def block(b):
     if k in ("tip", "warn"): return f"<div class='box {k}'><strong>{'💡 Tip' if k == 'tip' else '⚠️ Careful'}:</strong> {e(v)}</div>"
     if k == "task": return "<ul class='tasks'>" + "".join(f"<li><label><input type='checkbox'> {e(i)}</label></li>" for i in v) + "</ul>"
     if k == "widget": return f"<div class='widget' data-widget='{e(v)}'></div>"
+    if k == "stack": return f"<div class='stackgrid' data-stack=\"{e(json.dumps(v), quote=True)}\"></div>"
     if k == "table":
         return "<table><tr>" + "".join(f"<th>{e(c)}</th>" for c in v[0]) + "</tr>" + "".join("<tr>" + "".join(f"<td>{e(c)}</td>" for c in r) + "</tr>" for r in v[1:]) + "</table>"
     raise ValueError(k)

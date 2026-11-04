@@ -126,3 +126,17 @@ pre.plain .copy{display:none}
 .gl small{color:var(--tx2)}.gl.block{background:rgba(255,59,48,.18)}.gl.pass{background:rgba(52,199,89,.14)}.gl.log{background:rgba(142,142,147,.2)}.gl.off{opacity:.4;border-style:dashed}
 .glog{max-height:280px;overflow-y:auto;margin:8px 0}.grow{display:flex;gap:10px;align-items:baseline;font-size:13px;padding:6px 0;border-bottom:1px solid var(--bd);flex-wrap:wrap}
 .grow .tag{color:#fff;font-size:11px;font-weight:700;padding:1px 8px;border-radius:8px}
+
+/* tech stack logos, career ladder, stack map */
+.stackgrid{background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:6px 16px;margin:6px 0 16px}
+.srow{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--bd);flex-wrap:wrap}.srow:last-child{border-bottom:0}
+.srow>b{width:140px;font-size:13px;flex-shrink:0}.ichips{display:flex;flex-wrap:wrap;gap:8px;flex:1}
+.ichip{display:inline-flex;align-items:center;gap:7px;padding:4px 12px 4px 4px;border:1px solid var(--bd);border-radius:20px;background:var(--bg);font-size:13px}
+.ichip img,.mono{width:26px;height:26px;padding:2px;border-radius:7px;background:#fff;flex-shrink:0}
+.mono{display:inline-flex;align-items:center;justify-content:center;font:700 10px system-ui;color:#1d1d1f;background:#e8e8ed}
+.track{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:8px 0}.track b{width:120px;font-size:14px}
+.track .step{padding:7px 14px;border-radius:8px;font-size:13px;font-weight:600;position:relative}
+.track .step:not(:last-child)::after{content:'→';position:absolute;right:-12px;color:var(--tx2);font-weight:400}
+.track .step:not(:last-child){margin-right:10px}
+.archsvg .itile{fill:#fff;stroke:var(--bd)}.archsvg .emo{font-size:22px;text-anchor:middle}
+.anode.dim{opacity:.22}

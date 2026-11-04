@@ -56,7 +56,48 @@ MODULES.append(dict(key="module-2-genai-qa", n=2, title="GenAI Interview Q&A Ban
   intro="70 real interview questions from foundations to fine-tuning. For each one you see what the interviewer is really testing, a model answer you can say out loud, the deeper detail that survives follow-ups, and an interactive visual where a picture beats a paragraph.",
   sections=[]))
 
+MODULES.append(dict(key="module-3-roles-stack", n=3, title="GenAI Roles, Tech Stack and Interview Strategy", tag="Roles & Stack", color="#007aff",
+  intro="What researchers and engineers actually do, the tech stack you are expected to know and how it fits together, how startups, MNCs and FAANG interview differently, and how to tell your project story.",
+  sections=[
+   ("Two tracks: researcher or engineer", [
+     ("p","Most GenAI jobs fall into one of two tracks. Pick one to lead with. Interviewers will still expect you to talk sensibly about the other."),
+     ("table",[["","Researcher","Engineer"],["Focus","Foundation models, architecture, benchmarking, explaining why something works mathematically","Data pipelines (ETL), deployment, inference, tool integration, shipping the product"],["Core skills","Linear algebra, calculus, probability, statistics","Python, APIs, databases, operations"],["Frameworks","PyTorch, TensorFlow or JAX, plus LangChain, LangGraph, LlamaIndex, AutoGen","LangChain, LangGraph, LlamaIndex, AutoGen, n8n, FastAPI"],["Proves it with","Papers, benchmarks, ablation studies, fine-tuning results","Deployed apps, latency and cost numbers, clean repos"]]),
+     ("widget","ladder")]),
+   ("What industry expects from you", [
+     ("ul",["Awareness of the foundation model families: LLMs, multimodal architectures and diffusion models.","Depth on at least one model: architecture, key features, benchmarks and training datasets.","Hands-on fluency with the frameworks and tools below, not just their names.","The ability to build a GenAI app end to end and deploy it.","An understanding of data security and governance: PII, access control, guardrails and audit."]),
+     ("tip","For every model you mention in an interview, be ready to answer: what is the architecture, what is it good at, how was it evaluated, and what data was it trained on?")]),
+   ("The essential tech stack", [
+     ("p","These are the tools that come up again and again in GenAI job descriptions. The logos are the official project marks."),
+     ("stack",[["Programming",["python"]],["APIs",["fastapi"]],["Databases",["postgresql","mysql","mongodb","redis","vectordb"]],["Frameworks",["langchain","langgraph","llamaindex","autogen","n8n"]],["Models (research)",["pytorch","tensorflow","jax","huggingface"]],["Operations",["docker","kubernetes","githubactions","mlflow"]]])]),
+   ("How the stack fits together", [
+     ("p","One production GenAI app uses almost every tool on the list, and each tool has its own layer. Click any box to see what it does, who owns it and what interviewers ask about it. Use the buttons to trace a request, a data ingestion run or a deployment, or filter by role."),
+     ("widget","stackmap"),
+     ("tip","If you can draw this diagram from memory and explain each arrow, you can handle most GenAI system design rounds.")]),
+   ("How each company type interviews", [
+     ("table",[["Company type","Interview style","What they test","How to prepare"],["Startups","Hackathon-style: a practical task in a few hours or a take-home","Can you ship something working, fast, with the tools they use?","Build small apps end to end. Practise going from idea to deployed demo in a day."],["MNCs and enterprises","Structured and process-driven, usually several rounds","Deep questions on the projects on your resume, plus fundamentals","Know every line of your resume. Prepare a story for each project."],["FAANG and Meta","Standardised loops with a high bar","DSA, system design, and ML, DL and NLP algorithms","Daily DSA practice, GenAI system design (diagram above), and model internals."]]),
+     ("warn","Don't use one preparation plan for every company. A FAANG loop and a startup hackathon test very different things.")]),
+   ("Complementary skills that set you apart", [
+     ("stack",[["Product design",["figma"]],["Showcase code",["github"]],["Online presence",["linkedin"]],["Storytelling",["story"]]]),
+     ("ul",["Product design for AI: sketch the user flow and a wireframe before you write code.","Storytelling: explain a project in two minutes to an engineer and in thirty seconds to a recruiter.","Social media: post what you build and learn on LinkedIn every week, and engage with people in the field.","GitHub: pin 2 to 3 GenAI repos with clear READMEs, architecture diagrams and regular commits."])]),
+   ("Resume and project stories", [
+     ("p","Refine your resume with an AI resume tool, then keep only 2 to 3 strong GenAI projects that together show the stack above. Prepare a story for each project using this structure:"),
+     ("code","PROJECT STORY (aim for 2 minutes)\n1. Problem    - Who had the pain, and how big was it?\n2. Solution   - What you built and the architecture (name the stack).\n3. My role    - What you owned, and the decisions you made and why.\n4. Outcome    - The metric that moved: accuracy, latency, cost, users, time saved.\n5. Learnings  - What you would do differently next time."),
+     ("tip","Practise the story out loud and record it. If you can't say the outcome as a number, go back and measure it.")]),
+   ("Your action plan", [
+     ("p","Your progress is saved in this browser."),
+     ("task",["Pick a track (researcher or engineer) and a target company type","Research model building, fine-tuning and deploying a pre-trained model","Build or polish 2 to 3 GenAI projects that cover the stack diagram","Refine the resume with an AI tool and write a story for each project","Practise each story out loud until it fits in 2 minutes","Activate LinkedIn: post weekly about what you build","Activate GitHub: pin your best repos and commit regularly","Keep learning: follow new model releases and update your projects"]),
+     ("p","Key takeaway: GenAI moves fast. Hands-on projects, a clear story and an active online presence matter more than a long list of tools.")]),
+  ]))
+
 QUIZ = {
+ "module-3-roles-stack": [
+  ("Which skills are most central to the GenAI researcher track?", ["Docker and Kubernetes", "Linear algebra, calculus, probability and statistics", "Figma wireframing", "SQL tuning"], 1, "Researchers work on model architecture and benchmarking, so maths is the foundation."),
+  ("In a RAG app, where does a user's question go right after the FastAPI service and its security checks?", ["Straight to Kubernetes", "The orchestration framework (LangChain, LangGraph and similar)", "The CI/CD pipeline", "The ETL job"], 1, "The orchestrator plans the steps: retrieve from the vector DB, call the model and assemble the answer."),
+  ("What does the ETL pipeline do in a GenAI stack?", ["Serves the UI", "Extracts, cleans, chunks and embeds source data into the databases", "Runs DSA interviews", "Replaces the LLM"], 1, "ETL keeps the vector DB and SQL/NoSQL stores filled with fresh, clean data."),
+  ("A startup invites you to interview. What should you expect?", ["Only DSA puzzles", "A hackathon-style practical task", "A purely HR conversation", "A maths exam"], 1, "Startups want proof that you can ship something working, fast."),
+  ("What do FAANG and Meta loops emphasise?", ["Social media following", "DSA, system design and ML/DL/NLP algorithms", "Only resume projects", "Figma skills"], 1, "Expect standardised rounds on algorithms, system design and model fundamentals."),
+  ("Which project story structure works best?", ["Tools used, then dates", "Problem, solution, role, outcome, learnings", "Only the final metric", "A list of every library"], 1, "A clear story shows judgement and impact, not just the tools you used."),
+ ],
  "module-1-portfolio": [
   ("How long do recruiters typically spend on a first look at a resume?", ["About 30 seconds", "About 10 minutes", "About 5 seconds", "As long as it takes to read every page"], 0, "The first pass is short, so the top of your resume must make them want to read on."),
   ("Which bullet is outcome-driven?", ["Worked on a chatbot", "Responsible for support tooling", "Built a chatbot that deflected 35% of support tickets", "Used Python daily"], 2, "Outcomes state the result and its impact, ideally with a metric."),
